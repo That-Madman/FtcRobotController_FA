@@ -63,7 +63,7 @@ class Stage_Directions {
         drive(newForward, newRight, rotate)
     }
 
-    private fun drive(forward: Double, right: Double, rotate: Double) {
+    fun drive(forward: Double, right: Double, rotate: Double) {
         val frontLeftPower = forward + right + rotate
         val frontRightPower = forward - right - rotate
         val backLeftPower = forward - right + rotate
