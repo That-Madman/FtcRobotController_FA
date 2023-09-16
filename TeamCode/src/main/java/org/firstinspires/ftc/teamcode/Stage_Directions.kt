@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorImplEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
@@ -25,6 +26,11 @@ class Stage_Directions {
         frontLeft = hardwareMap.get(DcMotorImplEx::class.java, "frontLeft")
         backRight = hardwareMap.get(DcMotorImplEx::class.java, "backRight")
         backLeft = hardwareMap.get(DcMotorImplEx::class.java, "backLeft")
+
+        frontRight?.direction = DcMotorSimple.Direction.FORWARD
+        frontLeft?.direction = DcMotorSimple.Direction.REVERSE
+        backRight?.direction = DcMotorSimple.Direction.FORWARD
+        backLeft?.direction = DcMotorSimple.Direction.REVERSE
 
         frontRight?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         frontLeft?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
@@ -74,11 +80,11 @@ class Stage_Directions {
     ) {
         val pows = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
-        for (i in pows){
-            maxSpeed = max(maxSpeed, abs(i))
+        for (i in 0..3){
+            maxSpeed = max(maxSpeed, abs(pows[i]))
         }
         for (i in 0..3) {
-            pows[i] /= maxSpeed
+            pows[i] = pows[i] / maxSpeed
         }
         frontLeft?.power = pows[0]
         frontRight?.power = pows[1]
