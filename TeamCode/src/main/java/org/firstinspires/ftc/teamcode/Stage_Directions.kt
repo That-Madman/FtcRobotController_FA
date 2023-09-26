@@ -148,7 +148,8 @@ class Stage_Directions {
             claw?.position = CLOSE
         }
     }
-    fun setWrist(position: Double){
+
+    fun setWrist(position: Double) {
         wrist?.get(0)?.position = position
         wrist?.get(1)?.position = position
     }
