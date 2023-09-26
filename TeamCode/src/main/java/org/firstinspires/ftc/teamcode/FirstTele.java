@@ -12,6 +12,7 @@ public class FirstTele extends OpMode {
     boolean aHeld = false;
 
     int rot = 0;
+    double wristRot = 0;
     Stage_Directions board = new Stage_Directions();
 
     @Override
@@ -37,6 +38,10 @@ public class FirstTele extends OpMode {
         board.setRot(rot);
 
         board.setClaw(clawOpen);
+
+        if(gamepad2.left_bumper) wristRot++;
+        if (gamepad2.right_bumper) wristRot--;
+        board.setWrist(wristRot);
 
         yHeld = gamepad1.y;
         aHeld = gamepad2.a;
