@@ -40,7 +40,6 @@ class Stage_Directions {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
 
-
         builder.addProcessor(tensor)
         builder.addProcessor(aprilTag)
 
