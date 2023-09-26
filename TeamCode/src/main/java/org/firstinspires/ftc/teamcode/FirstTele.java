@@ -39,7 +39,7 @@ public class FirstTele extends OpMode {
 
         board.setClaw(clawOpen);
 
-        if(gamepad2.left_bumper) wristRot++;
+        if (gamepad2.left_bumper) wristRot++;
         if (gamepad2.right_bumper) wristRot--;
         board.setWrist(wristRot);
 
