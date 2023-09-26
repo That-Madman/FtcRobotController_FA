@@ -21,7 +21,8 @@ import kotlin.math.max
 import kotlin.math.sin
 
 class Stage_Directions {
-    private val OPEN: Double = 180.0
+    //todo: find real values
+    private val OPEN: Double = 1.0
     private val CLOSE: Double = 0.0
 
     private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
