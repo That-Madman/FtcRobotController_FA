@@ -6,7 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.vision.VisionPortal
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
+import org.firstinspires.ftc.vision.tfod.TfodProcessor
+
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -15,35 +20,45 @@ import kotlin.math.max
 import kotlin.math.sin
 
 class Stage_Directions {
-    private var frontRight : DcMotorImplEx? = null
-    private var frontLeft : DcMotorImplEx? = null
-    private var backRight : DcMotorImplEx? = null
-    private var backLeft : DcMotorImplEx? = null
-    private var imu : IMU? = null
+    private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
+    private var imu: IMU? = null
 
-    fun drumRoll (hardwareMap: HardwareMap) {
-        frontRight = hardwareMap.get(DcMotorImplEx::class.java, "frontRight")
-        frontLeft = hardwareMap.get(DcMotorImplEx::class.java, "frontLeft")
-        backRight = hardwareMap.get(DcMotorImplEx::class.java, "backRight")
-        backLeft = hardwareMap.get(DcMotorImplEx::class.java, "backLeft")
+    var visionPortal: VisionPortal? = null
 
-        frontRight?.direction = DcMotorSimple.Direction.FORWARD
-        frontLeft?.direction = DcMotorSimple.Direction.REVERSE
-        backRight?.direction = DcMotorSimple.Direction.FORWARD
-        backLeft?.direction = DcMotorSimple.Direction.REVERSE
+    private fun initVision(hwMap: HardwareMap) {
+        val tensor = TfodProcessor.Builder().build()
+        val aprilTag = AprilTagProcessor.easyCreateWithDefaults()
 
-        frontRight?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        frontLeft?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        backRight?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        backLeft?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        val builder = VisionPortal.Builder()
+        builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
 
-        frontRight?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        frontLeft?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        backRight?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        backLeft?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
-        imu = hardwareMap.get(IMU::class.java, "imu")
-        imu!!.initialize(
+        builder.addProcessor(tensor)
+        builder.addProcessor(aprilTag)
+
+        visionPortal = builder.build()
+    }
+
+    fun getHW(hwMap: HardwareMap) {
+        initVision(hwMap)
+
+        wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
+        wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
+        wheel?.set(2, hwMap.get(DcMotorImplEx::class.java, "backLeft"))
+        wheel?.set(3, hwMap.get(DcMotorImplEx::class.java, "backRight"))
+
+        for (i in 0..3) {
+            wheel?.get(i)?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+            wheel?.get(i)?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        }
+
+        wheel?.get(1)?.direction = DcMotorSimple.Direction.FORWARD
+        wheel?.get(0)?.direction = DcMotorSimple.Direction.REVERSE
+        wheel?.get(3)?.direction = DcMotorSimple.Direction.FORWARD
+        wheel?.get(2)?.direction = DcMotorSimple.Direction.REVERSE
+
+        imu = hwMap.get(IMU::class.java, "imu")
+        imu?.initialize(
             IMU.Parameters(
                 RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -52,6 +67,7 @@ class Stage_Directions {
             )
         )
     }
+
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
         var theta = atan2(forward, right)
@@ -80,15 +96,15 @@ class Stage_Directions {
     ) {
         val pows = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
-        for (i in 0..3){
-            maxSpeed = max(maxSpeed, abs(pows[i]))
+        for (i in pows) {
+            maxSpeed = max(maxSpeed, abs(i))
         }
         for (i in 0..3) {
-            pows[i] = pows[i] / maxSpeed
+            pows[i] /= maxSpeed
         }
-        frontLeft?.power = pows[0]
-        frontRight?.power = pows[1]
-        backLeft?.power = pows[2]
-        backRight?.power = pows[3]
+        wheel?.get(0)?.power = pows[0]
+        wheel?.get(1)?.power = pows[1]
+        wheel?.get(2)?.power = pows[2]
+        wheel?.get(3)?.power = pows[3]
     }
 }
