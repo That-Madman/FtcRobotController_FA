@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
+import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.vision.VisionPortal
@@ -22,6 +23,12 @@ import kotlin.math.sin
 class Stage_Directions {
     private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
     private var slideMotor: DcMotorImplEx? = null
+    private var armRotateMotor: DcMotorImplEx? = null
+
+    private var wrist: Array<Servo>? = null
+
+    private var claw: Servo? = null
+
     private var imu: IMU? = null
 
     var visionPortal: VisionPortal? = null
@@ -44,6 +51,14 @@ class Stage_Directions {
         initVision(hwMap)
 
         slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
+        slideMotor?.direction = DcMotorSimple.Direction.FORWARD
+        slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
+        slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+
+        armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
+        armRotateMotor?.direction = DcMotorSimple.Direction.FORWARD
+        armRotateMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
+        armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
         wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
         wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
@@ -59,6 +74,11 @@ class Stage_Directions {
         wheel?.get(1)?.direction = DcMotorSimple.Direction.FORWARD
         wheel?.get(2)?.direction = DcMotorSimple.Direction.REVERSE
         wheel?.get(3)?.direction = DcMotorSimple.Direction.FORWARD
+
+        wrist?.set(0, hwMap.get(Servo::class.java, "wrist1"))
+        wrist?.set(1, hwMap.get(Servo::class.java, "wrist2"))
+
+        claw = hwMap.get(Servo::class.java, "claw")
 
         imu = hwMap.get(IMU::class.java, "imu")
         imu?.initialize(
