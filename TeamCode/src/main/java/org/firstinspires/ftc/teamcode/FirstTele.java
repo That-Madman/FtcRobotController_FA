@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class FirstTele extends OpMode {
     boolean trueNorth = false;
-    boolean yHeld = false;
+    boolean y1Held = false;
 
     boolean clawOpen = false;
-    boolean aHeld = false;
+    boolean a2Held = false;
 
     int rot = 0;
     double wristRot = 0;
@@ -22,8 +22,8 @@ public class FirstTele extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.y && !yHeld) trueNorth = !trueNorth;
-        if (gamepad2.a && !aHeld) clawOpen = !clawOpen;
+        if (gamepad1.y && !y1Held) trueNorth = !trueNorth;
+        if (gamepad2.a && !a2Held) clawOpen = !clawOpen;
 
         if (trueNorth) {
             board.driveFieldRelative(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
@@ -43,7 +43,7 @@ public class FirstTele extends OpMode {
         if (gamepad2.right_bumper) wristRot--;
         board.setWrist(wristRot);
 
-        yHeld = gamepad1.y;
-        aHeld = gamepad2.a;
+        y1Held = gamepad1.y;
+        a2Held = gamepad2.a;
     }
 }
