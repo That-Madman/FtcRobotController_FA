@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
-import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorImplEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -12,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
 import org.firstinspires.ftc.vision.tfod.TfodProcessor
-
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -21,8 +21,8 @@ import kotlin.math.max
 import kotlin.math.sin
 
 class Stage_Directions {
-    private val OPEN = 180.0
-    private val CLOSE = 0.0
+    private val OPEN: Double = 180.0
+    private val CLOSE: Double = 0.0
 
     private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
     private var slideMotor: DcMotorImplEx? = null
@@ -54,13 +54,13 @@ class Stage_Directions {
 
         slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
         slideMotor?.direction = DcMotorSimple.Direction.FORWARD
-        slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
-        slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        slideMotor?.mode = RunMode.RUN_TO_POSITION
+        slideMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
         armRotateMotor?.direction = DcMotorSimple.Direction.FORWARD
-        armRotateMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
-        armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        armRotateMotor?.mode = RunMode.RUN_TO_POSITION
+        armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
         wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
@@ -68,8 +68,8 @@ class Stage_Directions {
         wheel?.set(3, hwMap.get(DcMotorImplEx::class.java, "backRight"))
 
         for (i in 0..3) {
-            wheel?.get(i)?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-            wheel?.get(i)?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+            wheel?.get(i)?.mode = RunMode.RUN_WITHOUT_ENCODER
+            wheel?.get(i)?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
         }
 
         wheel?.get(0)?.direction = DcMotorSimple.Direction.REVERSE
