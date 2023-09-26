@@ -20,12 +20,19 @@ public class FirstTele extends OpMode {
         if (gamepad1.y && !buttonHeld)
             trueNorth = !trueNorth;
 
-        board.driveFieldRelative(
-                -gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_x
-        );
-
+        if (trueNorth) {
+            board.driveFieldRelative(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
+            );
+        } else {
+            board.drive(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
+            );
+        }
         buttonHeld = gamepad1.y;
     }
 }

@@ -21,6 +21,7 @@ import kotlin.math.sin
 
 class Stage_Directions {
     private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
+    private var slideMotor: DcMotorImplEx? = null
     private var imu: IMU? = null
 
     var visionPortal: VisionPortal? = null
@@ -42,6 +43,8 @@ class Stage_Directions {
     fun getHW(hwMap: HardwareMap) {
         initVision(hwMap)
 
+        slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
+
         wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
         wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
         wheel?.set(2, hwMap.get(DcMotorImplEx::class.java, "backLeft"))
@@ -52,10 +55,10 @@ class Stage_Directions {
             wheel?.get(i)?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         }
 
-        wheel?.get(1)?.direction = DcMotorSimple.Direction.FORWARD
         wheel?.get(0)?.direction = DcMotorSimple.Direction.REVERSE
-        wheel?.get(3)?.direction = DcMotorSimple.Direction.FORWARD
+        wheel?.get(1)?.direction = DcMotorSimple.Direction.FORWARD
         wheel?.get(2)?.direction = DcMotorSimple.Direction.REVERSE
+        wheel?.get(3)?.direction = DcMotorSimple.Direction.FORWARD
 
         imu = hwMap.get(IMU::class.java, "imu")
         imu?.initialize(
