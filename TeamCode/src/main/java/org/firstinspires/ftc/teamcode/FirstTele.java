@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class FirstTele extends OpMode {
     boolean trueNorth = false;
-    boolean buttonHeld = false;
+    boolean yHeld = false;
     Stage_Directions board = new Stage_Directions();
 
     @Override
@@ -17,7 +17,7 @@ public class FirstTele extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.y && !buttonHeld)
+        if (gamepad1.y && !yHeld)
             trueNorth = !trueNorth;
 
         if (trueNorth) {
@@ -33,6 +33,6 @@ public class FirstTele extends OpMode {
                     gamepad1.left_stick_x
             );
         }
-        buttonHeld = gamepad1.y;
+        yHeld = gamepad1.y;
     }
 }

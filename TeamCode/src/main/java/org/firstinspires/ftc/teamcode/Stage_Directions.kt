@@ -21,6 +21,9 @@ import kotlin.math.max
 import kotlin.math.sin
 
 class Stage_Directions {
+    private val OPEN = 180.0
+    private val CLOSE = 0.0
+
     private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
@@ -128,5 +131,17 @@ class Stage_Directions {
         wheel?.get(1)?.power = pows[1]
         wheel?.get(2)?.power = pows[2]
         wheel?.get(3)?.power = pows[3]
+    }
+
+    fun setRot(position: Int) {
+        armRotateMotor?.targetPosition = position
+    }
+
+    fun setClaw(open: Boolean) {
+        if (open) {
+            claw?.position = OPEN
+        } else {
+            claw?.position = CLOSE
+        }
     }
 }
