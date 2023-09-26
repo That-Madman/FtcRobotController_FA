@@ -11,6 +11,7 @@ public class FirstTele extends OpMode {
     boolean clawOpen = false;
     boolean aHeld = false;
 
+    int rot = 0;
     Stage_Directions board = new Stage_Directions();
 
     @Override
@@ -28,6 +29,12 @@ public class FirstTele extends OpMode {
         } else {
             board.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         }
+
+        if (gamepad2.dpad_down) rot++;
+        if (gamepad2.dpad_up) rot--;
+        if (rot <= 0) rot = 0;
+        if (rot >= 750) rot = 750;
+        board.setRot(rot);
 
         board.setClaw(clawOpen);
 
