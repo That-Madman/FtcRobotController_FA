@@ -137,6 +137,10 @@ class Stage_Directions {
         armRotateMotor?.targetPosition = position
     }
 
+    fun setSlide(position: Int) {
+        slideMotor?.targetPosition = position
+    }
+
     fun setClaw(open: Boolean) {
         if (open) {
             claw?.position = OPEN
