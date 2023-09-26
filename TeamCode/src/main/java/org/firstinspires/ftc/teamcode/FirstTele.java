@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class FirstTele extends OpMode {
     boolean trueNorth = false;
     boolean yHeld = false;
+
+    boolean clawOpen = false;
+    boolean aHeld = false;
+
     Stage_Directions board = new Stage_Directions();
 
     @Override
@@ -17,12 +21,17 @@ public class FirstTele extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.y && !yHeld) trueNorth = !trueNorth;
+        if (gamepad2.a && !aHeld) clawOpen = !clawOpen;
 
         if (trueNorth) {
             board.driveFieldRelative(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         } else {
             board.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         }
+
+        board.setClaw(clawOpen);
+
         yHeld = gamepad1.y;
+        aHeld = gamepad2.a;
     }
 }
