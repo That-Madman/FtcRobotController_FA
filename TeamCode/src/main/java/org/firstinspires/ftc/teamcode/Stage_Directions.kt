@@ -22,10 +22,10 @@ import kotlin.math.sin
 
 class Stage_Directions {
     //todo: find real values
-    private val OPEN: Double = 1.0
+    private val OPEN: Double = 0.25
     private val CLOSE: Double = 0.0
 
-    private var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
+    var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
 
@@ -93,7 +93,17 @@ class Stage_Directions {
             )
         )
     }
-
+    fun changeToPos(){
+        for(n in 0..3){
+            wheel!![n].mode = RunMode.RUN_TO_POSITION
+        }
+    }
+    fun posRunSide(target: Int){
+        wheel!![0].targetPosition = - target
+        wheel!![1].targetPosition = target
+        wheel!![2].targetPosition = target
+        wheel!![3].targetPosition = - target
+    }
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
         var theta = atan2(forward, right)
