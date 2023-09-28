@@ -22,7 +22,7 @@ import kotlin.math.sin
 
 class Stage_Directions {
     //todo: find real values
-    private val OPEN: Double = 0.25
+    private val OPEN: Double = 1.0
     private val CLOSE: Double = 0.0
 
     var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
