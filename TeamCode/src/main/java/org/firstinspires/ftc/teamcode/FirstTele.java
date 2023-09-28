@@ -14,10 +14,10 @@ public class FirstTele extends OpMode {
     int rot = 0;
     int slide = 0;
     //todo: find the actual limits
-    int rotMin = 0;
-    int rotMax = 750;
-    int slideMin = 0;
-    int slideMax = 750;
+//    int rotMin = 0;
+//    int rotMax = 750;
+//    int slideMin = 0;
+//    int slideMax = 750;
 
     double wristRot = 0;
     Stage_Directions board = new Stage_Directions();
@@ -40,8 +40,8 @@ public class FirstTele extends OpMode {
 
         if (gamepad2.dpad_down) rot++;
         if (gamepad2.dpad_up) rot--;
-        if (rot <= rotMin) rot = rotMin;
-        if (rot >= rotMax) rot = rotMax;
+//        if (rot <= rotMin) rot = rotMin;
+//        if (rot >= rotMax) rot = rotMax;
         board.setRot(rot);
 
         board.setClaw(clawOpen);
@@ -51,8 +51,8 @@ public class FirstTele extends OpMode {
         board.setWrist(wristRot);
 
         slide += (int) (gamepad2.right_trigger - gamepad2.left_trigger);
-        if (slide <= slideMin) slide = slideMin;
-        if (slide >= slideMax) slide = slideMax;
+//        if (slide <= slideMin) slide = slideMin;
+//        if (slide >= slideMax) slide = slideMax;
         board.setSlide(slide);
 
         y1Held = gamepad1.y;

@@ -25,12 +25,12 @@ class Stage_Directions {
     private val OPEN: Double = 0.25
     private val CLOSE: Double = 0.0
 
-    var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
+    var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
     private var armRotateMotor2: DcMotorImplEx? = null
 
-    private var wrist: Array<Servo>? = null
+    private var wrist: Array<Servo?> = arrayOfNulls(2)
 
     private var claw: Servo? = null
 
@@ -57,38 +57,41 @@ class Stage_Directions {
 
         slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
         slideMotor?.direction = DcMotorSimple.Direction.FORWARD
+        slideMotor?.targetPosition = 0
         slideMotor?.mode = RunMode.RUN_TO_POSITION
         slideMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
         armRotateMotor?.direction = DcMotorSimple.Direction.FORWARD
+        armRotateMotor?.targetPosition = 0
         armRotateMotor?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
-        armRotateMotor2?.direction = DcMotorSimple.Direction.REVERSE
+        armRotateMotor2?.direction = DcMotorSimple.Direction.FORWARD
+        armRotateMotor2?.targetPosition = 0
         armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor2?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
-        wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
-        wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
-        wheel?.set(2, hwMap.get(DcMotorImplEx::class.java, "backLeft"))
-        wheel?.set(3, hwMap.get(DcMotorImplEx::class.java, "backRight"))
+        wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
+        wheel[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
+        wheel[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
+        wheel[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
 
         for (i in 0..3) {
-            wheel?.get(i)?.mode = RunMode.RUN_WITHOUT_ENCODER
-            wheel?.get(i)?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+            wheel[i]?.mode = RunMode.RUN_WITHOUT_ENCODER
+            wheel[i]?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
         }
 
-        wheel?.get(0)?.direction = DcMotorSimple.Direction.REVERSE
-        wheel?.get(1)?.direction = DcMotorSimple.Direction.FORWARD
-        wheel?.get(2)?.direction = DcMotorSimple.Direction.REVERSE
-        wheel?.get(3)?.direction = DcMotorSimple.Direction.FORWARD
+        wheel[0]?.direction = DcMotorSimple.Direction.REVERSE
+        wheel[1]?.direction = DcMotorSimple.Direction.FORWARD
+        wheel[2]?.direction = DcMotorSimple.Direction.REVERSE
+        wheel[3]?.direction = DcMotorSimple.Direction.FORWARD
 
-        wrist?.set(0, hwMap.get(Servo::class.java, "wrist1"))
-        wrist?.set(1, hwMap.get(Servo::class.java, "wrist2"))
+        wrist[0] = hwMap.get(Servo::class.java, "wrist1")
+        wrist[1] = hwMap.get(Servo::class.java, "wrist2")
 
-        wrist!![1].direction = Servo.Direction.REVERSE
+        wrist[1]!!.direction = Servo.Direction.REVERSE
 
         claw = hwMap.get(Servo::class.java, "claw")
 
@@ -104,14 +107,17 @@ class Stage_Directions {
     }
 
     fun changeToPos() {
-        for (n in 0..3) wheel!![n].mode = RunMode.RUN_TO_POSITION
+        for (n in 0..3) {
+            wheel[n]!!.targetPosition = 0
+            wheel[n]!!.mode = RunMode.RUN_TO_POSITION
+        }
     }
 
     fun posRunSide(target: Int) {
-        wheel!![0].targetPosition = -target
-        wheel!![1].targetPosition = target
-        wheel!![2].targetPosition = target
-        wheel!![3].targetPosition = -target
+        wheel[0]!!.targetPosition = -target
+        wheel[1]!!.targetPosition = target
+        wheel[2]!!.targetPosition = target
+        wheel[3]!!.targetPosition = -target
     }
 
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
@@ -148,10 +154,10 @@ class Stage_Directions {
         for (i in 0..3) {
             pows[i] /= maxSpeed
         }
-        wheel?.get(0)?.power = pows[0]
-        wheel?.get(1)?.power = pows[1]
-        wheel?.get(2)?.power = pows[2]
-        wheel?.get(3)?.power = pows[3]
+        wheel[0]?.power = pows[0]
+        wheel[1]?.power = pows[1]
+        wheel[2]?.power = pows[2]
+        wheel[3]?.power = pows[3]
     }
 
     fun setRot(position: Int) {
@@ -172,7 +178,7 @@ class Stage_Directions {
     }
 
     fun setWrist(position: Double) {
-        wrist?.get(0)?.position = position
-        wrist?.get(1)?.position = position
+        wrist[0]?.position = position
+        wrist[1]?.position = position
     }
 }
