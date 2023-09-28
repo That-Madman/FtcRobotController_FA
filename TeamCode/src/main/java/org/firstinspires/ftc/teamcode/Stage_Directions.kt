@@ -28,6 +28,7 @@ class Stage_Directions {
     var wheel: Array<DcMotorImplEx>? = emptyArray<DcMotorImplEx>()
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
+    private var armRotateMotor2: DcMotorImplEx? = null
 
     private var wrist: Array<Servo>? = null
 
@@ -40,6 +41,7 @@ class Stage_Directions {
     private fun initVision(hwMap: HardwareMap) {
         val tensor = TfodProcessor.Builder().build()
         val aprilTag = AprilTagProcessor.easyCreateWithDefaults()
+
 
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
@@ -63,6 +65,11 @@ class Stage_Directions {
         armRotateMotor?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
+        armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
+        armRotateMotor2?.direction = DcMotorSimple.Direction.REVERSE
+        armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
+        armRotateMotor2?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+
         wheel?.set(0, hwMap.get(DcMotorImplEx::class.java, "frontLeft"))
         wheel?.set(1, hwMap.get(DcMotorImplEx::class.java, "frontRight"))
         wheel?.set(2, hwMap.get(DcMotorImplEx::class.java, "backLeft"))
@@ -81,6 +88,8 @@ class Stage_Directions {
         wrist?.set(0, hwMap.get(Servo::class.java, "wrist1"))
         wrist?.set(1, hwMap.get(Servo::class.java, "wrist2"))
 
+        wrist!![1].direction = Servo.Direction.REVERSE
+
         claw = hwMap.get(Servo::class.java, "claw")
 
         imu = hwMap.get(IMU::class.java, "imu")
@@ -93,17 +102,18 @@ class Stage_Directions {
             )
         )
     }
-    fun changeToPos(){
-        for(n in 0..3){
-            wheel!![n].mode = RunMode.RUN_TO_POSITION
-        }
+
+    fun changeToPos() {
+        for (n in 0..3) wheel!![n].mode = RunMode.RUN_TO_POSITION
     }
-    fun posRunSide(target: Int){
-        wheel!![0].targetPosition = - target
+
+    fun posRunSide(target: Int) {
+        wheel!![0].targetPosition = -target
         wheel!![1].targetPosition = target
         wheel!![2].targetPosition = target
-        wheel!![3].targetPosition = - target
+        wheel!![3].targetPosition = -target
     }
+
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
         var theta = atan2(forward, right)
@@ -146,6 +156,7 @@ class Stage_Directions {
 
     fun setRot(position: Int) {
         armRotateMotor?.targetPosition = position
+        armRotateMotor2?.targetPosition = position
     }
 
     fun setSlide(position: Int) {

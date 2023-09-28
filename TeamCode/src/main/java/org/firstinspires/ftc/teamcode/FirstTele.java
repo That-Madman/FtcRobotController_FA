@@ -50,7 +50,7 @@ public class FirstTele extends OpMode {
         if (gamepad2.right_bumper) wristRot--;
         board.setWrist(wristRot);
 
-        slide = (int) (gamepad2.right_trigger - gamepad2.left_trigger);
+        slide += (int) (gamepad2.right_trigger - gamepad2.left_trigger);
         if (slide <= slideMin) slide = slideMin;
         if (slide >= slideMax) slide = slideMax;
         board.setSlide(slide);
