@@ -88,7 +88,7 @@ class Stage_Directions {
             IMU.Parameters(
                 RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
                 )
             )
         )
