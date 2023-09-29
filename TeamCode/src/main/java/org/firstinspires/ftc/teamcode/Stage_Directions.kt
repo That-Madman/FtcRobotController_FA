@@ -56,20 +56,17 @@ class Stage_Directions {
 
         slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
         slideMotor?.direction = DcMotorSimple.Direction.FORWARD
-        slideMotor?.targetPosition = 0
-        slideMotor?.mode = RunMode.RUN_TO_POSITION
+        slideMotor?.mode = RunMode.RUN_WITHOUT_ENCODER
         slideMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
-        armRotateMotor?.direction = DcMotorSimple.Direction.FORWARD
-        armRotateMotor?.targetPosition = 0
-        armRotateMotor?.mode = RunMode.RUN_TO_POSITION
+        armRotateMotor?.direction = DcMotorSimple.Direction.REVERSE
+        armRotateMotor?.mode = RunMode.RUN_WITHOUT_ENCODER
         armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
         armRotateMotor2?.direction = DcMotorSimple.Direction.FORWARD
-        armRotateMotor2?.targetPosition = 0
-        armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
+        armRotateMotor2?.mode = RunMode.RUN_WITHOUT_ENCODER
         armRotateMotor2?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
@@ -159,13 +156,13 @@ class Stage_Directions {
         wheel[3]?.power = pows[3]
     }
 
-    fun setRot(position: Int) {
-        armRotateMotor?.targetPosition = position
-        armRotateMotor2?.targetPosition = position
+    fun setRot(pow: Double) {
+        armRotateMotor?.power = pow
+        armRotateMotor2?.power = pow
     }
 
-    fun setSlide(position: Int) {
-        slideMotor?.targetPosition = position
+    fun setSlide(pow: Double) {
+        slideMotor?.power = pow
     }
 
     fun setClaw(open: Boolean) {
