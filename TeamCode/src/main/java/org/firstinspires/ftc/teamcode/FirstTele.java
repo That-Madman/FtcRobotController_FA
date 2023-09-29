@@ -38,8 +38,8 @@ public class FirstTele extends OpMode {
             board.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         }
 
-        if (gamepad2.dpad_down) rot++;
-        if (gamepad2.dpad_up) rot--;
+        if (gamepad2.dpad_down) rot += 10;
+        if (gamepad2.dpad_up) rot -= 10;
 //        if (rot <= rotMin) rot = rotMin;
 //        if (rot >= rotMax) rot = rotMax;
         board.setRot(rot);
@@ -50,7 +50,7 @@ public class FirstTele extends OpMode {
         if (gamepad2.right_bumper) wristRot--;
         board.setWrist(wristRot);
 
-        slide += (int) (gamepad2.right_trigger - gamepad2.left_trigger);
+        slide += 10 * (int) (gamepad2.right_trigger - gamepad2.left_trigger);
 //        if (slide <= slideMin) slide = slideMin;
 //        if (slide >= slideMax) slide = slideMax;
         board.setSlide(slide);

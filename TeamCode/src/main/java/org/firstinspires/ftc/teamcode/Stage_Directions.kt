@@ -21,11 +21,10 @@ import kotlin.math.max
 import kotlin.math.sin
 
 class Stage_Directions {
-    //todo: find real values
     private val OPEN: Double = 1.0
     private val CLOSE: Double = 0.0
 
-    var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
+    private var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
     private var armRotateMotor2: DcMotorImplEx? = null
@@ -67,7 +66,7 @@ class Stage_Directions {
         armRotateMotor?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
-        armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
+        armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
         armRotateMotor2?.direction = DcMotorSimple.Direction.FORWARD
         armRotateMotor2?.targetPosition = 0
         armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
