@@ -13,7 +13,7 @@ public class FirstTele extends OpMode {
 
     int rot = 0;
     int slide = 0;
-    //todo: find the actual limits
+    //TODO: find the actual limits
     int rotMin = 0;
     int rotMax = 750;
     int slideMin = 0;
