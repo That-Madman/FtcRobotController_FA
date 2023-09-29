@@ -38,8 +38,8 @@ public class FirstTele extends OpMode {
             board.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         }
 
-        if (gamepad2.dpad_down) rot -= 10;
-        else if (gamepad2.dpad_up) rot += 10;
+        if (gamepad2.dpad_down) rot -= 20;
+        else if (gamepad2.dpad_up) rot += 20;
         if (rot >= 1880) rot = 1880;
         if (rot <= 0) rot = 0;
         board.setRot(rot);
