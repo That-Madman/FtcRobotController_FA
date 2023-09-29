@@ -61,12 +61,16 @@ class Stage_Directions {
 
         armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
         armRotateMotor?.direction = DcMotorSimple.Direction.REVERSE
-        armRotateMotor?.mode = RunMode.RUN_WITHOUT_ENCODER
+        armRotateMotor?.targetPosition = 0
+        armRotateMotor?.power = 1.0
+        armRotateMotor?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
         armRotateMotor2?.direction = DcMotorSimple.Direction.FORWARD
-        armRotateMotor2?.mode = RunMode.RUN_WITHOUT_ENCODER
+        armRotateMotor2?.targetPosition = 0
+        armRotateMotor?.power = 1.0
+        armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor2?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
         wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
@@ -74,9 +78,9 @@ class Stage_Directions {
         wheel[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
         wheel[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
 
-        for (i in 0..3) {
-            wheel[i]?.mode = RunMode.RUN_WITHOUT_ENCODER
-            wheel[i]?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+        for (wheels in wheel) {
+            wheels?.mode = RunMode.RUN_WITHOUT_ENCODER
+            wheels?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
         }
 
         wheel[0]?.direction = DcMotorSimple.Direction.REVERSE
@@ -103,9 +107,10 @@ class Stage_Directions {
     }
 
     fun changeToPos() {
-        for (n in 0..3) {
-            wheel[n]!!.targetPosition = 0
-            wheel[n]!!.mode = RunMode.RUN_TO_POSITION
+        for (wheels in wheel) {
+            wheels?.targetPosition = 0
+            wheels?.power = 1.0
+            wheels?.mode = RunMode.RUN_TO_POSITION
         }
     }
 
@@ -156,9 +161,9 @@ class Stage_Directions {
         wheel[3]?.power = pows[3]
     }
 
-    fun setRot(pow: Double) {
-        armRotateMotor?.power = pow
-        armRotateMotor2?.power = pow
+    fun setRot(pos: Int) {
+        armRotateMotor?.targetPosition = pos
+        armRotateMotor2?.targetPosition = pos
     }
 
     fun setSlide(pow: Double) {
