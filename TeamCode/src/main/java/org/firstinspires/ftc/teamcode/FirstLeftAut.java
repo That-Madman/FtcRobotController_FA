@@ -15,6 +15,7 @@ public class FirstLeftAut extends OpMode {
 
     @Override
     public void loop() {
-        board.posRunSide(-1528);
+        board.setRot(100);
+        board.posRunSide(1528 * 2);
     }
 }
