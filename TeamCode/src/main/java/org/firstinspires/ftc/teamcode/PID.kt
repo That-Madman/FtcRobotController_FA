@@ -6,11 +6,11 @@ class PID constructor(
     private val Kd: Double,
     private val maxI: Double
 ) {
+    private var i: Double = 0.0
 
     private var prevTime: Double = 0.0
     private var prevErr: Int = 0
 
-    private var i: Double = 0.0
     fun pidCalc(currPos: Int, target: Int, time: Double): Double {
         val currErr = target - currPos
         val p = Kp * currErr
