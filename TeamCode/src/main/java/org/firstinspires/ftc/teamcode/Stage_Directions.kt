@@ -109,7 +109,7 @@ class Stage_Directions {
     fun changeToPos() {
         for (wheels in wheel) {
             wheels?.targetPosition = 0
-            wheels?.power = 1.0
+            wheels?.power = 0.5
             wheels?.mode = RunMode.RUN_TO_POSITION
         }
     }
