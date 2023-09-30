@@ -69,7 +69,7 @@ class Stage_Directions {
         armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
         armRotateMotor2?.direction = DcMotorSimple.Direction.FORWARD
         armRotateMotor2?.targetPosition = 0
-        armRotateMotor?.power = 1.0
+        armRotateMotor2?.power = 1.0
         armRotateMotor2?.mode = RunMode.RUN_TO_POSITION
         armRotateMotor2?.zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
