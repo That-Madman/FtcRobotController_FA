@@ -9,8 +9,8 @@ class PID constructor(
 
     var maxI: Double = Double.NaN
 
-    private var prevTime: Double = 0.0
-    private var prevErr: Int = 0
+    private var prevTime = 0.0
+    private var prevErr = 0
 
     fun pidCalc(currPos: Int, target: Int, time: Double): Double {
         val currErr = target - currPos
