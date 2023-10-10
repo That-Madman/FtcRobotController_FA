@@ -4,9 +4,10 @@ class PID constructor(
     private val Kp: Double,
     private val Ki: Double,
     private val Kd: Double,
-    private val maxI: Double
 ) {
     private var i: Double = 0.0
+
+    var maxI: Double = Double.NaN
 
     private var prevTime: Double = 0.0
     private var prevErr: Int = 0
@@ -17,8 +18,10 @@ class PID constructor(
 
         i += Ki * (currErr * (time - prevTime))
 
-        if (i > maxI) i = maxI
-        else if (i < -maxI) i = -maxI
+        if (!maxI.isNaN()) {
+            if (i > maxI) i = maxI
+            else if (i < -maxI) i = -maxI
+        }
 
         val d = Kd * (currErr - prevErr) / (time - prevTime)
         prevErr = currErr
