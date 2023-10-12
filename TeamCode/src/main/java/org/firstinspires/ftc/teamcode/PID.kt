@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode
 
-class PID constructor(
+class PID(
     private val Kp: Double,
     private val Ki: Double,
     private val Kd: Double,
+    var maxI: Double = Double.NaN
 ) {
     private var i: Double = 0.0
 
-    var maxI: Double = Double.NaN
+    private var exFun: ((Number) -> Unit)? = null
+        set(value) {
+            field = value
+        }
 
     private var prevTime = 0.0
     private var prevErr = 0
@@ -27,6 +31,7 @@ class PID constructor(
         prevErr = currErr
         prevTime = time
 
+        if (exFun != null) exFun?.invoke(p + i + d)
         return p + i + d
     }
 }
