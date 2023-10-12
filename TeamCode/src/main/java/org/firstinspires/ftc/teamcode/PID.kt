@@ -7,32 +7,38 @@ class PID(
 ) {
     private var i: Double = 0.0
     private var maxI: Double = Double.NaN
-        set(value) {
-            field = value
-        }
 
     private var exFun: ((Number) -> Unit)? = null
-        set(value) {
-            field = value
-        }
+    private var timeGet: (() -> Number)? = null
+    private var posGet: (() -> Number)? = null
+
+    private fun getTime(): Number {
+        return if (timeGet != null) timeGet!!.invoke()
+        else 1
+    }
+
+    private fun getPos(): Number {
+        return if (posGet != null) posGet!!.invoke()
+        else 1
+    }
 
     private var prevTime = 0.0
-    private var prevErr = 0
+    private var prevErr = 0.0
 
-    fun pidCalc(currPos: Int, target: Int, time: Double): Double {
-        val currErr = target - currPos
+    fun pidCal(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
+        val currErr: Double = target.toDouble() - currPos.toDouble()
         val p = Kp * currErr
 
-        i += Ki * (currErr * (time - prevTime))
+        i += Ki * (currErr * (time.toDouble() - prevTime))
 
         if (!maxI.isNaN()) {
             if (i > maxI) i = maxI
             else if (i < -maxI) i = -maxI
         }
 
-        val d = Kd * (currErr - prevErr) / (time - prevTime)
+        val d = Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
         prevErr = currErr
-        prevTime = time
+        prevTime = time.toDouble()
 
         if (exFun != null) exFun!!.invoke(p + i + d)
         return p + i + d
