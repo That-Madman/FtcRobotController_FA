@@ -9,8 +9,19 @@ class PID(
     private var maxI: Double = Double.NaN
 
     private var exFun: ((Number) -> Unit)? = null
+    fun setExecute(function: ((Number) -> Unit)?) {
+        exFun = function
+    }
+
     private var timeGet: (() -> Number)? = null
+    fun setTimer(timer: (() -> Number)?) {
+        timeGet = timer
+    }
+
     private var posGet: (() -> Number)? = null
+    fun setPositionGetter(posGetter: (() -> Number)?) {
+        posGet = posGetter
+    }
 
     private fun getTime(): Number {
         return if (timeGet != null) {
@@ -31,7 +42,7 @@ class PID(
     private var prevTime = 0.0
     private var prevErr = 0.0
 
-    fun pidCal(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
+    fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
         val p = Kp * currErr
 
