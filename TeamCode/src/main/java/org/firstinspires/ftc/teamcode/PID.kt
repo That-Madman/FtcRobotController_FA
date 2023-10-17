@@ -13,13 +13,19 @@ class PID(
     private var posGet: (() -> Number)? = null
 
     private fun getTime(): Number {
-        return if (timeGet != null) timeGet!!.invoke()
-        else 1
+        return if (timeGet != null) {
+            timeGet!!.invoke()
+        } else {
+            1
+        }
     }
 
     private fun getPos(): Number {
-        return if (posGet != null) posGet!!.invoke()
-        else 1
+        return if (posGet != null) {
+            posGet!!.invoke()
+        } else {
+            1
+        }
     }
 
     private var prevTime = 0.0
