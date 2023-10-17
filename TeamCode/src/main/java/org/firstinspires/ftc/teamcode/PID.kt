@@ -9,17 +9,17 @@ class PID(
     private var maxI: Double = Double.NaN
 
     private var exFun: ((Number) -> Unit)? = null
-    fun setExecute(function: ((Number) -> Unit)?) {
+    fun setExecute(function: ((Number) -> Unit)) {
         exFun = function
     }
 
     private var timeGet: (() -> Number)? = null
-    fun setTimer(timer: (() -> Number)?) {
+    fun setTimer(timer: (() -> Number)) {
         timeGet = timer
     }
 
     private var posGet: (() -> Number)? = null
-    fun setPositionGetter(posGetter: (() -> Number)?) {
+    fun setPositionGetter(posGetter: (() -> Number)) {
         posGet = posGetter
     }
 
