@@ -1,24 +1,28 @@
 package org.firstinspires.ftc.teamcode
 
-class PID(
-    private val Kp: Double,
-    private val Ki: Double,
-    private val Kd: Double,
+data class PIDcoefficients(
+    internal val Kp: Double,
+    internal val Ki: Double,
+    internal val Kd: Double,
+)
+
+class PIDcontroller(
+    private val coeffs: PIDcoefficients,
+    private var posGet: (() -> Number)? = null,
+    private var exFun: ((Number) -> Unit)? = null,
+    private var timeGet: (() -> Number)? = null,
 ) {
     private var i: Double = 0.0
     private var maxI: Double = Double.NaN
 
-    private var exFun: ((Number) -> Unit)? = null
     fun setExecute(function: ((Number) -> Unit)) {
         exFun = function
     }
 
-    private var timeGet: (() -> Number)? = null
     fun setTimer(timer: (() -> Number)) {
         timeGet = timer
     }
 
-    private var posGet: (() -> Number)? = null
     fun setPositionGetter(posGetter: (() -> Number)) {
         posGet = posGetter
     }
@@ -44,16 +48,16 @@ class PID(
 
     fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
-        val p = Kp * currErr
+        val p = coeffs.Kp * currErr
 
-        i += Ki * (currErr * (time.toDouble() - prevTime))
+        i += coeffs.Ki * (currErr * (time.toDouble() - prevTime))
 
         if (!maxI.isNaN()) {
             if (i > maxI) i = maxI
             else if (i < -maxI) i = -maxI
         }
 
-        val d = Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
+        val d = coeffs.Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
         prevErr = currErr
         prevTime = time.toDouble()
 
