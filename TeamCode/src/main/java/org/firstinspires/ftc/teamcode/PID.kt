@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode
 
-data class PIDcoefficients(
-    internal val Kp: Double,
-    internal val Ki: Double,
-    internal val Kd: Double,
-)
-
-class PIDcontroller(
-    private val coeffs: PIDcoefficients,
+class PID(
+    private val Kp: Double,
+    private val Ki: Double,
+    private val Kd: Double,
     private var posGet: (() -> Number)? = null,
     private var exFun: ((Number) -> Unit)? = null,
     private var timeGet: (() -> Number)? = null,
@@ -48,16 +44,16 @@ class PIDcontroller(
 
     fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
-        val p = coeffs.Kp * currErr
+        val p = Kp * currErr
 
-        i += coeffs.Ki * (currErr * (time.toDouble() - prevTime))
+        i += Ki * (currErr * (time.toDouble() - prevTime))
 
         if (!maxI.isNaN()) {
             if (i > maxI) i = maxI
             else if (i < -maxI) i = -maxI
         }
 
-        val d = coeffs.Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
+        val d = Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
         prevErr = currErr
         prevTime = time.toDouble()
 
