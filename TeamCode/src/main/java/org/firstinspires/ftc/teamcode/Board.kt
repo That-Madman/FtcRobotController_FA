@@ -43,6 +43,8 @@ class Board {
 
     private var visionPortal: VisionPortal? = null
 
+    private var launchServo: Servo? = null
+
     private fun initVision(hwMap: HardwareMap) {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
@@ -58,7 +60,7 @@ class Board {
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
-        val broken = ArrayList<String>()
+        var broken = ArrayList<String>(0)
 
         try {
             initVision(hwMap)
@@ -144,15 +146,25 @@ class Board {
             broken.add("Intake Servo")
         }
 
-        imu = hwMap.get(IMU::class.java, "imu")
-        imu?.initialize(
-            IMU.Parameters(
-                RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+        try {
+            launchServo = hwMap.get(Servo::class.java, "launchServo")
+        } catch (_: Error) {
+            broken.add("Launch Servo")
+        }
+
+        try {
+            imu = hwMap.get(IMU::class.java, "imu")
+            imu?.initialize(
+                IMU.Parameters(
+                    RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                    )
                 )
             )
-        )
+        } catch (_: Error) {
+            broken.add("IMU")
+        }
 
         if (broken.isNotEmpty() && telemetry != null) {
             telemetry.addData(

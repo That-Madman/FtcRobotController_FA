@@ -6,7 +6,7 @@ class PID @JvmOverloads constructor(
     private val Kd: Double,
     private var posGet: (() -> Number)? = null,
     private var exFun: ((Number) -> Unit)? = null,
-    private var timeGet: (() -> Number)? = null,
+    private var timeGet: (() -> Number)? = {System.nanoTime() / 1e9},
 ) {
     private var i: Double = 0.0
     private var maxI: Double = Double.NaN
