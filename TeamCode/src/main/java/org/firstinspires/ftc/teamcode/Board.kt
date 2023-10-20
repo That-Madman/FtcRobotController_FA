@@ -150,10 +150,11 @@ class Board {
             )
         )
 
-        if (broken.isNotEmpty() && telemetry != null) telemetry.addData(
-            "the following could not be accessed",
-            broken
-        )
+        if (broken.isNotEmpty() && telemetry != null) {
+            telemetry.addData(
+                "the following could not be accessed", broken
+            )
+        }
     }
 
     fun changeToPos() {
