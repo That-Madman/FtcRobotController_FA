@@ -58,7 +58,7 @@ class Board {
         return visionPortal
     }
 
-    fun getHW(hwMap: HardwareMap, telemetry: Telemetry) {
+    fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
         val broken: ArrayList<String> = ArrayList()
         initVision(hwMap)
 
@@ -149,8 +149,11 @@ class Board {
                 )
             )
         )
-        if (broken.isNotEmpty())
-            telemetry.addData("the following could not be accessed", broken)
+
+        if (broken.isNotEmpty() && telemetry != null) telemetry.addData(
+            "the following could not be accessed",
+            broken
+        )
     }
 
     fun changeToPos() {
