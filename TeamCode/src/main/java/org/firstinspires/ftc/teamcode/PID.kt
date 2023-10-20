@@ -27,7 +27,7 @@ class PID(
         return if (timeGet != null) {
             timeGet!!.invoke()
         } else {
-            1
+            0
         }
     }
 
@@ -35,12 +35,16 @@ class PID(
         return if (posGet != null) {
             posGet!!.invoke()
         } else {
-            1
+            0
         }
     }
 
     private var prevTime = 0.0
     private var prevErr = 0.0
+
+    fun resetI() {
+        i = 0.0
+    }
 
     fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
@@ -48,10 +52,8 @@ class PID(
 
         i += Ki * (currErr * (time.toDouble() - prevTime))
 
-        if (!maxI.isNaN()) {
-            if (i > maxI) i = maxI
-            else if (i < -maxI) i = -maxI
-        }
+        if (i > maxI) i = maxI
+        else if (i < -maxI) i = -maxI
 
         val d = Kd * (currErr - prevErr) / (time.toDouble() - prevTime)
         prevErr = currErr
