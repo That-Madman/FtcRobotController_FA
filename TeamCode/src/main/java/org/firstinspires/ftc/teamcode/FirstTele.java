@@ -20,7 +20,7 @@ public class FirstTele extends OpMode {
     int rot = 0;
     double slide = 0;
     double wristRot = 0;
-    Stage_Directions board = new Stage_Directions();
+    Board board = new Board();
 
     @Override
     public void init() {

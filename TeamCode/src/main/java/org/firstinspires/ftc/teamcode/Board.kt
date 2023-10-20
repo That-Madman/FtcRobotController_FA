@@ -56,7 +56,8 @@ class Board {
         return visionPortal
     }
 
-    fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
+    @JvmOverloads
+    fun getHW(hwMap: HardwareMap, telem: Telemetry? = null) {
         val broken: ArrayList<String> = ArrayList()
 
         try {
@@ -153,8 +154,8 @@ class Board {
             )
         )
 
-        if (broken.isNotEmpty() && telemetry != null) {
-            telemetry.addData(
+        if (broken.isNotEmpty() && telem != null) {
+            telem.addData(
                 "the following could not be accessed", broken
             )
         }

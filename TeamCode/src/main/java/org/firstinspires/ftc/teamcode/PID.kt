@@ -46,6 +46,7 @@ class PID(
         i = 0.0
     }
 
+    @JvmOverloads
     fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
         val p = Kp * currErr
