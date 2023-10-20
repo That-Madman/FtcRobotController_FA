@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
-class PID(
+class PID @JvmOverloads constructor(
     private val Kp: Double,
     private val Ki: Double,
     private val Kd: Double,
