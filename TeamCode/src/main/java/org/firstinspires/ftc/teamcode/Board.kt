@@ -58,7 +58,7 @@ class Board {
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
-        val broken: ArrayList<String> = ArrayList()
+        val broken = ArrayList<String>()
 
         try {
             initVision(hwMap)
