@@ -33,7 +33,9 @@ class Board {
     private var wrist: Array<Servo?> = arrayOfNulls(2)
 
     private var claw: Servo? = null
+
     private var intakeServo: CRServo? = null
+    private var intakeMotor: DcMotorImplEx? = null
 
     private var imu: IMU? = null
 
@@ -97,8 +99,10 @@ class Board {
 
         claw = hwMap.get(Servo::class.java, "claw")
 
+        intakeMotor = hwMap.get(DcMotorImplEx::class.java, "intakeMotor")
         intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
-        intakeServo?.direction = Direction.FORWARD
+        intakeMotor?.direction = Direction.FORWARD
+        intakeServo?.direction = Direction.REVERSE
 
         imu = hwMap.get(IMU::class.java, "imu")
         imu?.initialize(
@@ -188,7 +192,8 @@ class Board {
         wrist[1]?.position = position
     }
 
-    fun setIntakeServo(speed: Double) {
+    fun setIntake(speed: Double) {
+        intakeMotor?.power = speed
         intakeServo?.power = speed
     }
 }
