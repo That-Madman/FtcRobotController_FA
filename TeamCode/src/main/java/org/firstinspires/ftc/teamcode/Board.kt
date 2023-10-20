@@ -44,10 +44,7 @@ class Board {
 
     private fun initVision(hwMap: HardwareMap) {
         val builder = VisionPortal.Builder()
-        try {
-            builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
-        } catch (_: Exception) {
-        }
+        builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
         builder.addProcessors(
             TfodProcessor.Builder().build(), AprilTagProcessor.easyCreateWithDefaults()
         )
@@ -60,7 +57,12 @@ class Board {
 
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
         val broken: ArrayList<String> = ArrayList()
-        initVision(hwMap)
+
+        try {
+            initVision(hwMap)
+        } catch (_: Exception) {
+            broken.add("Camera")
+        }
 
         try {
             slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
