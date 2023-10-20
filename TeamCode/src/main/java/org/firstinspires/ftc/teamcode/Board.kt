@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.vision.VisionPortal
@@ -43,8 +44,10 @@ class Board {
 
     private fun initVision(hwMap: HardwareMap) {
         val builder = VisionPortal.Builder()
-        builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
-
+        try {
+            builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
+        } catch (_: Exception) {
+        }
         builder.addProcessors(
             TfodProcessor.Builder().build(), AprilTagProcessor.easyCreateWithDefaults()
         )
@@ -55,54 +58,87 @@ class Board {
         return visionPortal
     }
 
-    fun getHW(hwMap: HardwareMap) {
+    fun getHW(hwMap: HardwareMap, telemetry: Telemetry) {
+        val broken: ArrayList<String> = ArrayList()
         initVision(hwMap)
 
-        slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
-        slideMotor?.direction = Direction.FORWARD
-        slideMotor?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-
-        armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
-        armRotateMotor?.direction = Direction.REVERSE
-        armRotateMotor?.targetPosition = 0
-        armRotateMotor?.power = 1.0
-        armRotateMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
-        armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-
-        armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
-        armRotateMotor2?.direction = Direction.FORWARD
-        armRotateMotor2?.targetPosition = 0
-        armRotateMotor2?.power = 1.0
-        armRotateMotor2?.mode = DcMotor.RunMode.RUN_TO_POSITION
-        armRotateMotor2?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-
-        wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
-        wheel[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
-        wheel[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
-        wheel[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
-
-        for (wheels in wheel) {
-            wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-            wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        try {
+            slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
+            slideMotor?.direction = Direction.FORWARD
+            slideMotor?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+            slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        } catch (_: Exception) {
+            broken.add("slide Motor")
         }
 
-        wheel[0]?.direction = Direction.REVERSE
-        wheel[1]?.direction = Direction.FORWARD
-        wheel[2]?.direction = Direction.REVERSE
-        wheel[3]?.direction = Direction.FORWARD
+        try {
+            armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
+            armRotateMotor?.direction = Direction.REVERSE
+            armRotateMotor?.targetPosition = 0
+            armRotateMotor?.power = 1.0
+            armRotateMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
+            armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        } catch (_: Exception) {
+            broken.add("Arm Rotate Motor")
+        }
 
-        wrist[0] = hwMap.get(Servo::class.java, "wrist1")
-        wrist[1] = hwMap.get(Servo::class.java, "wrist2")
+        try {
+            armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
+            armRotateMotor2?.direction = Direction.FORWARD
+            armRotateMotor2?.targetPosition = 0
+            armRotateMotor2?.power = 1.0
+            armRotateMotor2?.mode = DcMotor.RunMode.RUN_TO_POSITION
+            armRotateMotor2?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        } catch (_: Exception) {
+            broken.add("Second Arm Rotate Motor")
+        }
 
-        wrist[1]!!.direction = Servo.Direction.REVERSE
+        try {
+            wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
+            wheel[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
+            wheel[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
+            wheel[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
 
-        claw = hwMap.get(Servo::class.java, "claw")
+            for (wheels in wheel) {
+                wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+                wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+            }
 
-        intakeMotor = hwMap.get(DcMotorImplEx::class.java, "intakeMotor")
-        intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
-        intakeMotor?.direction = Direction.FORWARD
-        intakeServo?.direction = Direction.REVERSE
+            wheel[0]?.direction = Direction.REVERSE
+            wheel[1]?.direction = Direction.FORWARD
+            wheel[2]?.direction = Direction.REVERSE
+            wheel[3]?.direction = Direction.FORWARD
+        } catch (_: Exception) {
+            broken.add("Drivebase")
+        }
+
+        try {
+            wrist[0] = hwMap.get(Servo::class.java, "wrist1")
+            wrist[1] = hwMap.get(Servo::class.java, "wrist2")
+
+            wrist[1]!!.direction = Servo.Direction.REVERSE
+        } catch (_: Exception) {
+            broken.add("Wrist")
+        }
+
+        try {
+            claw = hwMap.get(Servo::class.java, "claw")
+        } catch (_: Exception) {
+            broken.add("Claw")
+        }
+        try {
+            intakeMotor = hwMap.get(DcMotorImplEx::class.java, "intakeMotor")
+            intakeMotor?.direction = Direction.FORWARD
+        } catch (_: Exception) {
+            broken.add("Intake Motor")
+        }
+
+        try {
+            intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
+            intakeServo?.direction = Direction.REVERSE
+        } catch (_: Exception) {
+            broken.add("Intake Servo")
+        }
 
         imu = hwMap.get(IMU::class.java, "imu")
         imu?.initialize(
@@ -113,6 +149,8 @@ class Board {
                 )
             )
         )
+        if (broken.isNotEmpty())
+            telemetry.addData("the following could not be accessed", broken)
     }
 
     fun changeToPos() {
