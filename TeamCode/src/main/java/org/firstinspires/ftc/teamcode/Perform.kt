@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 
 @TeleOp
 class Perform : OpMode() {
+    var test = null
     var dir = Stage_Directions()
 
     var northEnabled = true
