@@ -22,9 +22,10 @@ import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.sin
 
+@Suppress("unused")
 class Board {
-    private val OPEN: Double = 1.0
-    private val CLOSE: Double = 0.0
+    private val open: Double = 1.0
+    private val close: Double = 0.0
 
     private var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
@@ -200,18 +201,18 @@ class Board {
         backLeftPower: Double,
         backRightPower: Double
     ) {
-        val pows = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
+        val powers = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
-        for (i in pows) {
+        for (i in powers) {
             maxSpeed = max(maxSpeed, abs(i))
         }
         for (i in 0..3) {
-            pows[i] /= maxSpeed
+            powers[i] /= maxSpeed
         }
-        wheel[0]?.power = pows[0]
-        wheel[1]?.power = pows[1]
-        wheel[2]?.power = pows[2]
-        wheel[3]?.power = pows[3]
+        wheel[0]?.power = powers[0]
+        wheel[1]?.power = powers[1]
+        wheel[2]?.power = powers[2]
+        wheel[3]?.power = powers[3]
     }
 
     fun setRot(pos: Int) {
@@ -225,9 +226,9 @@ class Board {
 
     fun setClaw(open: Boolean) {
         if (open) {
-            claw?.position = OPEN
+            claw?.position = this.open
         } else {
-            claw?.position = CLOSE
+            claw?.position = close
         }
     }
 
