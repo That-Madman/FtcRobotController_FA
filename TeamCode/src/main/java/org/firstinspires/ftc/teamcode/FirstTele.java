@@ -24,7 +24,7 @@ public class FirstTele extends OpMode {
 
     @Override
     public void init() {
-        board.getHW(hardwareMap);
+        board.getHW(hardwareMap, telemetry);
     }
 
     @Override
