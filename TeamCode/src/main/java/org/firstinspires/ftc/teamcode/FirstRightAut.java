@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous
 public class FirstRightAut extends OpMode {
-    Stage_Directions board = new Stage_Directions();
+    Board board = new Board();
     @Override
     public void init() {
         board.getHW(hardwareMap);
