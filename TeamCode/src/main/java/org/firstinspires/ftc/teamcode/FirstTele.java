@@ -11,12 +11,6 @@ public class FirstTele extends OpMode {
     boolean clawOpen = false;
     boolean a2Held = false;
 
-    //TODO: find the actual limits and implement them
-    int rotMin = 0;
-    int rotMax = 750;
-    int slideMin = 0;
-    int slideMax = 750;
-
     int rot = 0;
     double slide = 0;
     double wristRot = 0;
@@ -59,5 +53,6 @@ public class FirstTele extends OpMode {
         a2Held = gamepad2.a;
 
         telemetry.addData("True North Enabled?", trueNorth);
+        if (gamepad2.x) board.launch();
     }
 }
