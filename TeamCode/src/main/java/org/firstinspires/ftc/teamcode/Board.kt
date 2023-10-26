@@ -168,7 +168,7 @@ class Board {
 
         if (broken.isNotEmpty() && telemetry != null) {
             telemetry.addData(
-                "the following could not be accessed", broken
+                "The following could not be accessed", broken
             )
         }
     }

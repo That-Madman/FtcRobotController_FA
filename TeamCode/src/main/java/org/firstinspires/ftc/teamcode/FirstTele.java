@@ -53,6 +53,7 @@ public class FirstTele extends OpMode {
         a2Held = gamepad2.a;
 
         telemetry.addData("True North Enabled?", trueNorth);
+
         if (gamepad2.x) board.launch();
     }
 }
