@@ -254,4 +254,7 @@ class Board {
         intakeMotor?.power = speed
         intakeServo?.power = speed
     }
+    fun launch() {
+        launchServo?.position = 1.0
+    }
 }
