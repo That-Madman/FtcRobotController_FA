@@ -56,4 +56,9 @@ public class FirstTele extends OpMode {
 
         if (gamepad2.x) board.launch();
     }
+
+    @Override
+    public void stop() {
+        board.relatch();
+    }
 }
