@@ -153,6 +153,7 @@ class Board {
 
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
+            relatch()
         } catch (_: Error) {
             broken.add("Launch Servo")
         }
@@ -173,7 +174,7 @@ class Board {
 
         if (broken.isNotEmpty() && telemetry != null) {
             telemetry.addData(
-                "The following could not be accessed", broken
+                "The following could not be accessed", broken.joinToString() + "."
             )
         }
     }
@@ -262,5 +263,8 @@ class Board {
 
     fun launch() {
         launchServo?.position = 1.0
+    }
+    fun relatch(){
+        launchServo?.position = 0.0
     }
 }
