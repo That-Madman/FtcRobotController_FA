@@ -55,12 +55,17 @@ class Board {
     }
 
     fun vision(): VisionPortal? {
-        return visionPortal
+        return try {
+            visionPortal
+        } catch (_: Exception) {
+            null
+        }
+
     }
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
-        var broken = ArrayList<String>(0)
+        val broken = ArrayList<String>(0)
 
         try {
             initVision(hwMap)
@@ -254,6 +259,7 @@ class Board {
         intakeMotor?.power = speed
         intakeServo?.power = speed
     }
+
     fun launch() {
         launchServo?.position = 1.0
     }
