@@ -264,7 +264,8 @@ class Board {
     fun launch() {
         launchServo?.position = 1.0
     }
-    fun relatch(){
+
+    fun relatch() {
         launchServo?.position = 0.0
     }
 }
