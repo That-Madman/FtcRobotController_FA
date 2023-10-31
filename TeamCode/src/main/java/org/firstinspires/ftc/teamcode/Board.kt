@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import autoThings.AEyes
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.CRServoImplEx
@@ -10,11 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
-import org.firstinspires.ftc.vision.VisionPortal
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
-import org.firstinspires.ftc.vision.tfod.TfodProcessor
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -41,34 +38,16 @@ class Board {
 
     private var imu: IMU? = null
 
-    private var visionPortal: VisionPortal? = null
-
     private var launchServo: Servo? = null
 
-    private fun initVision(hwMap: HardwareMap) {
-        val builder = VisionPortal.Builder()
-        builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
-        builder.addProcessors(
-            TfodProcessor.Builder().build(), AprilTagProcessor.easyCreateWithDefaults()
-        )
-        visionPortal = builder.build()
-    }
-
-    fun vision(): VisionPortal? {
-        return try {
-            visionPortal
-        } catch (_: Exception) {
-            null
-        }
-
-    }
+    private var eyes = AEyes();
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
         val broken = ArrayList<String>(0)
 
         try {
-            initVision(hwMap)
+            eyes.initVision(hwMap)
         } catch (_: Exception) {
             broken.add("Camera")
         }
