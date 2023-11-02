@@ -19,7 +19,6 @@ import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.sin
 
-@Suppress("unused")
 class Board {
     private val open: Double = 1.0
     private val close: Double = 0.0
@@ -40,7 +39,7 @@ class Board {
 
     private var launchServo: Servo? = null
 
-    private var eyes = AEyes();
+    private var eyes = AEyes()
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
@@ -185,19 +184,19 @@ class Board {
     }
 
     fun drive(forward: Double, right: Double, rotate: Double) {
-        val frontLeftPower = forward + right + rotate
+        val frontLeftPower  = forward + right + rotate
         val frontRightPower = forward - right - rotate
-        val backLeftPower = forward - right + rotate
-        val backRightPower = forward + right - rotate
+        val backLeftPower   = forward - right + rotate
+        val backRightPower  = forward + right - rotate
 
         setPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
     }
 
     private fun setPowers(
-        frontLeftPower: Double,
+        frontLeftPower : Double,
         frontRightPower: Double,
-        backLeftPower: Double,
-        backRightPower: Double
+        backLeftPower  : Double,
+        backRightPower : Double
     ) {
         val powers = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
@@ -243,6 +242,8 @@ class Board {
     fun launch() {
         launchServo?.position = 1.0
     }
+
+    fun launched() : Boolean = launchServo?.position == 1.0
 
     fun relatch() {
         launchServo?.position = 0.0
