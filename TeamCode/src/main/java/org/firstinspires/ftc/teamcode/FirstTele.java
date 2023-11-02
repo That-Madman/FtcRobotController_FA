@@ -5,15 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
 public class FirstTele extends OpMode {
-    boolean trueNorth = false;
-    boolean y1Held = false;
-
-    boolean clawOpen = false;
-    boolean a2Held = false;
+    boolean trueNorth, y1Held, clawOpen, a2Held, bumperLeftHeld, bumperRightHeld = false;
 
     int rot = 0;
-    double slide = 0;
-    double wristRot = 0;
+    double slide, wristRot, inDir = 0;
     Board board = new Board();
 
     @Override
@@ -49,12 +44,24 @@ public class FirstTele extends OpMode {
         slide = 0.5 * (gamepad2.right_trigger - gamepad2.left_trigger);
         board.setSlide(slide);
 
+        if (gamepad1.right_bumper) {
+            inDir = 1.0;
+        } else if (gamepad1.left_bumper) {
+            inDir = -1.0;
+        } else if ((gamepad1.right_bumper && !bumperRightHeld && inDir == 1.0)
+                || (gamepad1.left_bumper && !bumperLeftHeld && inDir == -1.0)) {
+            inDir = 0.0;
+        }
+        board.setIntake(inDir);
+
         y1Held = gamepad1.y;
         a2Held = gamepad2.a;
 
         telemetry.addData("True North Enabled?", trueNorth);
 
         if (gamepad2.x) board.launch();
+        bumperLeftHeld = gamepad1.left_bumper;
+        bumperRightHeld = gamepad1.right_bumper;
     }
 
     @Override
