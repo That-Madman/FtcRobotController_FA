@@ -1,13 +1,16 @@
 package autoThings.roadRunner.drive;
 
-import autoThings.roadRunner.drive.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
+import static autoThings.roadRunner.drive.DriveConstants.MAX_ACCEL;
+import static autoThings.roadRunner.drive.DriveConstants.MAX_ANG_ACCEL;
+import static autoThings.roadRunner.drive.DriveConstants.MAX_ANG_VEL;
+import static autoThings.roadRunner.drive.DriveConstants.MAX_VEL;
+import static autoThings.roadRunner.drive.DriveConstants.MOTOR_VELO_PID;
+import static autoThings.roadRunner.drive.DriveConstants.RUN_USING_ENCODER;
+import static autoThings.roadRunner.drive.DriveConstants.TRACK_WIDTH;
+import static autoThings.roadRunner.drive.DriveConstants.encoderTicksToInches;
+import static autoThings.roadRunner.drive.DriveConstants.kA;
+import static autoThings.roadRunner.drive.DriveConstants.kStatic;
+import static autoThings.roadRunner.drive.DriveConstants.kV;
 
 import androidx.annotation.NonNull;
 
@@ -37,28 +40,33 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
-import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
+import autoThings.roadRunner.trajectorysequence.TrajectorySequenceBuilder;
+import autoThings.roadRunner.trajectorysequence.TrajectorySequenceRunner;
+import autoThings.roadRunner.util.LynxModuleUtil;
 
 /*
  * Simple tank drive hardware implementation for REV hardware.
  */
 @Config
 public class SampleTankDrive extends TankDrive {
-    private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
-    private static final TrajectoryAccelerationConstraint accelConstraint = getAccelerationConstraint(MAX_ACCEL);
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients CROSS_TRACK_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+
     public static double VX_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
+
     private TrajectorySequenceRunner trajectorySequenceRunner;
+
+    private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
+    private static final TrajectoryAccelerationConstraint accelConstraint = getAccelerationConstraint(MAX_ACCEL);
+
     private TrajectoryFollower follower;
 
     private List<DcMotorEx> motors, leftMotors, rightMotors;
@@ -123,17 +131,6 @@ public class SampleTankDrive extends TankDrive {
         );
     }
 
-    public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
-        return new MinVelocityConstraint(Arrays.asList(
-                new AngularVelocityConstraint(maxAngularVel),
-                new TankVelocityConstraint(maxVel, trackWidth)
-        ));
-    }
-
-    public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
-        return new ProfileAccelerationConstraint(maxAccel);
-    }
-
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, VEL_CONSTRAINT, accelConstraint);
     }
@@ -192,6 +189,7 @@ public class SampleTankDrive extends TankDrive {
     public Pose2d getLastError() {
         return trajectorySequenceRunner.getLastPoseError();
     }
+
 
     public void update() {
         updatePoseEstimate();
@@ -293,5 +291,16 @@ public class SampleTankDrive extends TankDrive {
     @Override
     public Double getExternalHeadingVelocity() {
         return (double) imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+    }
+
+    public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
+        return new MinVelocityConstraint(Arrays.asList(
+                new AngularVelocityConstraint(maxAngularVel),
+                new TankVelocityConstraint(maxVel, trackWidth)
+        ));
+    }
+
+    public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
+        return new ProfileAccelerationConstraint(maxAccel);
     }
 }
