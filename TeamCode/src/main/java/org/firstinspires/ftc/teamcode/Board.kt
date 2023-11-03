@@ -131,6 +131,7 @@ class Board {
 
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
+            launchServo?.direction = Servo.Direction.REVERSE
             relatch()
         } catch (_: Error) {
             broken.add("Launch Servo")
@@ -243,7 +244,9 @@ class Board {
         launchServo?.position = 1.0
     }
 
-    fun launched() : Boolean = launchServo?.position == 1.0
+    fun launched() : Boolean {
+        return  launchServo?.position == 1.0
+    }
 
     fun relatch() {
         launchServo?.position = 0.0
