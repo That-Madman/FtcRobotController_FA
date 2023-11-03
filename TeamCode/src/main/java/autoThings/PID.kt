@@ -1,5 +1,17 @@
 package autoThings
 
+/**
+ * A PID program by FTC Team 2173, Till the Wheels Fall Off
+ * @param kP the P value
+ * @param kI the I value
+ * @param kD the D value
+ * @param posGet the function to get the current value of what is being influenced
+ * @param exFun the function executed when pidCalc is called
+ * @param timeGet the function to get the time passed
+ * @property pidCalc calculates the PID value and executes exFun if given
+ * @property resetI resets the I value that gets accrued as the program runs
+ * @author Alex Bryan
+ */
 @Suppress("unused")
 class PID @JvmOverloads constructor(
     private val kP: Double,
@@ -12,43 +24,10 @@ class PID @JvmOverloads constructor(
     private var i: Double = 0.0
     private var maxI: Double = Double.NaN
 
-    fun setExecute(function: ((Number) -> Unit)) {
-        exFun = function
-    }
-
-    fun setTimer(timer: (() -> Number)) {
-        timeGet = timer
-    }
-
-    fun setPositionGetter(posGetter: (() -> Number)) {
-        posGet = posGetter
-    }
-
-    private fun getTime(): Number {
-        return if (timeGet != null) {
-            timeGet!!.invoke()
-        } else {
-            0
-        }
-    }
-
-    private fun getPos(): Number {
-        return if (posGet != null) {
-            posGet!!.invoke()
-        } else {
-            0
-        }
-    }
-
-    private var prevTime = 0.0
-    private var prevErr = 0.0
-
-    fun resetI() {
-        i = 0.0
-    }
-
     @JvmOverloads
-    fun pidCalc(target: Number, currPos: Number = getPos(), time: Number = getTime()): Double {
+    fun pidCalc(
+        target: Number, currPos: Number = getPos(), time: Number = getTime()
+    ): Double {
         val currErr: Double = target.toDouble() - currPos.toDouble()
         val p = kP * currErr
 
@@ -64,4 +43,27 @@ class PID @JvmOverloads constructor(
         if (exFun != null) exFun!!.invoke(p + i + d)
         return p + i + d
     }
+
+    fun resetI() {
+        i = 0.0
+    }
+
+    fun setExecute(function: ((Number) -> Unit)) {
+        exFun = function
+    }
+
+    fun setTimer(timer: (() -> Number)) {
+        timeGet = timer
+    }
+
+    fun setPositionGetter(posGetter: (() -> Number)) {
+        posGet = posGetter
+    }
+
+    private fun getTime(): Number = if (timeGet != null) timeGet!!.invoke() else 0
+
+    private fun getPos(): Number = if (posGet != null) posGet!!.invoke() else 0
+
+    private var prevTime = 0.0
+    private var prevErr = 0.0
 }
