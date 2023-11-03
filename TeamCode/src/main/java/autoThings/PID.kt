@@ -1,7 +1,7 @@
 package autoThings
 
 /**
- * A PID program by FTC Team 2173, Till the Wheels Fall Off
+ * A PID class by FTC Team 2173, Till the Wheels Fall Off
  * @param kP the P value
  * @param kI the I value
  * @param kD the D value
