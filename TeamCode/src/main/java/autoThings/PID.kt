@@ -3,13 +3,13 @@ package autoThings
 /**
  * A PID class by FTC Team 2173, Till the Wheels Fall Off
  * @param kP the P value
- * @param kI the I value
+ * @param kI the value for the magnitude of change in the [I][i] value
  * @param kD the D value
  * @param posGet the function to get the current value of what is being influenced
  * @param exFun the function executed when pidCalc is called
  * @param timeGet the function to get the time
  * @property pidCalc calculates the PID value and executes exFun if given
- * @property resetI resets the I value that gets accrued as the program runs
+ * @property resetI resets the [I][i] value that gets accrued as the program runs
  * @author Alex Bryan
  */
 class PID @JvmOverloads constructor(
@@ -24,13 +24,14 @@ class PID @JvmOverloads constructor(
      * In PID, the I value is a value that gets aggregated while the formula goes on. It increases
      * based off the difference between the current and target position, multiplied by [kI]. It is
      * used to address a constant error, slowly increasing or decreasing to help sustain the target
-     * position. If [kP] is 0, i will never change, which is sometimes the best option.
+     * position. If [kP] is 0, i will never change, which is sometimes the best option. If
+     * you want to reset it back to 0, use the [resetI] function
      */
     private var i: Double = 0.0
     private var maxI: Double = Double.NaN
 
     /**
-     * Calculates the output for PID based off of the P, I, and D values.
+     * Calculates the output for PID based off of the [P][kP], [I][i], and [D][kD] values.
      * If [exFun] was set, the function also executes it.
      * @param target The target value
      * @param currPos The current value. If it is not set, the function will instead use [posGet]
@@ -58,7 +59,7 @@ class PID @JvmOverloads constructor(
     }
 
     /**
-     * Resets the [i] value back to 0
+     * Resets the [I][i] value back to 0
      * @author Alex Bryan
      */
     fun resetI() {
