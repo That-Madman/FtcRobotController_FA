@@ -10,6 +10,7 @@ package autoThings
  * @param timeGet the function to get the time
  * @property pidCalc calculates the PID value and executes exFun if given
  * @property resetI resets the [I][i] value that gets accrued as the program runs
+ *
  * @author Alex Bryan
  */
 class PID @JvmOverloads constructor(
@@ -32,10 +33,14 @@ class PID @JvmOverloads constructor(
 
     /**
      * Calculates the output for PID based off of the [P][kP], [I][i], and [D][kD] values.
-     * If [exFun] was set, the function also executes it.
+     * If the [execute function][exFun] was set, the function also executes it.
      * @param target The target value
-     * @param currPos The current value. If it is not set, the function will instead use [posGet]
-     * @param time The current time. If it is not set, the function will instead use [timeGet]
+     * @param currPos The current value. If it is not set, the function will instead use the
+     * [value obtaining function][posGet].
+     * @param time The current time. If it is not set, the function will instead use the
+     * [time function][timeGet].
+     * @return the calculated PID output, to be plugged into a function if the [execute function]
+     * [exFun] wasn't already set.
      * @author Alex Bryan
      */
     @JvmOverloads
