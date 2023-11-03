@@ -131,7 +131,7 @@ class Board {
 
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
-            relatch()
+//            relatch()
         } catch (_: Error) {
             broken.add("Launch Servo")
         }
