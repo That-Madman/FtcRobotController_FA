@@ -12,7 +12,6 @@ package autoThings
  * @property resetI resets the I value that gets accrued as the program runs
  * @author Alex Bryan
  */
-@Suppress("unused")
 class PID @JvmOverloads constructor(
     private val kP: Double,
     private val kI: Double,
