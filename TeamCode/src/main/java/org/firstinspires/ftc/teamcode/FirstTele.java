@@ -29,14 +29,14 @@ public class FirstTele extends OpMode {
         if (trueNorth) {
             board.driveFieldRelative(
                     -gamepad1.right_stick_y,
-                     gamepad1.right_stick_x,
-                     gamepad1.left_stick_x
+                    gamepad1.right_stick_x,
+                    gamepad1.left_stick_x
             );
         } else {
             board.drive(
                     -gamepad1.right_stick_y,
-                     gamepad1.right_stick_x,
-                     gamepad1.left_stick_x
+                    gamepad1.right_stick_x,
+                    gamepad1.left_stick_x
             );
         }
 
@@ -57,9 +57,9 @@ public class FirstTele extends OpMode {
         slide = 0.5 * (gamepad2.right_trigger - gamepad2.left_trigger);
         board.setSlide(slide);
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper && bumperRightHeld) {
             inDir = 1.0;
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad1.left_bumper && bumperLeftHeld) {
             inDir = -1.0;
         } else if ((gamepad1.right_bumper && !bumperRightHeld && inDir == 1.0)
                 || (gamepad1.left_bumper && !bumperLeftHeld && inDir == -1.0)) {
