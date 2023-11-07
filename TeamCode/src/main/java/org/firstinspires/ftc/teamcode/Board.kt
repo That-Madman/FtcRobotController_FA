@@ -39,7 +39,11 @@ class Board {
 
     private var launchServo: Servo? = null
 
-    private var eyes = AEyes()
+    var eyes = AEyes()
+
+    private val labels = arrayOf(
+        "Pixel"
+    )
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
@@ -132,7 +136,10 @@ class Board {
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
             launchServo?.direction = Servo.Direction.REVERSE
-            relatch()
+            try {
+                relatch()
+            } catch (_: Exception) {
+            }
         } catch (_: Error) {
             broken.add("Launch Servo")
         }
@@ -185,19 +192,19 @@ class Board {
     }
 
     fun drive(forward: Double, right: Double, rotate: Double) {
-        val frontLeftPower  = forward + right + rotate
+        val frontLeftPower = forward + right + rotate
         val frontRightPower = forward - right - rotate
-        val backLeftPower   = forward - right + rotate
-        val backRightPower  = forward + right - rotate
+        val backLeftPower = forward - right + rotate
+        val backRightPower = forward + right - rotate
 
         setPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
     }
 
     private fun setPowers(
-        frontLeftPower : Double,
+        frontLeftPower: Double,
         frontRightPower: Double,
-        backLeftPower  : Double,
-        backRightPower : Double
+        backLeftPower: Double,
+        backRightPower: Double
     ) {
         val powers = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
@@ -244,8 +251,8 @@ class Board {
         launchServo?.position = 1.0
     }
 
-    fun launched() : Boolean {
-        return  launchServo?.position == 1.0
+    fun launched(): Boolean {
+        return launchServo?.position == 1.0
     }
 
     fun relatch() {
