@@ -22,10 +22,15 @@ public class FirstAuto extends LinearOpMode {
         while (!opModeIsActive()) {
             try { //start of TensorFlow
                 List<Recognition> view = board.getEyes().getTfod().getRecognitions();
+
                 if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                     if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 <= 240) {
                         spikeSpot = 1;
-                    } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240 && (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480) {
+                    } else if ((
+                            view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240
+                            &&
+                            (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480
+                    ) {
                         spikeSpot = 2;
                     } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 >= 480) {
                         spikeSpot = 3;
