@@ -16,7 +16,8 @@ public class FirstAuto extends LinearOpMode {
     public void runOpMode() {
         try {
             board.getHW(hardwareMap, telemetry);
-        } catch (Exception | Error ignored) {
+        } catch (Exception | Error e) {
+            telemetry.addData("Could not access hardware because ", e);
         }
         while (!opModeIsActive()) {
             try { //start of TensorFlow
