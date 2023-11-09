@@ -259,10 +259,6 @@ class Board {
         launchServo?.position = 1.0
     }
 
-    fun launched(): Boolean {
-        return launchServo?.position == 1.0
-    }
-
     fun relatch() {
         launchServo?.position = 0.0
     }
