@@ -35,7 +35,8 @@ public class FirstAuto extends LinearOpMode {
             } catch (Exception | Error e) {
                 telemetry.addData("Error in using camera because:", e);
             } //end of tensorFlow
-            try {
+
+            try { //April tags
                 if (board.getEyes().getApril().getDetections().size() > 0) {
                     AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
 
@@ -46,7 +47,8 @@ public class FirstAuto extends LinearOpMode {
                     telemetry.addData("pitch", tag.ftcPose.pitch);
                     telemetry.addData("yaw", tag.ftcPose.yaw);
                 }
-            } catch (Exception | Error ignored) {
+            } catch (Exception | Error e) {
+                telemetry.addData("Issue with April Tags because ", e);
             }
         }
         waitForStart();
