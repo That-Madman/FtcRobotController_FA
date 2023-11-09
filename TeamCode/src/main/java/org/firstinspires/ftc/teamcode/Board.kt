@@ -127,33 +127,45 @@ class Board {
         }
 
         try {
-            intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
-            intakeServo?.direction = Direction.REVERSE
-        } catch (_: Exception) {
+            try {
+                intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
+                intakeServo?.direction = Direction.REVERSE
+            } catch (_: Exception) {
+                broken.add("Intake Servo")
+            }
+        } catch (_: Error) {
             broken.add("Intake Servo")
         }
 
         try {
-            launchServo = hwMap.get(Servo::class.java, "launchServo")
-            launchServo?.direction = Servo.Direction.REVERSE
             try {
-                relatch()
+                launchServo = hwMap.get(Servo::class.java, "launchServo")
+                launchServo?.direction = Servo.Direction.REVERSE
+                try {
+                    relatch()
+                } catch (_: Exception) {
+                }
             } catch (_: Exception) {
+                broken.add("Launch Servo")
             }
         } catch (_: Error) {
             broken.add("Launch Servo")
         }
 
         try {
-            imu = hwMap.get(IMU::class.java, "imu")
-            imu?.initialize(
-                IMU.Parameters(
-                    RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+            try {
+                imu = hwMap.get(IMU::class.java, "imu")
+                imu?.initialize(
+                    IMU.Parameters(
+                        RevHubOrientationOnRobot(
+                            RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                        )
                     )
                 )
-            )
+            } catch (_: Exception) {
+                broken.add("IMU")
+            }
         } catch (_: Error) {
             broken.add("IMU")
         }
