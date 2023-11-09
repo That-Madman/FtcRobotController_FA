@@ -121,7 +121,7 @@ Note: Some names start with "Team" and others start with "team".  This is intent
 3)  the new Team21734 folder, rename the "src/main/java/org/firstinspires/ftc/teamcode" folder
     to a matching name with a lowercase 'team' eg:  "team21734".
 
-4)  In the new Team0417/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
+4)  In the new Team21734/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
          package="org.firstinspires.ftc.teamcode"
     to be
          package="org.firstinspires.ftc.team21734"
