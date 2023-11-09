@@ -14,7 +14,14 @@ class AEyes {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
         tfod = TfodProcessor.Builder().build()
-        april = AprilTagProcessor.easyCreateWithDefaults()
+        april = AprilTagProcessor
+            .Builder()
+            .setDrawAxes(true)
+            .setDrawCubeProjection(true)
+            .setDrawTagID(true)
+            .setDrawTagOutline(true)
+            .build()
+
         builder.addProcessors(tfod, april)
         visionPortal = builder.build()
     }
