@@ -11,7 +11,7 @@ import java.util.List;
 @Autonomous
 public class FirstAuto extends LinearOpMode {
     Board board = new Board();
-    volatile int spikeSpot = 0;
+    int spikeSpot = 0;
 
 
     public void runOpMode() {
