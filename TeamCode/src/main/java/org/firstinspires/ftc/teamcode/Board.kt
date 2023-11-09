@@ -49,6 +49,8 @@ class Board {
             eyes.initVision(hwMap)
         } catch (_: Exception) {
             broken.add("Camera")
+        } catch (_: Error) {
+            broken.add("Camera")
         }
 
         try {
@@ -57,6 +59,8 @@ class Board {
             slideMotor?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
             slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         } catch (_: Exception) {
+            broken.add("slide Motor")
+        } catch (_: Error) {
             broken.add("slide Motor")
         }
 
@@ -69,6 +73,8 @@ class Board {
             armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         } catch (_: Exception) {
             broken.add("Arm Rotate Motor")
+        } catch (_: Error) {
+            broken.add("Arm Rotate Motor")
         }
 
         try {
@@ -79,6 +85,8 @@ class Board {
             armRotateMotor2?.mode = DcMotor.RunMode.RUN_TO_POSITION
             armRotateMotor2?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         } catch (_: Exception) {
+            broken.add("Second Arm Rotate Motor")
+        } catch (_: Error) {
             broken.add("Second Arm Rotate Motor")
         }
 
@@ -99,6 +107,8 @@ class Board {
             wheel[3]?.direction = Direction.FORWARD
         } catch (_: Exception) {
             broken.add("Drivebase")
+        } catch (_: Error) {
+            broken.add("Drivebase")
         }
 
         try {
@@ -108,17 +118,24 @@ class Board {
             wrist[1]!!.direction = Servo.Direction.REVERSE
         } catch (_: Exception) {
             broken.add("Wrist")
+        } catch (_: Error) {
+            broken.add("Wrist")
         }
 
         try {
             claw = hwMap.get(Servo::class.java, "claw")
         } catch (_: Exception) {
             broken.add("Claw")
+        } catch (_: Error) {
+            broken.add("Claw")
         }
+
         try {
             intakeMotor = hwMap.get(DcMotorImplEx::class.java, "intakeMotor")
             intakeMotor?.direction = Direction.FORWARD
         } catch (_: Exception) {
+            broken.add("Intake Motor")
+        } catch (_: Error) {
             broken.add("Intake Motor")
         }
 
@@ -126,6 +143,8 @@ class Board {
             intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
             intakeServo?.direction = Direction.REVERSE
         } catch (_: Exception) {
+            broken.add("Intake Servo")
+        } catch (_: Error) {
             broken.add("Intake Servo")
         }
 
@@ -136,6 +155,7 @@ class Board {
             try {
                 relatch()
             } catch (_: Exception) {
+            } catch (_: Error) {
             }
         } catch (_: Exception) {
             broken.add("Launch Servo")
@@ -143,20 +163,19 @@ class Board {
             broken.add("Launch Servo")
         }
 
+
         try {
-            try {
-                imu = hwMap.get(IMU::class.java, "imu")
-                imu?.initialize(
-                    IMU.Parameters(
-                        RevHubOrientationOnRobot(
-                            RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                        )
+            imu = hwMap.get(IMU::class.java, "imu")
+            imu?.initialize(
+                IMU.Parameters(
+                    RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
                     )
                 )
-            } catch (_: Exception) {
-                broken.add("IMU")
-            }
+            )
+        } catch (_: Exception) {
+            broken.add("IMU")
         } catch (_: Error) {
             broken.add("IMU")
         }
