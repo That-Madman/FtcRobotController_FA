@@ -41,10 +41,6 @@ class Board {
 
     var eyes = AEyes()
 
-    private val labels = arrayOf(
-        "Pixel"
-    )
-
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
         val broken = ArrayList<String>(0)
