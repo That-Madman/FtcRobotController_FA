@@ -123,27 +123,22 @@ class Board {
         }
 
         try {
-            try {
-                intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
-                intakeServo?.direction = Direction.REVERSE
-            } catch (_: Exception) {
-                broken.add("Intake Servo")
-            }
-        } catch (_: Error) {
+            intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
+            intakeServo?.direction = Direction.REVERSE
+        } catch (_: Exception) {
             broken.add("Intake Servo")
         }
 
+
         try {
+            launchServo = hwMap.get(Servo::class.java, "launchServo")
+            launchServo?.direction = Servo.Direction.REVERSE
             try {
-                launchServo = hwMap.get(Servo::class.java, "launchServo")
-                launchServo?.direction = Servo.Direction.REVERSE
-                try {
-                    relatch()
-                } catch (_: Exception) {
-                }
+                relatch()
             } catch (_: Exception) {
-                broken.add("Launch Servo")
             }
+        } catch (_: Exception) {
+            broken.add("Launch Servo")
         } catch (_: Error) {
             broken.add("Launch Servo")
         }

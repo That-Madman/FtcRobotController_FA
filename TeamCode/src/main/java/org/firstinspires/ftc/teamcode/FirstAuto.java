@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class FirstAuto extends LinearOpMode {
     public void runOpMode() {
         try {
             board.getHW(hardwareMap, telemetry);
-        } catch (Exception ignored) {
+        } catch (Exception | Error ignored) {
         }
         while (!opModeIsActive()) {
             try { //start of TensorFlow
@@ -31,21 +32,31 @@ public class FirstAuto extends LinearOpMode {
                     }
                 }
                 telemetry.addData("spike found at:", (spikeSpot != 0) ? spikeSpot : "n/a");
-            } catch (Exception e) {
+            } catch (Exception | Error e) {
                 telemetry.addData("Error in using camera because:", e);
             } //end of tensorFlow
+            try {
+                if (board.getEyes().getApril().getDetections().size() > 0) {
+                    AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
+
+                    telemetry.addData("x", tag.ftcPose.x);
+                    telemetry.addData("y", tag.ftcPose.y);
+                    telemetry.addData("z", tag.ftcPose.z);
+                    telemetry.addData("roll", tag.ftcPose.roll);
+                    telemetry.addData("pitch", tag.ftcPose.pitch);
+                    telemetry.addData("yaw", tag.ftcPose.yaw);
+                }
+            } catch (Exception | Error ignored) {
+            }
         }
         waitForStart();
 
         try {
-            try {
-                board.getEyes().getVisionPortal().close();
-            } catch (Exception e) {
-                telemetry.addData("Problem ending vision portal because: ", e);
-            }
-        } catch (Error e) {
+            board.getEyes().getVisionPortal().close();
+        } catch (Exception | Error e) {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
+
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
