@@ -13,7 +13,6 @@ public class FirstAuto extends LinearOpMode {
     Board board = new Board();
     int spikeSpot = 0;
 
-
     public void runOpMode() {
         try {
             board.getHW(hardwareMap, telemetry);
@@ -58,7 +57,6 @@ public class FirstAuto extends LinearOpMode {
         } catch (Exception | Error e) {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
-
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
