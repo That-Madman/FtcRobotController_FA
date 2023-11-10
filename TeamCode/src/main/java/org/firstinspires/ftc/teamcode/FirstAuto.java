@@ -95,7 +95,6 @@ public class FirstAuto extends LinearOpMode {
                 board.posRun(200);
                 board.setIntake(-1);
                 sleep(1000);
-
             }
         }
     }
