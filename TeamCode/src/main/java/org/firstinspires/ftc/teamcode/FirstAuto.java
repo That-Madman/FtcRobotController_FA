@@ -20,27 +20,28 @@ public class FirstAuto extends LinearOpMode {
             telemetry.addData("Could not access hardware because ", e);
         }
         while (!opModeIsActive()) {
-            try { //start of TensorFlow
-                List<Recognition> view = board.getEyes().getTfod().getRecognitions();
+            if (spikeSpot == 0) { //start of TensorFlow
+                try {
+                    List<Recognition> view = board.getEyes().getTfod().getRecognitions();
 
-                if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                    if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 <= 240) {
-                        spikeSpot = 1;
-                    } else if ((
-                            view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240
-                            &&
-                            (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480
-                    ) {
-                        spikeSpot = 2;
-                    } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 >= 480) {
-                        spikeSpot = 3;
+                    if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                        if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 <= 240) {
+                            spikeSpot = 1;
+                        } else if ((
+                                view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240
+                                &&
+                                (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480
+                        ) {
+                            spikeSpot = 2;
+                        } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 >= 480) {
+                            spikeSpot = 3;
+                        }
                     }
+                    telemetry.addData("spike found at:", (spikeSpot != 0) ? spikeSpot : "n/a");
+                } catch (Exception | Error e) {
+                    telemetry.addData("Error in using camera because:", e);
                 }
-                telemetry.addData("spike found at:", (spikeSpot != 0) ? spikeSpot : "n/a");
-            } catch (Exception | Error e) {
-                telemetry.addData("Error in using camera because:", e);
             } //end of tensorFlow
-
             try { //April tags
                 if (board.getEyes().getApril().getDetections().size() > 0) {
                     AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
@@ -59,13 +60,14 @@ public class FirstAuto extends LinearOpMode {
         waitForStart();
 
         try {
-            board.getEyes().getVisionPortal().close();
+            board.getEyes().getVisionPortal().stopStreaming();
         } catch (Exception | Error e) {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                board.getEyes().getVisionPortal().resumeStreaming();
             }
         }
     }
