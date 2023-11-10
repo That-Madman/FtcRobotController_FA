@@ -16,9 +16,15 @@ public class FirstAuto extends LinearOpMode {
     public void runOpMode() {
         try {
             board.getHW(hardwareMap, telemetry);
-        } catch (Exception | Error e) {
+        } catch (Throwable e) {
             telemetry.addData("Could not access hardware because ", e);
         }
+        try {
+            board.changeToPos();
+        } catch (Throwable e) {
+            telemetry.addData("Trouble with accessing wheels because ", e);
+        }
+
         while (!opModeIsActive()) {
             if (spikeSpot == 0) { //start of TensorFlow
                 try {
@@ -38,7 +44,7 @@ public class FirstAuto extends LinearOpMode {
                         }
                     }
                     telemetry.addData("spike found at:", (spikeSpot != 0) ? spikeSpot : "n/a");
-                } catch (Exception | Error e) {
+                } catch (Throwable e) {
                     telemetry.addData("Error in using camera because:", e);
                 }
             } //end of tensorFlow
@@ -53,7 +59,7 @@ public class FirstAuto extends LinearOpMode {
                     telemetry.addData("pitch", tag.ftcPose.pitch);
                     telemetry.addData("yaw", tag.ftcPose.yaw);
                 }
-            } catch (Exception | Error e) {
+            } catch (Throwable e) {
                 telemetry.addData("Issue with April Tags because ", e);
             }
         }
@@ -61,13 +67,32 @@ public class FirstAuto extends LinearOpMode {
 
         try {
             board.getEyes().getVisionPortal().stopStreaming();
-        } catch (Exception | Error e) {
+        } catch (Throwable e) {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
 
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            if (spikeSpot == 0) {
                 board.getEyes().getVisionPortal().resumeStreaming();
+                board.posRun(100);
+                while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
+                }
+
+                board.posRunSide(100);
+
+                List<Recognition> view = board.getEyes().getTfod().getRecognitions();
+                if (board.getEyes().getTfod().getRecognitions().size() != 0) spikeSpot = 3;
+                else spikeSpot = 1;
+
+                board.posRunSide(-100);
+                while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
+                }
+            }
+            if(spikeSpot == 1) {
+                board.posRun(200);
+                board.setIntake(-1);
+                sleep(1000);
+
             }
         }
     }

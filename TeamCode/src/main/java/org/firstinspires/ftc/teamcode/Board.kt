@@ -23,7 +23,7 @@ class Board {
     private val open: Double = 1.0
     private val close: Double = 0.0
 
-    private var wheel: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
+    private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
     private var armRotateMotor: DcMotorImplEx? = null
     private var armRotateMotor2: DcMotorImplEx? = null
@@ -83,20 +83,20 @@ class Board {
         }
 
         try {
-            wheel[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
-            wheel[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
-            wheel[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
-            wheel[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
+            driveBase[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
+            driveBase[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
+            driveBase[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
+            driveBase[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
 
-            for (wheels in wheel) {
+            for (wheels in driveBase) {
                 wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
             }
 
-            wheel[0]?.direction = Direction.REVERSE
-            wheel[1]?.direction = Direction.FORWARD
-            wheel[2]?.direction = Direction.REVERSE
-            wheel[3]?.direction = Direction.FORWARD
+            driveBase[0]?.direction = Direction.REVERSE
+            driveBase[1]?.direction = Direction.FORWARD
+            driveBase[2]?.direction = Direction.REVERSE
+            driveBase[3]?.direction = Direction.FORWARD
         } catch (_: Throwable) {
             broken.add("Drivebase")
         }
@@ -139,8 +139,7 @@ class Board {
                 relatch()
             } catch (e: Throwable) {
                 telemetry?.addData(
-                    "Could not relatch launch servo because ",
-                    e
+                    "Could not relatch launch servo because ", e
                 )
             }
         } catch (_: Throwable) {
@@ -169,19 +168,28 @@ class Board {
     }
 
     fun changeToPos() {
-        for (wheels in wheel) {
-            wheels?.targetPosition = 0
-            wheels?.power = 0.5
-            wheels?.mode = DcMotor.RunMode.RUN_TO_POSITION
+        for (wheel in driveBase) {
+            wheel?.targetPosition = 0
+            wheel?.power = 0.5
+            wheel?.mode = DcMotor.RunMode.RUN_TO_POSITION
+        }
+    }
+
+    fun posRun(target: Int) {
+        try {
+            for (i in driveBase.indices) driveBase[i]!!.targetPosition += target
+        } catch (_: Throwable) {
         }
     }
 
     fun posRunSide(target: Int) {
-        wheel[0]!!.targetPosition = -target
-        wheel[1]!!.targetPosition = target
-        wheel[2]!!.targetPosition = target
-        wheel[3]!!.targetPosition = -target
+        driveBase[0]!!.targetPosition -= target
+        driveBase[1]!!.targetPosition += target
+        driveBase[2]!!.targetPosition += target
+        driveBase[3]!!.targetPosition -= target
     }
+
+    fun getWheelPos(index: Int): Int = driveBase[index]!!.targetPosition
 
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
@@ -211,16 +219,18 @@ class Board {
     ) {
         val powers = arrayOf(frontLeftPower, frontRightPower, backLeftPower, backRightPower)
         var maxSpeed = 1.0
+
         for (i in powers) {
             maxSpeed = max(maxSpeed, abs(i))
         }
-        for (i in 0..3) {
+
+        for (i in powers.indices) {
             powers[i] /= maxSpeed
         }
-        wheel[0]?.power = powers[0]
-        wheel[1]?.power = powers[1]
-        wheel[2]?.power = powers[2]
-        wheel[3]?.power = powers[3]
+
+        for (i in powers.indices) {
+            driveBase[i]?.power = powers[i]
+        }
     }
 
     fun setRot(pos: Int) {
