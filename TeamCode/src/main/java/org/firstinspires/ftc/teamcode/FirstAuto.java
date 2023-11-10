@@ -72,6 +72,7 @@ public class FirstAuto extends LinearOpMode {
         }
 
         if (opModeIsActive()) {
+            try{
             if (spikeSpot == 0) {
                 board.getEyes().getVisionPortal().resumeStreaming();
                 board.posRun(100);
@@ -86,6 +87,9 @@ public class FirstAuto extends LinearOpMode {
                 board.posRunSide(-100);
                 while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
                 }
+                board.getEyes().getVisionPortal().stopStreaming();
+            }} catch (Throwable e){
+                telemetry.addLine("Trouble with camera because " + e);
             }
             if(spikeSpot == 1) {
                 board.posRun(200);
