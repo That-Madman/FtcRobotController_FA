@@ -72,29 +72,28 @@ public class FirstAuto extends LinearOpMode {
         }
 
         if (opModeIsActive()) {
-            try{
-            if (spikeSpot == 0) {
-                board.getEyes().getVisionPortal().resumeStreaming();
-                board.posRun(100);
-                while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
+            try {
+                if (spikeSpot == 0) {
+                    board.getEyes().getVisionPortal().resumeStreaming();
+                    board.posRun(100);
+                    while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
+                    }
+
+                    board.posRunSide(100);
+
+                    if (board.getEyes().getTfod().getRecognitions().size() != 0) spikeSpot = 3;
+                    else spikeSpot = 1;
+
+                    board.posRunSide(-100);
+                    while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
+                    }
+                    board.getEyes().getVisionPortal().stopStreaming();
                 }
-
-                board.posRunSide(100);
-
-                if (board.getEyes().getTfod().getRecognitions().size() != 0) spikeSpot = 3;
-                else spikeSpot = 1;
-
-                board.posRunSide(-100);
-                while (board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110) {
-                }
-                board.getEyes().getVisionPortal().stopStreaming();
-            }} catch (Throwable e){
+            } catch (Throwable e) {
                 telemetry.addLine("Trouble with camera because " + e);
             }
-            if(spikeSpot == 1) {
-                board.posRun(200);
-                board.setIntake(-1);
-                sleep(1000);
+            if (spikeSpot == 2) {
+
             }
         }
     }
