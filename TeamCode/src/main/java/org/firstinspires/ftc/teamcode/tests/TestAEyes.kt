@@ -15,9 +15,7 @@ class TestAEyes : OpMode() {
     override fun init() {
         try {
             eyes.initVision(hardwareMap)
-        } catch (e: Exception) {
-            telemetry.addData("Could not access hardware because ", e)
-        } catch (e: Error) {
+        } catch (e: Throwable) {
             telemetry.addData("Could not access hardware because ", e)
         }
     }
@@ -28,11 +26,9 @@ class TestAEyes : OpMode() {
             view!!.iterator().forEach {
                 telemetry.addLine("found: $it")
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
-        } catch (e: Error) {
-            telemetry.addData("Error in using camera because:", e)
-        }  //End of TensorFlow
+        } //End of TensorFlow
 
         try { //April tags
             if (eyes.april!!.detections.size > 0) {
@@ -44,11 +40,9 @@ class TestAEyes : OpMode() {
                 telemetry.addData("pitch", tag.ftcPose.pitch)
                 telemetry.addData("yaw", tag.ftcPose.yaw)
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             telemetry.addData("Issue with April Tags because ", e)
-        } catch (e: Error) {
-            telemetry.addData("Issue with April Tags because ", e)
-        }//end of April Tags
+        } //end of April Tags
     }
 
     override fun loop() {
@@ -57,11 +51,9 @@ class TestAEyes : OpMode() {
             view!!.iterator().forEach {
                 telemetry.addLine("found: $it")
             }
-        } catch (e: java.lang.Exception) {
+        } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
-        } catch (e: java.lang.Error) {
-            telemetry.addData("Error in using camera because:", e)
-        }  //End of TensorFlow
+        } //End of TensorFlow
 
         try { //April tags
             if (eyes.april!!.detections.size > 0) {
@@ -73,10 +65,8 @@ class TestAEyes : OpMode() {
                 telemetry.addData("pitch", tag.ftcPose.pitch)
                 telemetry.addData("yaw", tag.ftcPose.yaw)
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             telemetry.addData("Issue with April Tags because ", e)
-        } catch (e: Error) {
-            telemetry.addData("Issue with April Tags because ", e)
-        }//end of April Tags
+        } //end of April Tags
     }
 }
