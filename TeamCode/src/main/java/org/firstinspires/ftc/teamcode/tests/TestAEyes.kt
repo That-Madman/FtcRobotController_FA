@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.tests
 
 import autoThings.AEyes
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection
 
-
-@Autonomous(group = "Tests")
+@TeleOp(group = "Tests")
 class TestAEyes : OpMode() {
 
     private val eyes = AEyes()
