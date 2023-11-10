@@ -193,6 +193,8 @@ class Board {
 
     fun getHeading(unit: AngleUnit): Double = imu!!.robotYawPitchRollAngles.getYaw(unit)
 
+    fun resetIMU() = imu!!.resetYaw()
+
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
         var theta = atan2(forward, right)
