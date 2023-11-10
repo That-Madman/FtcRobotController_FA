@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection
 
 
-@Autonomous
+@Autonomous(group = "Tests")
 class TestAEyes : OpMode() {
 
     private val eyes = AEyes()
