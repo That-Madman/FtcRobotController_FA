@@ -62,6 +62,10 @@ public class FirstAuto extends LinearOpMode {
             } catch (Throwable e) {
                 telemetry.addData("Issue with April Tags because ", e);
             }
+            // figure out angle of your robot and the april tag from the x axis
+            // double angle =
+            // move the robot to be facing the april tag at a 0 degree angle
+            // move the robot so that it drives up to the scoring board
         }
         waitForStart();
 
