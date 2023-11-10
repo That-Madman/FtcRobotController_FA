@@ -137,7 +137,11 @@ class Board {
 
             try {
                 relatch()
-            } catch (_: Throwable) {
+            } catch (e: Throwable) {
+                if (telemetry != null) telemetry.addData(
+                    "Could not relatch launch servo because ",
+                    e
+                )
             }
         } catch (_: Throwable) {
             broken.add("Launch Servo")
