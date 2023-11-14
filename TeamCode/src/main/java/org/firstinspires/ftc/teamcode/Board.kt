@@ -219,6 +219,11 @@ class Board {
         slideMotor?.power = pow
     }
 
+    fun setSlideTar(pos: Int) {
+        slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
+        slideMotor?.targetPosition = pos
+    }
+
     fun setClaw(open: Boolean) {
         if (open) {
             dropper?.position = this.open

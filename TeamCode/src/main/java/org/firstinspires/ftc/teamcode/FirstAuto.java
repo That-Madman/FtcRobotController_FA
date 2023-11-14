@@ -126,7 +126,20 @@ public class FirstAuto extends LinearOpMode {
                     board.drive(0, 0, -1);
                 }
                 board.changeToPos();
+                double pos = board.getWheelPos(0);
                 // move the robot so that it drives up to the scoring board
+                board.posRun(-200);
+                while (!(board.getWheelPos(0) > pos - 210 && board.getWheelPos(0) < pos - 190)) {
+                }
+                board.posRunSide(-100);
+                while (!(board.getWheelPos(0) > pos - 310 && board.getWheelPos(0) < pos - 290)) {
+                }
+                board.posRun(-100);
+                board.setSlideTar(500);
+                while (!(board.getWheelPos(0) > pos - 410 && board.getWheelPos(0) < pos - 390)) {
+                }
+                board.setClaw(true);
+                board.setSlideTar(0);
             }
         }
     }
