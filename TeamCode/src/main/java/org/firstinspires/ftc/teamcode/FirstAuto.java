@@ -33,11 +33,7 @@ public class FirstAuto extends LinearOpMode {
                     if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                         if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 <= 240) {
                             spikeSpot = 1;
-                        } else if ((
-                                view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240
-                                &&
-                                (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480
-                        ) {
+                        } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240 && (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480) {
                             spikeSpot = 2;
                         } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 >= 480) {
                             spikeSpot = 3;
@@ -84,9 +80,17 @@ public class FirstAuto extends LinearOpMode {
                     }
 
                     board.posRunSide(100);
+                    while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
+                    }
 
                     if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-
+                        board.posRun(100);
+                        while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
+                        }
+                        board.setIntake(-1);
+                        board.posRun(-100);
+                        while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
+                        }
                     } else spikeSpot = 1;
 
                     board.posRunSide(-100);
@@ -98,7 +102,27 @@ public class FirstAuto extends LinearOpMode {
                 telemetry.addLine("Trouble with camera because " + e);
             }
             if (spikeSpot == 2) {
-                //todo fill in
+                board.posRun(200);
+                while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
+                }
+                board.setIntake(-1);
+                board.posRun(-200);
+                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                }
+            } else if (spikeSpot == 1) {
+                board.posRunSide(-100);
+                while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+                }
+                board.posRun(100);
+                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                }
+                board.setIntake(-1);
+                board.posRun(-100);
+                while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+                }
+                board.posRunSide(-100);
+                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                }
             }
         }
     }
