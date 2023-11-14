@@ -31,6 +31,8 @@ class Board {
     private var intakeServo: CRServo? = null
     private var intakeMotor: DcMotorImplEx? = null
 
+    private var hook: DcMotor? = null
+
     private var imu: IMU? = null
 
     private var launchServo: Servo? = null
@@ -109,6 +111,13 @@ class Board {
             }
         } catch (_: Throwable) {
             broken.add("Launch Servo")
+        }
+
+        try {
+            hook = hwMap.get(DcMotor::class.java, "hook")
+            hook!!.direction = Direction.FORWARD
+        } catch (_: Throwable) {
+            broken.add("Hook")
         }
 
         try {
