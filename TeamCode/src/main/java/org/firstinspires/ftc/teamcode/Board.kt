@@ -25,12 +25,8 @@ class Board {
 
     private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
-    private var armRotateMotor: DcMotorImplEx? = null
-    private var armRotateMotor2: DcMotorImplEx? = null
 
-    private var wrist: Array<Servo?> = arrayOfNulls(2)
-
-    private var claw: Servo? = null
+    private var dropper: Servo? = null
 
     private var intakeServo: CRServo? = null
     private var intakeMotor: DcMotorImplEx? = null
@@ -61,28 +57,6 @@ class Board {
         }
 
         try {
-            armRotateMotor = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor")
-            armRotateMotor?.direction = Direction.REVERSE
-            armRotateMotor?.targetPosition = 0
-            armRotateMotor?.power = 1.0
-            armRotateMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
-            armRotateMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        } catch (_: Throwable) {
-            broken.add("Arm Rotate Motor")
-        }
-
-        try {
-            armRotateMotor2 = hwMap.get(DcMotorImplEx::class.java, "armRotateMotor2")
-            armRotateMotor2?.direction = Direction.FORWARD
-            armRotateMotor2?.targetPosition = 0
-            armRotateMotor2?.power = 1.0
-            armRotateMotor2?.mode = DcMotor.RunMode.RUN_TO_POSITION
-            armRotateMotor2?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        } catch (_: Throwable) {
-            broken.add("Second Arm Rotate Motor")
-        }
-
-        try {
             driveBase[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
             driveBase[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
             driveBase[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
@@ -102,16 +76,7 @@ class Board {
         }
 
         try {
-            wrist[0] = hwMap.get(Servo::class.java, "wrist1")
-            wrist[1] = hwMap.get(Servo::class.java, "wrist2")
-
-            wrist[1]!!.direction = Servo.Direction.REVERSE
-        } catch (_: Throwable) {
-            broken.add("Wrist")
-        }
-
-        try {
-            claw = hwMap.get(Servo::class.java, "claw")
+            dropper = hwMap.get(Servo::class.java, "claw")
         } catch (_: Throwable) {
             broken.add("Claw")
         }
@@ -237,26 +202,16 @@ class Board {
         }
     }
 
-    fun setRot(pos: Int) {
-        armRotateMotor?.targetPosition = pos
-        armRotateMotor2?.targetPosition = pos
-    }
-
     fun setSlide(pow: Double) {
         slideMotor?.power = pow
     }
 
     fun setClaw(open: Boolean) {
         if (open) {
-            claw?.position = this.open
+            dropper?.position = this.open
         } else {
-            claw?.position = close
+            dropper?.position = close
         }
-    }
-
-    fun setWrist(position: Double) {
-        wrist[0]?.position = position
-        wrist[1]?.position = position
     }
 
     fun setIntake(speed: Double) {
