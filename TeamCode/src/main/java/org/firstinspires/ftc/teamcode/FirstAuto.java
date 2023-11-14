@@ -122,7 +122,7 @@ public class FirstAuto extends LinearOpMode {
                 // figure out angle of your robot and the april tag from the x axis
                 // move the robot to be facing the april tag at a 90 degree angle
                 board.changeToPow();
-                while (board.getHeading(AngleUnit.DEGREES) <= 90) {
+                while (board.getHeading(AngleUnit.DEGREES) <= 270) {
                     board.drive(0, 0, -1);
                 }
                 board.changeToPos();
