@@ -44,7 +44,6 @@ public class FirstTele extends OpMode {
         else if (gamepad2.dpad_up) rot += 10;
         if (rot >= 1880) rot = 1880;
         if (rot <= 0) rot = 0;
-        board.setRot(rot);
 
         board.setClaw(clawOpen);
 
@@ -52,7 +51,6 @@ public class FirstTele extends OpMode {
         if (gamepad2.right_bumper) wristRot -= 0.1;
         if (wristRot >= 1) wristRot = 1;
         if (wristRot <= 0) wristRot = 0;
-        board.setWrist(wristRot);
 
         slide = 0.5 * (gamepad2.right_trigger - gamepad2.left_trigger);
         board.setSlide(slide);
