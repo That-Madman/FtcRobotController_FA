@@ -72,10 +72,10 @@ public class FirstAuto extends LinearOpMode {
         }
 
         if (opModeIsActive()) {
+            board.posRun(100);
             try {
                 if (spikeSpot == 0) {
                     board.getEyes().getVisionPortal().resumeStreaming();
-                    board.posRun(100);
                     while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
                     }
 
