@@ -149,6 +149,10 @@ class Board {
         }
     }
 
+    fun changeToPow() {
+        for (wheel in driveBase) wheel?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+    }
+
     fun posRun(target: Int) {
         try {
             for (i in driveBase.indices) driveBase[i]!!.targetPosition += target

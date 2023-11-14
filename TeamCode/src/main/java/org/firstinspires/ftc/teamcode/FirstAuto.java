@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -81,27 +80,20 @@ public class FirstAuto extends LinearOpMode {
                     while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
                     }
 
-                        board.posRun(100);
-                        while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
-                        }
-                        board.setIntake(-1);
-                        board.posRun(-100);
-                        while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
-                        }
-                    } else spikeSpot = 1;
+                    board.posRun(100);
+                    while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
+                    }
+                    board.setIntake(-1);
+                    board.posRun(-100);
+                    while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
+                    }
+                } else spikeSpot = 1;
                 board.posRunSide(-100);
-                    while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
-                    }
-                    board.getEyes().getVisionPortal().stopStreaming();
+                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                }
+                board.getEyes().getVisionPortal().stopStreaming();
 
-                    // figure out angle of your robot and the april tag from the x axis
-                    double angle = board.getHeading(AngleUnit.DEGREES);
-                    // move the robot to be facing the april tag at a 90 degree angle
-                    while (angle <= 90){
-                        board.drive(0,0, -1);
-                    }
-                    // move the robot so that it drives up to the scoring board
-                } catch (Throwable e) {
+            } catch (Throwable e) {
                 telemetry.addLine("Trouble with camera because " + e);
             }
             if (spikeSpot == 2) {
@@ -126,6 +118,15 @@ public class FirstAuto extends LinearOpMode {
                 board.posRunSide(-100);
                 while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
                 }
+
+                // figure out angle of your robot and the april tag from the x axis
+                // move the robot to be facing the april tag at a 90 degree angle
+                board.changeToPow();
+                while (board.getHeading(AngleUnit.DEGREES) <= 90) {
+                    board.drive(0, 0, -1);
+                }
+                board.changeToPos();
+                // move the robot so that it drives up to the scoring board
             }
         }
     }
