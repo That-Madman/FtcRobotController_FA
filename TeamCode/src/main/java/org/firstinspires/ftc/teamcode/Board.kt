@@ -23,7 +23,7 @@ class Board {
     private val open: Double = 1.0
     private val close: Double = 0.0
 
-    public var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
+    private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
 
     private var dropper: Servo? = null
@@ -243,5 +243,9 @@ class Board {
 
     fun relatch() {
         launchServo?.position = 0.0
+    }
+
+    fun theHookBringsYouBack(pow: Double) {
+        hook?.power = pow
     }
 }
