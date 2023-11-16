@@ -125,7 +125,7 @@ class Board {
             imu?.initialize(
                 IMU.Parameters(
                     RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                         RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
                     )
                 )
