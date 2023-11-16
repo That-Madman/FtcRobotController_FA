@@ -31,14 +31,16 @@ public class FirstTele extends OpMode {
         if (gamepad2.a && !a2Held) clawOpen = !clawOpen;
 
         if (trueNorth) {
-            board.driveFieldRelative(-gamepad1.right_stick_y,
-                    gamepad1.right_stick_x,
-                    gamepad1.left_stick_x
+            board.driveFieldRelative(
+                    -gamepad1.right_stick_y,
+                     gamepad1.right_stick_x,
+                     gamepad1.left_stick_x
             );
         } else {
-            board.drive(-gamepad1.right_stick_y,
-                    gamepad1.right_stick_x,
-                    gamepad1.left_stick_x
+            board.drive(
+                    -gamepad1.right_stick_y,
+                     gamepad1.right_stick_x,
+                     gamepad1.left_stick_x
             );
         }
 
