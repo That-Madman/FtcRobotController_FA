@@ -139,7 +139,7 @@ class PidBoard {
 
         try{
             for(i in driveBase.indices){
-                pid[i] = PID(1.0, 1.0, 1.0, {driveBase[i]!!.power})
+                pid[i] = PID(5.0, 0.0, 0.0, {driveBase[i]!!.power})
             }
         } catch(_ : Throwable){
             broken.add("The PIDs")
