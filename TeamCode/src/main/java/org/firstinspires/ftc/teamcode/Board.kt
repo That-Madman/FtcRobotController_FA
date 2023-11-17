@@ -79,6 +79,7 @@ class Board {
 
         try {
             dropper = hwMap.get(Servo::class.java, "claw")
+            dropper!!.position = 1.0
         } catch (_: Throwable) {
             broken.add("Claw")
         }
@@ -92,7 +93,7 @@ class Board {
 
         try {
             intakeServo = hwMap.get(CRServoImplEx::class.java, "intakeServo")
-            intakeServo?.direction = Direction.REVERSE
+            intakeServo?.direction = Direction.FORWARD
         } catch (_: Throwable) {
             broken.add("Intake Servo")
         }
@@ -101,7 +102,6 @@ class Board {
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
             launchServo?.direction = Servo.Direction.REVERSE
-
             try {
                 relatch()
             } catch (e: Throwable) {
