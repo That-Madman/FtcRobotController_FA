@@ -9,16 +9,12 @@ public class FirstTele extends OpMode {
 
     boolean trueNorth,
             y1Held,
-            clawOpen,
             a2Held,
             bumperLeftHeld,
             bumperRightHeld = false;
+    boolean clawOpen = true;
+    double inDir = 0;
 
-    double slide,
-            wristRot,
-            inDir = 0;
-
-    int rot = 0;
 
     @Override
     public void init() {
@@ -33,35 +29,25 @@ public class FirstTele extends OpMode {
         if (trueNorth) {
             board.driveFieldRelative(
                     -gamepad1.right_stick_y,
-                     gamepad1.right_stick_x,
-                     gamepad1.left_stick_x
+                    gamepad1.right_stick_x,
+                    gamepad1.left_stick_x
             );
         } else {
             board.drive(
                     -gamepad1.right_stick_y,
-                     gamepad1.right_stick_x,
-                     gamepad1.left_stick_x
+                    gamepad1.right_stick_x,
+                    gamepad1.left_stick_x
             );
         }
 
-        if (gamepad2.dpad_down) rot -= 10;
-        else if (gamepad2.dpad_up) rot += 10;
-        if (rot >= 1880) rot = 1880;
-        if (rot <= 0) rot = 0;
-
         board.setClaw(clawOpen);
 
-        if (gamepad2.left_bumper) wristRot += 0.1;
-        if (gamepad2.right_bumper) wristRot -= 0.1;
-        if (wristRot >= 1) wristRot = 1;
-        if (wristRot <= 0) wristRot = 0;
 
-        slide = 0.5 * (gamepad2.right_trigger - gamepad2.left_trigger);
-        board.setSlide(slide);
+        board.setSlide(gamepad2.right_trigger - gamepad2.left_trigger);
 
-        if (gamepad1.right_bumper && bumperRightHeld) {
+        if (gamepad1.right_bumper && !bumperRightHeld) {
             inDir = 1.0;
-        } else if (gamepad1.left_bumper && bumperLeftHeld) {
+        } else if (gamepad1.left_bumper && !bumperLeftHeld) {
             inDir = -1.0;
         } else if ((gamepad1.right_bumper && !bumperRightHeld && inDir == 1.0)
                 || (gamepad1.left_bumper && !bumperLeftHeld && inDir == -1.0)) {
