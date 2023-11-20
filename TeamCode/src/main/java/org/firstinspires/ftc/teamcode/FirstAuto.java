@@ -65,9 +65,11 @@ public class FirstAuto extends LinearOpMode {
             } catch (Throwable e) {
                 telemetry.addData("Issue with April Tags because ", e);
             }
+            telemetry.update();
         }
         waitForStart();
-        while (opModeIsActive()) {
+
+        while (opModeIsActive() && !isStopRequested()) {
             try {
                 board.getEyes().getVisionPortal().stopStreaming();
             } catch (Throwable e) {
@@ -160,7 +162,6 @@ public class FirstAuto extends LinearOpMode {
                 board.setSlideTar(0);
                 break;
             }
-
         }
     }
 }
