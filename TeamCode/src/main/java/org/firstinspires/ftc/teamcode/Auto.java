@@ -78,8 +78,8 @@ public class Auto extends OpMode {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
         board.posRun(moveSize);
-        while (!(board.getWheelPos(1) > moveSize - 10
-                && board.getWheelPos(1) < moveSize + 10)) {
+        while (!(board.getWheelPos(0) > moveSize - 10
+                && board.getWheelPos(0) < moveSize + 10)) {
         }
 
         if (spikeSpot == 0) {
@@ -90,51 +90,51 @@ public class Auto extends OpMode {
             }
 
             board.posRunSide(moveSize);
-            while (!(board.getWheelPos(1) > moveSize(2) - 10
-                    && board.getWheelPos(1) < moveSize(2) + 10)) {
+            while (!(board.getWheelPos(0) > moveSize(2) - 10
+                    && board.getWheelPos(0) < moveSize(2) + 10)) {
             }
 
             board.posRun(moveSize);
-            while (!(board.getWheelPos(1) > moveSize(3) - 10
-                    && board.getWheelPos(1) < moveSize(3) + 10)) {
+            while (!(board.getWheelPos(0) > moveSize(3) - 10
+                    && board.getWheelPos(0) < moveSize(3) + 10)) {
             }
             board.setIntake(-1);
             board.posRun(-moveSize);
-            while (!(board.getWheelPos(1) > moveSize(2) - 10
-                    && board.getWheelPos(1) < moveSize(2) + 10)) {
+            while (!(board.getWheelPos(0) > moveSize(2) - 10
+                    && board.getWheelPos(0) < moveSize(2) + 10)) {
             }
         } else spikeSpot = 1;
         board.posRunSide(-moveSize);
-        while (!(board.getWheelPos(1) > moveSize - 10
-                && board.getWheelPos(1) < moveSize + 10)) {
+        while (!(board.getWheelPos(0) > moveSize - 10
+                && board.getWheelPos(0) < moveSize + 10)) {
         }
         board.getEyes().getVisionPortal().stopStreaming();
 
         if (spikeSpot == 2) {
             board.posRun(moveSize(2));
-            while (!(board.getWheelPos(1) > moveSize(3) - 10
-                    && board.getWheelPos(1) < moveSize(3) + 10)) {
+            while (!(board.getWheelPos(0) > moveSize(3) - 10
+                    && board.getWheelPos(0) < moveSize(3) + 10)) {
             }
             board.setIntake(-1);
             board.posRun(-moveSize(2));
-            while (!(board.getWheelPos(1) > moveSize - 10
-                    && board.getWheelPos(1) < moveSize + 10)) {
+            while (!(board.getWheelPos(0) > moveSize - 10
+                    && board.getWheelPos(0) < moveSize + 10)) {
             }
         } else if (spikeSpot == 1) {
             board.posRunSide(-moveSize);
-            while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+            while (!(board.getWheelPos(0) > -10 && board.getWheelPos(1) < 10)) {
             }
             board.posRun(moveSize);
-            while (!(board.getWheelPos(1) > moveSize - 10
-                    && board.getWheelPos(1) < moveSize + 10)) {
+            while (!(board.getWheelPos(0) > moveSize - 10
+                    && board.getWheelPos(0) < moveSize + 10)) {
             }
             board.setIntake(-1);
             board.posRun(-moveSize);
-            while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+            while (!(board.getWheelPos(0) > -10 && board.getWheelPos(1) < 10)) {
             }
             board.posRunSide(-100);
-            while (!(board.getWheelPos(1) > moveSize(-1) - 10
-                    && board.getWheelPos(1) < moveSize(-1) + 10)) {
+            while (!(board.getWheelPos(0) > moveSize(-1) - 10
+                    && board.getWheelPos(0) < moveSize(-1) + 10)) {
             }
         }
         // figure out angle of your robot and the april tag from the x axis
