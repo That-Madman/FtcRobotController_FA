@@ -14,6 +14,10 @@ public class FirstAuto extends LinearOpMode {
     Board board = new Board();
     int spikeSpot = 0;
 
+    int moveSize = 100;
+
+    int moveSize(int multiplier){return moveSize * multiplier;}
+
     public void runOpMode() {
         try {
             board.getHW(hardwareMap, telemetry);
@@ -69,27 +73,32 @@ public class FirstAuto extends LinearOpMode {
         }
 
         if (opModeIsActive()) {
-            board.posRun(100);
+            board.posRun(moveSize);
             try {
                 if (spikeSpot == 0) {
                     board.getEyes().getVisionPortal().resumeStreaming();
-                    while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                    while (!(board.getWheelPos(1) > moveSize - 10
+                            && board.getWheelPos(1) < moveSize + 10)) {
                     }
 
-                    board.posRunSide(100);
-                    while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
+                    board.posRunSide(moveSize);
+                    while (!(board.getWheelPos(1) > moveSize(2) - 10
+                            && board.getWheelPos(1) < moveSize(2) + 10)) {
                     }
 
-                    board.posRun(100);
-                    while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
+                    board.posRun(moveSize);
+                    while (!(board.getWheelPos(1) > moveSize(3) - 10
+                            && board.getWheelPos(1) < moveSize(3) + 10)) {
                     }
                     board.setIntake(-1);
-                    board.posRun(-100);
-                    while (!(board.getWheelPos(1) > 190 && board.getWheelPos(1) < 210)) {
+                    board.posRun(-moveSize);
+                    while (!(board.getWheelPos(1) > moveSize(2) -10
+                            && board.getWheelPos(1) < moveSize(2) + 10)) {
                     }
                 } else spikeSpot = 1;
-                board.posRunSide(-100);
-                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                board.posRunSide(-moveSize);
+                while (!(board.getWheelPos(1) > moveSize - 10
+                        && board.getWheelPos(1) < moveSize + 10)) {
                 }
                 board.getEyes().getVisionPortal().stopStreaming();
 
@@ -97,26 +106,30 @@ public class FirstAuto extends LinearOpMode {
                 telemetry.addLine("Trouble with camera because " + e);
             }
             if (spikeSpot == 2) {
-                board.posRun(200);
-                while (!(board.getWheelPos(1) > 290 && board.getWheelPos(1) < 310)) {
+                board.posRun(moveSize(2));
+                while (!(board.getWheelPos(1) > moveSize(3) - 10
+                        && board.getWheelPos(1) < moveSize(3) + 10)) {
                 }
                 board.setIntake(-1);
-                board.posRun(-200);
-                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                board.posRun(-moveSize(2));
+                while (!(board.getWheelPos(1) > moveSize - 10
+                         && board.getWheelPos(1) < moveSize + 10)) {
                 }
             } else if (spikeSpot == 1) {
-                board.posRunSide(-100);
+                board.posRunSide(-moveSize);
                 while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
                 }
-                board.posRun(100);
-                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                board.posRun(moveSize);
+                while (!(board.getWheelPos(1) > moveSize - 10
+                        && board.getWheelPos(1) < moveSize + 10)) {
                 }
                 board.setIntake(-1);
-                board.posRun(-100);
+                board.posRun(-moveSize);
                 while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
                 }
                 board.posRunSide(-100);
-                while (!(board.getWheelPos(1) > 90 && board.getWheelPos(1) < 110)) {
+                while (!(board.getWheelPos(1) > moveSize(-1) - 10
+                        && board.getWheelPos(1) < moveSize(-1) + 10)) {
                 }
 
                 // figure out angle of your robot and the april tag from the x axis
@@ -128,15 +141,18 @@ public class FirstAuto extends LinearOpMode {
                 board.changeToPos();
                 double pos = board.getWheelPos(0);
                 // move the robot so that it drives up to the scoring board
-                board.posRun(-200);
-                while (!(board.getWheelPos(0) > pos - 210 && board.getWheelPos(0) < pos - 190)) {
+                board.posRun(-moveSize(2));
+                while (!(board.getWheelPos(0) > pos - (moveSize(2) + 10)
+                        && board.getWheelPos(0) < pos - (moveSize(2) - 10))) {
                 }
-                board.posRunSide(-100);
-                while (!(board.getWheelPos(0) > pos - 310 && board.getWheelPos(0) < pos - 290)) {
+                board.posRunSide(-moveSize);
+                while (!(board.getWheelPos(0) > pos - (moveSize(3) + 10)
+                        && board.getWheelPos(0) < pos - (moveSize(3) - 10))) {
                 }
-                board.posRun(-100);
+                board.posRun(-moveSize);
                 board.setSlideTar(500);
-                while (!(board.getWheelPos(0) > pos - 410 && board.getWheelPos(0) < pos - 390)) {
+                while (!(board.getWheelPos(0) > pos - (moveSize(4) + 10)
+                        && board.getWheelPos(0) < pos - (moveSize(4) - 10))) {
                 }
                 board.setClaw(true);
                 board.setSlideTar(0);
