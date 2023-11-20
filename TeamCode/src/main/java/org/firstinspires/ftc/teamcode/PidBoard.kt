@@ -222,7 +222,7 @@ class PidBoard {
         }
 
         for (i in powers.indices) {
-            driveBase[i]?.power = pid[i]!!.pidCalc(powers[i])
+            driveBase[i]?.velocity = pid[i]!!.pidCalc(powers[i])
         }
     }
 
