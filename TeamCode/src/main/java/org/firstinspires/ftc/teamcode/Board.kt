@@ -160,7 +160,7 @@ class Board {
 
     fun posRun(target: Int) {
         try {
-            for (i in driveBase.indices) if (i == 1 || i == 3) driveBase[i]!!.targetPosition += target
+            for (i in driveBase.indices) driveBase[i]!!.targetPosition = target
         } catch (_: Throwable) {
         }
     }
@@ -179,6 +179,14 @@ class Board {
         AngleUnit.normalizeDegrees(getHeading(AngleUnit.DEGREES))
 
     fun resetIMU() = imu!!.resetYaw()
+    fun resetWheels() {
+        val bool = driveBase[0]!!.mode == DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        for (i in driveBase.indices) {
+            driveBase[i]!!.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+            if (bool) driveBase[i]!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+            else driveBase[i]!!.mode = DcMotor.RunMode.RUN_TO_POSITION
+        }
+    }
 
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)

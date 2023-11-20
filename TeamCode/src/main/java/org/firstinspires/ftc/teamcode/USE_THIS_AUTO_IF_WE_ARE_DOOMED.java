@@ -6,11 +6,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous
 public class USE_THIS_AUTO_IF_WE_ARE_DOOMED extends LinearOpMode {
     Board board = new Board();
+    int pos = 1500;
+
     @Override
     public void runOpMode() throws InterruptedException {
         board.getHW(hardwareMap, telemetry);
         board.changeToPos();
         waitForStart();
-        board.posRunSide(500);
+        board.resetWheels();
+        board.posRunSide(pos);
+        while ((board.getWheelPos(0) <= pos)
+                && (board.getWheelPos(1) <= pos)
+                && (board.getWheelPos(2) <= pos)
+                && (board.getWheelPos(3) <= pos)
+                && !isStopRequested()) {
+        }
     }
 }
