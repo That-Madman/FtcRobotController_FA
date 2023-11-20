@@ -143,6 +143,7 @@ class Board {
 
     fun changeToPos() {
         for (wheel in driveBase) {
+            wheel?.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
             wheel?.targetPosition = 0
             wheel?.power = 0.5
             wheel?.mode = DcMotor.RunMode.RUN_TO_POSITION
@@ -170,6 +171,8 @@ class Board {
     fun getWheelPos(index: Int): Int = driveBase[index]!!.targetPosition
 
     fun getHeading(unit: AngleUnit): Double = imu!!.robotYawPitchRollAngles.getYaw(unit)
+    fun getNormalizedDegrees(): Double =
+        AngleUnit.normalizeDegrees(getHeading(AngleUnit.DEGREES))
 
     fun resetIMU() = imu!!.resetYaw()
 

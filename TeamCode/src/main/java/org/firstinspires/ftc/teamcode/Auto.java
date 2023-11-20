@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
+@Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
     int spikeSpot = 0;
@@ -138,8 +139,9 @@ public class Auto extends OpMode {
         // figure out angle of your robot and the april tag from the x axis
         // move the robot to be facing the april tag at a 90 degree angle
         board.changeToPow();
-        while (board.getHeading(AngleUnit.DEGREES) <= 270) {
+        while (board.getNormalizedDegrees() <= 270) {
             board.drive(0, 0, -1);
+            telemetry.addData("current angle = ", board.getNormalizedDegrees());
         }
         board.changeToPos();
         double pos = board.getWheelPos(0);
