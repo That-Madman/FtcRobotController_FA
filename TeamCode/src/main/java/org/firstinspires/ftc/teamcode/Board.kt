@@ -148,6 +148,10 @@ class Board {
             wheel?.power = 0.5
             wheel?.mode = DcMotor.RunMode.RUN_TO_POSITION
         }
+        driveBase[0]?.direction = Direction.REVERSE
+        driveBase[1]?.direction = Direction.FORWARD
+        driveBase[2]?.direction = Direction.REVERSE
+        driveBase[3]?.direction = Direction.FORWARD
     }
 
     fun changeToPow() {
@@ -156,16 +160,16 @@ class Board {
 
     fun posRun(target: Int) {
         try {
-            for (i in driveBase.indices) driveBase[i]!!.targetPosition += target
+            for (i in driveBase.indices) if (i == 1 || i == 3) driveBase[i]!!.targetPosition += target
         } catch (_: Throwable) {
         }
     }
 
     fun posRunSide(target: Int) {
-        driveBase[0]!!.targetPosition -= target
-        driveBase[1]!!.targetPosition += target
-        driveBase[2]!!.targetPosition += target
-        driveBase[3]!!.targetPosition -= target
+        driveBase[0]!!.targetPosition += target
+        driveBase[1]!!.targetPosition -= target
+        driveBase[2]!!.targetPosition -= target
+        driveBase[3]!!.targetPosition += target
     }
 
     fun getWheelPos(index: Int): Int = driveBase[index]!!.targetPosition

@@ -78,37 +78,38 @@ public class Auto extends OpMode {
             telemetry.addData("Problem ending vision portal because: ", e);
         }
         board.posRun(moveSize);
-        try {
-            if (spikeSpot == 0) {
-                board.getEyes().getVisionPortal().resumeStreaming();
-                while (!(board.getWheelPos(1) > moveSize - 10
-                        && board.getWheelPos(1) < moveSize + 10)) {
-                }
-
-                board.posRunSide(moveSize);
-                while (!(board.getWheelPos(1) > moveSize(2) - 10
-                        && board.getWheelPos(1) < moveSize(2) + 10)) {
-                }
-
-                board.posRun(moveSize);
-                while (!(board.getWheelPos(1) > moveSize(3) - 10
-                        && board.getWheelPos(1) < moveSize(3) + 10)) {
-                }
-                board.setIntake(-1);
-                board.posRun(-moveSize);
-                while (!(board.getWheelPos(1) > moveSize(2) - 10
-                        && board.getWheelPos(1) < moveSize(2) + 10)) {
-                }
-            } else spikeSpot = 1;
-            board.posRunSide(-moveSize);
-            while (!(board.getWheelPos(1) > moveSize - 10
-                    && board.getWheelPos(1) < moveSize + 10)) {
-            }
-            board.getEyes().getVisionPortal().stopStreaming();
-
-        } catch (Throwable e) {
-            telemetry.addLine("Trouble with camera because " + e);
+        while (!(board.getWheelPos(1) > moveSize - 10
+                && board.getWheelPos(1) < moveSize + 10)) {
         }
+
+        if (spikeSpot == 0) {
+            try {
+                board.getEyes().getVisionPortal().resumeStreaming();
+            } catch (Throwable e) {
+                telemetry.addLine("Trouble with camera because " + e);
+            }
+
+            board.posRunSide(moveSize);
+            while (!(board.getWheelPos(1) > moveSize(2) - 10
+                    && board.getWheelPos(1) < moveSize(2) + 10)) {
+            }
+
+            board.posRun(moveSize);
+            while (!(board.getWheelPos(1) > moveSize(3) - 10
+                    && board.getWheelPos(1) < moveSize(3) + 10)) {
+            }
+            board.setIntake(-1);
+            board.posRun(-moveSize);
+            while (!(board.getWheelPos(1) > moveSize(2) - 10
+                    && board.getWheelPos(1) < moveSize(2) + 10)) {
+            }
+        } else spikeSpot = 1;
+        board.posRunSide(-moveSize);
+        while (!(board.getWheelPos(1) > moveSize - 10
+                && board.getWheelPos(1) < moveSize + 10)) {
+        }
+        board.getEyes().getVisionPortal().stopStreaming();
+
         if (spikeSpot == 2) {
             board.posRun(moveSize(2));
             while (!(board.getWheelPos(1) > moveSize(3) - 10
