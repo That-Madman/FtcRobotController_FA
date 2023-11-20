@@ -16,7 +16,9 @@ public class FirstAuto extends LinearOpMode {
 
     int moveSize = 100;
 
-    int moveSize(int multiplier){return moveSize * multiplier;}
+    int moveSize(int multiplier) {
+        return moveSize * multiplier;
+    }
 
     public void runOpMode() {
         try {
@@ -30,7 +32,7 @@ public class FirstAuto extends LinearOpMode {
             telemetry.addData("Trouble with accessing wheels because ", e);
         }
 
-        while (!opModeIsActive()) {
+        while (!isStarted()) {
             if (spikeSpot == 0) { //start of TensorFlow
                 try {
                     List<Recognition> view = board.getEyes().getTfod().getRecognitions();
@@ -65,73 +67,73 @@ public class FirstAuto extends LinearOpMode {
             }
         }
         waitForStart();
-
-        try {
-            board.getEyes().getVisionPortal().stopStreaming();
-        } catch (Throwable e) {
-            telemetry.addData("Problem ending vision portal because: ", e);
-        }
-
-        if (opModeIsActive()) {
-            board.posRun(moveSize);
+        while (opModeIsActive()) {
             try {
-                if (spikeSpot == 0) {
-                    board.getEyes().getVisionPortal().resumeStreaming();
+                board.getEyes().getVisionPortal().stopStreaming();
+            } catch (Throwable e) {
+                telemetry.addData("Problem ending vision portal because: ", e);
+            }
+
+            if (opModeIsActive()) {
+                board.posRun(moveSize);
+                try {
+                    if (spikeSpot == 0) {
+                        board.getEyes().getVisionPortal().resumeStreaming();
+                        while (!(board.getWheelPos(1) > moveSize - 10
+                                && board.getWheelPos(1) < moveSize + 10)) {
+                        }
+
+                        board.posRunSide(moveSize);
+                        while (!(board.getWheelPos(1) > moveSize(2) - 10
+                                && board.getWheelPos(1) < moveSize(2) + 10)) {
+                        }
+
+                        board.posRun(moveSize);
+                        while (!(board.getWheelPos(1) > moveSize(3) - 10
+                                && board.getWheelPos(1) < moveSize(3) + 10)) {
+                        }
+                        board.setIntake(-1);
+                        board.posRun(-moveSize);
+                        while (!(board.getWheelPos(1) > moveSize(2) - 10
+                                && board.getWheelPos(1) < moveSize(2) + 10)) {
+                        }
+                    } else spikeSpot = 1;
+                    board.posRunSide(-moveSize);
                     while (!(board.getWheelPos(1) > moveSize - 10
                             && board.getWheelPos(1) < moveSize + 10)) {
                     }
+                    board.getEyes().getVisionPortal().stopStreaming();
 
-                    board.posRunSide(moveSize);
-                    while (!(board.getWheelPos(1) > moveSize(2) - 10
-                            && board.getWheelPos(1) < moveSize(2) + 10)) {
-                    }
-
-                    board.posRun(moveSize);
+                } catch (Throwable e) {
+                    telemetry.addLine("Trouble with camera because " + e);
+                }
+                if (spikeSpot == 2) {
+                    board.posRun(moveSize(2));
                     while (!(board.getWheelPos(1) > moveSize(3) - 10
                             && board.getWheelPos(1) < moveSize(3) + 10)) {
                     }
                     board.setIntake(-1);
-                    board.posRun(-moveSize);
-                    while (!(board.getWheelPos(1) > moveSize(2) -10
-                            && board.getWheelPos(1) < moveSize(2) + 10)) {
+                    board.posRun(-moveSize(2));
+                    while (!(board.getWheelPos(1) > moveSize - 10
+                            && board.getWheelPos(1) < moveSize + 10)) {
                     }
-                } else spikeSpot = 1;
-                board.posRunSide(-moveSize);
-                while (!(board.getWheelPos(1) > moveSize - 10
-                        && board.getWheelPos(1) < moveSize + 10)) {
+                } else if (spikeSpot == 1) {
+                    board.posRunSide(-moveSize);
+                    while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+                    }
+                    board.posRun(moveSize);
+                    while (!(board.getWheelPos(1) > moveSize - 10
+                            && board.getWheelPos(1) < moveSize + 10)) {
+                    }
+                    board.setIntake(-1);
+                    board.posRun(-moveSize);
+                    while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
+                    }
+                    board.posRunSide(-100);
+                    while (!(board.getWheelPos(1) > moveSize(-1) - 10
+                            && board.getWheelPos(1) < moveSize(-1) + 10)) {
+                    }
                 }
-                board.getEyes().getVisionPortal().stopStreaming();
-
-            } catch (Throwable e) {
-                telemetry.addLine("Trouble with camera because " + e);
-            }
-            if (spikeSpot == 2) {
-                board.posRun(moveSize(2));
-                while (!(board.getWheelPos(1) > moveSize(3) - 10
-                        && board.getWheelPos(1) < moveSize(3) + 10)) {
-                }
-                board.setIntake(-1);
-                board.posRun(-moveSize(2));
-                while (!(board.getWheelPos(1) > moveSize - 10
-                         && board.getWheelPos(1) < moveSize + 10)) {
-                }
-            } else if (spikeSpot == 1) {
-                board.posRunSide(-moveSize);
-                while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
-                }
-                board.posRun(moveSize);
-                while (!(board.getWheelPos(1) > moveSize - 10
-                        && board.getWheelPos(1) < moveSize + 10)) {
-                }
-                board.setIntake(-1);
-                board.posRun(-moveSize);
-                while (!(board.getWheelPos(1) > -10 && board.getWheelPos(1) < 10)) {
-                }
-                board.posRunSide(-100);
-                while (!(board.getWheelPos(1) > moveSize(-1) - 10
-                        && board.getWheelPos(1) < moveSize(-1) + 10)) {
-                }
-
                 // figure out angle of your robot and the april tag from the x axis
                 // move the robot to be facing the april tag at a 90 degree angle
                 board.changeToPow();
@@ -156,7 +158,9 @@ public class FirstAuto extends LinearOpMode {
                 }
                 board.setClaw(true);
                 board.setSlideTar(0);
+                break;
             }
+
         }
     }
 }
