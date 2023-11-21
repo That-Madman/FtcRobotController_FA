@@ -80,6 +80,7 @@ public class Auto extends OpMode {
         board.posRun(moveSize);
         while (!(board.getWheelPos(0) > moveSize - 10
                 && board.getWheelPos(0) < moveSize + 10)) {
+            telemetry.addData("pos ", board.getWheelPos(1));
         }
 
         if (spikeSpot == 0) {
@@ -89,10 +90,10 @@ public class Auto extends OpMode {
                 telemetry.addLine("Trouble with camera because " + e);
             }
 
-            board.posRunSide(moveSize);
-            while (!(board.getWheelPos(0) > moveSize(2) - 10
-                    && board.getWheelPos(0) < moveSize(2) + 10)) {
-            }
+//            board.posRunSide(moveSize);
+//            while (!(board.getWheelPos(0) > moveSize(2) - 10
+//                    && board.getWheelPos(0) < moveSize(2) + 10)) {
+//            }
 
             board.posRun(moveSize);
             while (!(board.getWheelPos(0) > moveSize(3) - 10
