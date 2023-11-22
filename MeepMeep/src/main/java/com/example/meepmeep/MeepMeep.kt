@@ -18,7 +18,8 @@ object MeepMeep {
                     Math.toRadians(180.0),
                     15.0)
                 .followTrajectorySequence { drive: DriveShim ->
-                    drive.trajectorySequenceBuilder(Pose2d(0.0, 0.0, 0.0))
+                    drive.trajectorySequenceBuilder(Pose2d(
+                        0.0, 0.0, 0.0))
                         .forward(30.0)
                         .turn(Math.toRadians(90.0))
                         .forward(30.0)
