@@ -18,7 +18,6 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
-    int spikeSpot = 0;
 
     SampleMecanumDrive drive;
     TrajectorySequence sequence;
@@ -42,37 +41,39 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
                 .addDisplacementMarker(() -> {
                     try {
-                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                             board.setIntake(-1);
                             wait(1000);
                             board.setIntake(0);
                         }
                         drive.turn(90);
-                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                             board.setIntake(-1);
                             wait(1000);
                             board.setIntake(0);
                         }
                         drive.turn(180 - 1e-6);
-                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                             board.setIntake(-1);
                             wait(1000);
                             board.setIntake(0);
                         }
                         drive.turn(90);
-                    } catch (Throwable e){
+                    } catch (Throwable e) {
                         telemetry.addData("Could not see because", e);
                     }
-                    })
+                })
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
                 .splineToConstantHeading(new Vector2d(-56.0, 50.0), toRadians(135.0))
                 .lineToConstantHeading(new Vector2d(-56.0, 12.0))
                 .lineToConstantHeading(new Vector2d(-55.0, 12.0))
                 .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
-                .lineToConstantHeading( new Vector2d(20.0, 0.0))
-                .addDisplacementMarker(() -> {})
+                .lineToConstantHeading(new Vector2d(20.0, 0.0))
+                .addDisplacementMarker(() -> {
+                })
                 .splineToSplineHeading(new Pose2d(50.0, 30.0, 0.0), 0.0)
-                .addDisplacementMarker(() -> {})
+                .addDisplacementMarker(() -> {
+                })
                 .lineToConstantHeading(new Vector2d(45.0, 30.0))
                 .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
                 .build();
@@ -82,26 +83,15 @@ public class Auto extends OpMode {
 
     @Override
     public void init_loop() {
-        if (spikeSpot == 0) { //start of TensorFlow
-            try {
-                List<Recognition> view = board.getEyes().getTfod().getRecognitions();
+        try { //start of TensorFlow
+            List<Recognition> view = board.getEyes().getTfod().getRecognitions();
 
-                if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                    if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 <= 240) {
-                        spikeSpot = 1;
-                    } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 > 240 && (view.get(0).getLeft() + view.get(0).getRight()) / 2 < 480) {
-                        spikeSpot = 2;
-                    } else if ((view.get(0).getLeft() + view.get(0).getRight()) / 2 >= 480) {
-                        spikeSpot = 3;
-                    }
-                }
-                telemetry.addData("spike found at:", (spikeSpot != 0) ? spikeSpot : "n/a");
-            } catch (Throwable e) {
-                telemetry.addData("Error in using camera because:", e);
-            }
+            view.forEach(thing -> telemetry.addData("found ", thing));
+        } catch (Throwable e) {
+            telemetry.addData("Error in using camera because:", e);
         } //end of tensorFlow
 
-        try { //April tags
+        try { //start of April tags
             if (board.getEyes().getApril().getDetections().size() > 0) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
 
@@ -114,7 +104,7 @@ public class Auto extends OpMode {
             }
         } catch (Throwable e) {
             telemetry.addData("Issue with April Tags because ", e);
-        }
+        } // end of April Tags
     }
 
     @Override
