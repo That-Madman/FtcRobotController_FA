@@ -12,13 +12,14 @@ object MeepMeep {
     fun main(args: Array<String>) {
         val meepMeep = MeepMeep(800)
         val myBot =
-            DefaultBotBuilder(meepMeep) // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+            DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(
-                    60.0,
-                    60.0,
-                    Math.toRadians(180.0),
-                    Math.toRadians(180.0),
-                    15.0)
+                    45.762138431627456,
+                    52.48291908330528,
+                    2.4920900344848635,
+                    185.04921600000003.toRadians(),
+                    14.97)
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(Pose2d(
                         -36.0, 61.0, 270.0.toRadians()))
