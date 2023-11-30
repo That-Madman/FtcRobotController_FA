@@ -7,11 +7,6 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.List;
-
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
@@ -25,8 +20,8 @@ public class Auto extends OpMode {
     @Override
     public void init() {
         try {
-            board.getHW(hardwareMap, telemetry);
             drive = new SampleMecanumDrive(hardwareMap);
+            board.getHW(hardwareMap, telemetry);
         } catch (Throwable e) {
             telemetry.addData("Could not access hardware because ", e);
         }
@@ -78,34 +73,36 @@ public class Auto extends OpMode {
                 .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
                 .build();
 
+        telemetry.addLine("compiled");
+        telemetry.update();
         drive.followTrajectorySequence(sequence);
     }
 
-    @Override
-    public void init_loop() {
-        try { //start of TensorFlow
-            List<Recognition> view = board.getEyes().getTfod().getRecognitions();
-
-            view.forEach(thing -> telemetry.addData("found ", thing));
-        } catch (Throwable e) {
-            telemetry.addData("Error in using camera because:", e);
-        } //end of tensorFlow
-
-        try { //start of April tags
-            if (board.getEyes().getApril().getDetections().size() > 0) {
-                AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
-
-                telemetry.addData("x", tag.ftcPose.x);
-                telemetry.addData("y", tag.ftcPose.y);
-                telemetry.addData("z", tag.ftcPose.z);
-                telemetry.addData("roll", tag.ftcPose.roll);
-                telemetry.addData("pitch", tag.ftcPose.pitch);
-                telemetry.addData("yaw", tag.ftcPose.yaw);
-            }
-        } catch (Throwable e) {
-            telemetry.addData("Issue with April Tags because ", e);
-        } // end of April Tags
-    }
+//    @Override
+//    public void init_loop() {
+//        try { //start of TensorFlow
+//            List<Recognition> view = board.getEyes().getTfod().getRecognitions();
+//
+//            view.forEach(thing -> telemetry.addData("found ", thing));
+//        } catch (Throwable e) {
+//            telemetry.addData("Error in using camera because:", e);
+//        } //end of tensorFlow
+//
+//        try { //start of April tags
+//            if (board.getEyes().getApril().getDetections().size() > 0) {
+//                AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
+//
+//                telemetry.addData("x", tag.ftcPose.x);
+//                telemetry.addData("y", tag.ftcPose.y);
+//                telemetry.addData("z", tag.ftcPose.z);
+//                telemetry.addData("roll", tag.ftcPose.roll);
+//                telemetry.addData("pitch", tag.ftcPose.pitch);
+//                telemetry.addData("yaw", tag.ftcPose.yaw);
+//            }
+//        } catch (Throwable e) {
+//            telemetry.addData("Issue with April Tags because ", e);
+//        } // end of April Tags
+//    }
 
     @Override
     public void loop() {

@@ -40,7 +40,7 @@ class Board {
     var eyes = AEyes()
 
     @JvmOverloads
-    fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null) {
+    fun getHW(hwMap: HardwareMap, auto: Boolean = false, telemetry: Telemetry? = null) {
         val broken = ArrayList<String>(0)
 
         try {
@@ -57,26 +57,26 @@ class Board {
         } catch (_: Throwable) {
             broken.add("slide Motor")
         }
+        if (!auto) {
+            try {
+                driveBase[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
+                driveBase[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
+                driveBase[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
+                driveBase[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
 
-        try {
-            driveBase[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
-            driveBase[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
-            driveBase[2] = hwMap.get(DcMotorImplEx::class.java, "backLeft")
-            driveBase[3] = hwMap.get(DcMotorImplEx::class.java, "backRight")
+                for (wheels in driveBase) {
+                    wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+                    wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+                }
 
-            for (wheels in driveBase) {
-                wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-                wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+                driveBase[0]?.direction = Direction.REVERSE
+                driveBase[1]?.direction = Direction.FORWARD
+                driveBase[2]?.direction = Direction.REVERSE
+                driveBase[3]?.direction = Direction.FORWARD
+            } catch (_: Throwable) {
+                broken.add("Drivebase")
             }
-
-            driveBase[0]?.direction = Direction.REVERSE
-            driveBase[1]?.direction = Direction.FORWARD
-            driveBase[2]?.direction = Direction.REVERSE
-            driveBase[3]?.direction = Direction.FORWARD
-        } catch (_: Throwable) {
-            broken.add("Drivebase")
         }
-
         try {
             dropper = hwMap.get(Servo::class.java, "claw")
             dropper!!.position = 1.0
