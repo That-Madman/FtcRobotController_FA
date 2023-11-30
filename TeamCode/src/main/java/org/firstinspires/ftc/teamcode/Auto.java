@@ -76,6 +76,7 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(45.0, 30.0))
                 .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
                 .build();
+
         drive.followTrajectorySequence(sequence);
     }
 
