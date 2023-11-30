@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Math.toRadians;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -8,21 +12,22 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
+import autoThings.roadRunner.drive.SampleMecanumDrive;
+import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
+
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
     int spikeSpot = 0;
 
-    int moveSize = 100;
-
-    int moveSize(int multiplier) {
-        return moveSize * multiplier;
-    }
+    SampleMecanumDrive drive;
+    TrajectorySequence sequence;
 
     @Override
     public void init() {
         try {
             board.getHW(hardwareMap, telemetry);
+            drive = new SampleMecanumDrive(hardwareMap);
         } catch (Throwable e) {
             telemetry.addData("Could not access hardware because ", e);
         }
@@ -31,7 +36,22 @@ public class Auto extends OpMode {
         } catch (Throwable e) {
             telemetry.addData("Trouble with accessing wheels because ", e);
         }
-
+        drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
+        sequence = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
+                .lineToConstantHeading(new Vector2d(-36.0, 35.0))
+                .addDisplacementMarker(() -> {})
+                .lineToConstantHeading(new Vector2d(-36.0, 40.0))
+                .splineToConstantHeading(new Vector2d(-56.0, 50.0), toRadians(135.0))
+                .lineToConstantHeading(new Vector2d(-56.0, 12.0))
+                .lineToConstantHeading(new Vector2d(-55.0, 12.0))
+                .splineTo(new Vector2d(-20.0, 0.0), toRadians(270.0))
+                .lineToConstantHeading( new Vector2d(20.0, 0.0))
+                .addDisplacementMarker(() -> {})
+                .splineToSplineHeading(new Pose2d(50.0, 30.0, 0.0), 0.0)
+                .addDisplacementMarker(() -> {})
+                .lineToConstantHeading(new Vector2d(45.0, 30.0))
+                .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
+                .build();
     }
 
     @Override
@@ -72,96 +92,5 @@ public class Auto extends OpMode {
 
     @Override
     public void loop() {
-        try {
-            board.getEyes().getVisionPortal().stopStreaming();
-        } catch (Throwable e) {
-            telemetry.addData("Problem ending vision portal because: ", e);
-        }
-        board.posRun(moveSize);
-        while (!(board.getWheelPos(0) > moveSize - 10
-                && board.getWheelPos(0) < moveSize + 10)) {
-            telemetry.addData("pos ", board.getWheelPos(1));
-        }
-
-        if (spikeSpot == 0) {
-            try {
-                board.getEyes().getVisionPortal().resumeStreaming();
-            } catch (Throwable e) {
-                telemetry.addLine("Trouble with camera because " + e);
-            }
-
-//            board.posRunSide(moveSize);
-//            while (!(board.getWheelPos(0) > moveSize(2) - 10
-//                    && board.getWheelPos(0) < moveSize(2) + 10)) {
-//            }
-
-            board.posRun(moveSize);
-            while (!(board.getWheelPos(0) > moveSize(3) - 10
-                    && board.getWheelPos(0) < moveSize(3) + 10)) {
-            }
-            board.setIntake(-1);
-            board.posRun(-moveSize);
-            while (!(board.getWheelPos(0) > moveSize(2) - 10
-                    && board.getWheelPos(0) < moveSize(2) + 10)) {
-            }
-        } else spikeSpot = 1;
-        board.posRunSide(-moveSize);
-        while (!(board.getWheelPos(0) > moveSize - 10
-                && board.getWheelPos(0) < moveSize + 10)) {
-        }
-        board.getEyes().getVisionPortal().stopStreaming();
-
-        if (spikeSpot == 2) {
-            board.posRun(moveSize(2));
-            while (!(board.getWheelPos(0) > moveSize(3) - 10
-                    && board.getWheelPos(0) < moveSize(3) + 10)) {
-            }
-            board.setIntake(-1);
-            board.posRun(-moveSize(2));
-            while (!(board.getWheelPos(0) > moveSize - 10
-                    && board.getWheelPos(0) < moveSize + 10)) {
-            }
-        } else if (spikeSpot == 1) {
-            board.posRunSide(-moveSize);
-            while (!(board.getWheelPos(0) > -10 && board.getWheelPos(1) < 10)) {
-            }
-            board.posRun(moveSize);
-            while (!(board.getWheelPos(0) > moveSize - 10
-                    && board.getWheelPos(0) < moveSize + 10)) {
-            }
-            board.setIntake(-1);
-            board.posRun(-moveSize);
-            while (!(board.getWheelPos(0) > -10 && board.getWheelPos(1) < 10)) {
-            }
-            board.posRunSide(-100);
-            while (!(board.getWheelPos(0) > moveSize(-1) - 10
-                    && board.getWheelPos(0) < moveSize(-1) + 10)) {
-            }
-        }
-        // figure out angle of your robot and the april tag from the x axis
-        // move the robot to be facing the april tag at a 90 degree angle
-        board.changeToPow();
-        while (board.getNormalizedDegrees() <= 270) {
-            board.drive(0, 0, -1);
-            telemetry.addData("current angle = ", board.getNormalizedDegrees());
-        }
-        board.changeToPos();
-        double pos = board.getWheelPos(0);
-        // move the robot so that it drives up to the scoring board
-        board.posRun(-moveSize(2));
-        while (!(board.getWheelPos(0) > pos - (moveSize(2) + 10)
-                && board.getWheelPos(0) < pos - (moveSize(2) - 10))) {
-        }
-        board.posRunSide(-moveSize);
-        while (!(board.getWheelPos(0) > pos - (moveSize(3) + 10)
-                && board.getWheelPos(0) < pos - (moveSize(3) - 10))) {
-        }
-        board.posRun(-moveSize);
-        board.setSlideTar(500);
-        while (!(board.getWheelPos(0) > pos - (moveSize(4) + 10)
-                && board.getWheelPos(0) < pos - (moveSize(4) - 10))) {
-        }
-        board.setClaw(true);
-        board.setSlideTar(0);
     }
 }
