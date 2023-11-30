@@ -39,12 +39,35 @@ public class Auto extends OpMode {
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
         sequence = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
-                .addDisplacementMarker(() -> {})
+                .addDisplacementMarker(() -> {
+                    try {
+                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                            board.setIntake(-1);
+                            wait(1000);
+                            board.setIntake(0);
+                        }
+                        drive.turn(90);
+                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                            board.setIntake(-1);
+                            wait(1000);
+                            board.setIntake(0);
+                        }
+                        drive.turn(180 - 1e-6);
+                        if(board.getEyes().getTfod().getRecognitions().size() != 0){
+                            board.setIntake(-1);
+                            wait(1000);
+                            board.setIntake(0);
+                        }
+                        drive.turn(90);
+                    } catch (Throwable e){
+                        telemetry.addData("Could not see because", e);
+                    }
+                    })
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
                 .splineToConstantHeading(new Vector2d(-56.0, 50.0), toRadians(135.0))
                 .lineToConstantHeading(new Vector2d(-56.0, 12.0))
                 .lineToConstantHeading(new Vector2d(-55.0, 12.0))
-                .splineTo(new Vector2d(-20.0, 0.0), toRadians(270.0))
+                .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
                 .lineToConstantHeading( new Vector2d(20.0, 0.0))
                 .addDisplacementMarker(() -> {})
                 .splineToSplineHeading(new Pose2d(50.0, 30.0, 0.0), 0.0)
@@ -52,6 +75,7 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(45.0, 30.0))
                 .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
                 .build();
+        drive.followTrajectorySequence(sequence);
     }
 
     @Override
@@ -74,6 +98,7 @@ public class Auto extends OpMode {
                 telemetry.addData("Error in using camera because:", e);
             }
         } //end of tensorFlow
+
         try { //April tags
             if (board.getEyes().getApril().getDetections().size() > 0) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
@@ -92,5 +117,6 @@ public class Auto extends OpMode {
 
     @Override
     public void loop() {
+        drive.update();
     }
 }
