@@ -37,6 +37,7 @@ public class Auto extends OpMode {
             telemetry.addData("Trouble with accessing wheels because ", e);
         }
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
+
         sequence = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
                 .addDisplacementMarker(() -> {
