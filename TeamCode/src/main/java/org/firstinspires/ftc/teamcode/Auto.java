@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
@@ -75,34 +77,33 @@ public class Auto extends OpMode {
 
         telemetry.addLine("compiled");
         telemetry.update();
-        drive.followTrajectorySequence(sequence);
+        drive.followTrajectorySequenceAsync(sequence);
     }
 
-//    @Override
-//    public void init_loop() {
-//        try { //start of TensorFlow
-//            List<Recognition> view = board.getEyes().getTfod().getRecognitions();
-//
-//            view.forEach(thing -> telemetry.addData("found ", thing));
-//        } catch (Throwable e) {
-//            telemetry.addData("Error in using camera because:", e);
-//        } //end of tensorFlow
-//
-//        try { //start of April tags
-//            if (board.getEyes().getApril().getDetections().size() > 0) {
-//                AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
-//
-//                telemetry.addData("x", tag.ftcPose.x);
-//                telemetry.addData("y", tag.ftcPose.y);
-//                telemetry.addData("z", tag.ftcPose.z);
-//                telemetry.addData("roll", tag.ftcPose.roll);
-//                telemetry.addData("pitch", tag.ftcPose.pitch);
-//                telemetry.addData("yaw", tag.ftcPose.yaw);
-//            }
-//        } catch (Throwable e) {
-//            telemetry.addData("Issue with April Tags because ", e);
-//        } // end of April Tags
-//    }
+    @Override
+    public void init_loop() {
+        try { //start of TensorFlow
+            board.getEyes().getTfod().getRecognitions()
+                    .forEach(thing -> telemetry.addLine("found " + thing));
+        } catch (Throwable e) {
+            telemetry.addData("Error in using camera because:", e);
+        } //end of tensorFlow
+
+        try { //start of April tags
+            if (board.getEyes().getApril().getDetections().size() > 0) {
+                AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
+
+                telemetry.addData("x", tag.ftcPose.x);
+                telemetry.addData("y", tag.ftcPose.y);
+                telemetry.addData("z", tag.ftcPose.z);
+                telemetry.addData("roll", tag.ftcPose.roll);
+                telemetry.addData("pitch", tag.ftcPose.pitch);
+                telemetry.addData("yaw", tag.ftcPose.yaw);
+            }
+        } catch (Throwable e) {
+            telemetry.addData("Issue with April Tags because ", e);
+        } // end of April Tags
+    }
 
     @Override
     public void loop() {
