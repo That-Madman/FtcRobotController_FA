@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -21,9 +22,10 @@ public class Auto extends OpMode {
 
     @Override
     public void init() {
+        drive = new SampleMecanumDrive(hardwareMap);
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         try {
-            drive = new SampleMecanumDrive(hardwareMap);
-            board.getHW(hardwareMap, telemetry);
+            board.getHW(hardwareMap, telemetry, true);
         } catch (Throwable e) {
             telemetry.addData("Could not access hardware because ", e);
         }
@@ -35,43 +37,46 @@ public class Auto extends OpMode {
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
 
         sequence = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(
+                        40,
+                        1.5,
+                        14.97))
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
-                .addDisplacementMarker(() -> {
-                    try {
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
-                        }
-                        drive.turn(90);
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
-                        }
-                        drive.turn(180 - 1e-6);
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
-                        }
-                        drive.turn(90);
-                    } catch (Throwable e) {
-                        telemetry.addData("Could not see because", e);
-                    }
-                })
+//                .addDisplacementMarker(() -> {
+//                    try {
+//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+//                            board.setIntake(-1);
+//                            wait(1000);
+//                            board.setIntake(0);
+//                        }
+//                        drive.turn(90);
+//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+//                            board.setIntake(-1);
+//                            wait(1000);
+//                            board.setIntake(0);
+//                        }
+//                        drive.turn(180 - 1e-6);
+//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+//                            board.setIntake(-1);
+//                            wait(1000);
+//                            board.setIntake(0);
+//                        }
+//                        drive.turn(90);
+//                    } catch (Throwable e) {
+//                        telemetry.addData("Could not see because", e);
+//                    }
+//                })
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
-                .splineToConstantHeading(new Vector2d(-56.0, 50.0), toRadians(135.0))
-                .lineToConstantHeading(new Vector2d(-56.0, 12.0))
-                .lineToConstantHeading(new Vector2d(-55.0, 12.0))
+                .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
+                .lineToConstantHeading(new Vector2d(-53.0, 12.0))
                 .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
                 .lineToConstantHeading(new Vector2d(20.0, 0.0))
-                .addDisplacementMarker(() -> {
-                })
+//                .addDisplacementMarker(() -> {
+//                })
                 .splineToSplineHeading(new Pose2d(50.0, 30.0, 0.0), 0.0)
-                .addDisplacementMarker(() -> {
-                })
-                .lineToConstantHeading(new Vector2d(45.0, 30.0))
+//                .addDisplacementMarker(() -> {
+//                })
+                .lineToConstantHeading(new Vector2d(45.0, 25.0))
                 .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
                 .build();
 
