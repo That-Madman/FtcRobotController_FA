@@ -42,7 +42,8 @@ public class Auto extends OpMode {
                         1.5,
                         14.97))
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
-//                .addDisplacementMarker(() -> {
+                .addDisplacementMarker(() -> {
+                    // TODO figure out how to make this work
 //                    try {
 //                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
 //                            board.setIntake(-1);
@@ -65,7 +66,7 @@ public class Auto extends OpMode {
 //                    } catch (Throwable e) {
 //                        telemetry.addData("Could not see because", e);
 //                    }
-//                })
+                })
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
                 .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
                 .lineToConstantHeading(new Vector2d(-53.0, 12.0))
