@@ -19,23 +19,23 @@ object MeepMeep {
                     52.48291908330528,
                     2.4920900344848635,
                     185.04921600000003.toRadians(),
-                    14.97)
+                    14.97
+                )
                 .followTrajectorySequence { drive: DriveShim ->
-                    drive.trajectorySequenceBuilder(Pose2d(
-                        -36.0, 61.0, 270.0.toRadians()))
+                    drive.trajectorySequenceBuilder(
+                        Pose2d(
+                            -36.0, 61.0, 270.0.toRadians()
+                        )
+                    )
                         .lineToConstantHeading(Vector2d(-36.0, 35.0))
-                        .addDisplacementMarker{}
                         .lineToConstantHeading(Vector2d(-36.0, 40.0))
-                        .splineToConstantHeading(Vector2d(-56.0, 50.0), 135.0.toRadians())
-                        .lineToConstantHeading(Vector2d(-56.0, 12.0))
-                        .lineToConstantHeading(Vector2d(-55.0, 12.0))
+                        .splineToConstantHeading(Vector2d(-53.0, 50.0), 135.0.toRadians())
+                        .lineToConstantHeading(Vector2d(-53.0, 12.0))
                         .splineToConstantHeading(Vector2d(-20.0, 0.0), 270.0.toRadians())
                         .lineToConstantHeading(Vector2d(20.0, 0.0))
-                        .addDisplacementMarker{}
-                        .splineToSplineHeading(Pose2d(50.0, 30.0, 0.0), 0.0)
-                        .addDisplacementMarker{}
-                        .lineToConstantHeading(Vector2d(45.0, 30.0))
-                        .splineToConstantHeading(Vector2d(62.0, 12.0), 10.0.toRadians())
+                        .splineToSplineHeading(Pose2d(49.0, 30.0, 0.0), 0.0)
+                        .lineToConstantHeading(Vector2d(45.0, 25.0))
+                        .splineToConstantHeading(Vector2d(60.0, 12.0), 10.0.toRadians())
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
