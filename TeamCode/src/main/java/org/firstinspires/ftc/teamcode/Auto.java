@@ -73,11 +73,12 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(20.0, 0.0))
 //                .addDisplacementMarker(() -> {
 //                })
-                .splineToSplineHeading(new Pose2d(50.0, 30.0, 0.0), 0.0)
+                .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
 //                .addDisplacementMarker(() -> {
+//
 //                })
                 .lineToConstantHeading(new Vector2d(45.0, 25.0))
-                .splineToConstantHeading(new Vector2d(62.0, 12.0), toRadians(10.0))
+                .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
                 .build();
 
         telemetry.addLine("compiled");
