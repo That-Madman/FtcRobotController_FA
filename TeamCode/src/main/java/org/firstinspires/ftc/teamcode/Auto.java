@@ -73,10 +73,14 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(20.0, 0.0))
 //                .addDisplacementMarker(() -> {
 //                })
+                .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
+                .addDisplacementMarker(() -> {
+                    // TODO implement April Tags
+                })
                 .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
-//                .addDisplacementMarker(() -> {
-//
-//                })
+                .addDisplacementMarker(() -> {
+                    // TODO implement lift
+                })
                 .lineToConstantHeading(new Vector2d(45.0, 25.0))
                 .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
                 .build();

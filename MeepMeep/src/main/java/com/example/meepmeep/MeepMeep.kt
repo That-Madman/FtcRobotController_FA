@@ -33,7 +33,9 @@ object MeepMeep {
                         .lineToConstantHeading(Vector2d(-53.0, 12.0))
                         .splineToConstantHeading(Vector2d(-20.0, 0.0), 270.0.toRadians())
                         .lineToConstantHeading(Vector2d(20.0, 0.0))
-                        .splineToSplineHeading(Pose2d(49.0, 30.0, 0.0), 0.0)
+                        .splineToSplineHeading(Pose2d(44.0, 30.0, 0.0), 0.0)
+                        .addDisplacementMarker{}
+                        .splineToConstantHeading(Vector2d(49.0, 30.0), 0.0)
                         .lineToConstantHeading(Vector2d(45.0, 25.0))
                         .splineToConstantHeading(Vector2d(60.0, 12.0), 10.0.toRadians())
                         .build()
