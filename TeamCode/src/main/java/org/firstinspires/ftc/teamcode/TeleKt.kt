@@ -23,16 +23,14 @@ class TeleKt : OpMode() {
         if (trueNorth) {
             board.driveFieldRelative(
                 -gamepad1.right_stick_y.toDouble(),
-                gamepad1.right_stick_x.toDouble(),
-                gamepad1.left_stick_x
-                    .toDouble()
+                 gamepad1.right_stick_x.toDouble(),
+                 gamepad1.left_stick_x.toDouble(),
             )
         } else {
             board.drive(
                 -gamepad1.right_stick_y.toDouble(),
-                gamepad1.right_stick_x.toDouble(),
-                gamepad1.left_stick_x
-                    .toDouble()
+                 gamepad1.right_stick_x.toDouble(),
+                 gamepad1.left_stick_x.toDouble(),
             )
         }
         board.setClaw(clawOpen)
