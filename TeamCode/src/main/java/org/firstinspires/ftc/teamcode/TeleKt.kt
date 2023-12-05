@@ -43,14 +43,20 @@ class TeleKt : OpMode() {
             inDir = 0.0
         }
         board.setIntake(inDir)
+
         y1Held = gamepad1.y
         a2Held = gamepad2.a
+
         telemetry.addData("True North Enabled?", trueNorth)
+
         if (gamepad2.x) board.launch()
         if (gamepad2.y) board.relatch()
+
         bumperLeftHeld = gamepad1.left_bumper
         bumperRightHeld = gamepad1.right_bumper
-        if (gamepad2.left_bumper) board.theHookBringsYouBack(1.0) else if (gamepad2.right_bumper) board.theHookBringsYouBack(
+
+        if (gamepad2.left_bumper) board.theHookBringsYouBack(1.0)
+        else if (gamepad2.right_bumper) board.theHookBringsYouBack(
             -1.0
         ) else board.theHookBringsYouBack(0.0)
     }
