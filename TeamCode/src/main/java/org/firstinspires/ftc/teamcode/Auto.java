@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+import java.util.List;
+
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
@@ -121,6 +123,8 @@ public class Auto extends OpMode {
             }
         } catch (Throwable e) {
             telemetry.addData("Issue with April Tags because ", e);
+
+            List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
         } // end of April Tags
     }
 
