@@ -4,6 +4,7 @@ import static java.lang.Math.toRadians;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
+@Autonomous
 public class SplitAuto extends OpMode {
     Board board = new Board();
 
