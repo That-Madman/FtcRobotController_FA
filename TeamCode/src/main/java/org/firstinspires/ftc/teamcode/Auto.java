@@ -20,8 +20,14 @@ public class Auto extends OpMode {
     SampleMecanumDrive drive;
     TrajectorySequence sequence;
 
+    final double DESIRED_DISTANCE = 8; // inches
+
     @Override
     public void init() {
+
+        boolean target_found = false;
+
+
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         try {
@@ -103,6 +109,8 @@ public class Auto extends OpMode {
         try { //start of April tags
             if (board.getEyes().getApril().getDetections().size() > 0) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
+
+                //use apriltagdetection class to find april tags/get data
 
                 telemetry.addData("x", tag.ftcPose.x);
                 telemetry.addData("y", tag.ftcPose.y);
