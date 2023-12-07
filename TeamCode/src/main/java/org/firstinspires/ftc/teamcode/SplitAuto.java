@@ -17,6 +17,7 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 public class SplitAuto extends OpMode {
     Board board = new Board();
 
+    int spike = 0;
     SampleMecanumDrive drive;
     TrajectorySequence sequence1, sequence2;
 
@@ -47,6 +48,7 @@ public class SplitAuto extends OpMode {
                     // TODO figure out how to make this work
                     try {
                         if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            spike = 1;
                             board.setIntake(-1);
                             wait(1000);
                             board.setIntake(0);
@@ -57,6 +59,7 @@ public class SplitAuto extends OpMode {
                         drive.turn(90);
                         try {
                             if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                spike = 2;
                                 board.setIntake(-1);
                                 wait(1000);
                                 board.setIntake(0);
@@ -67,6 +70,7 @@ public class SplitAuto extends OpMode {
                             drive.turn(180 - 1e-6);
                             try {
                                 if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                    spike = 3;
                                     board.setIntake(-1);
                                     wait(1000);
                                     board.setIntake(0);
@@ -98,8 +102,9 @@ public class SplitAuto extends OpMode {
                 })
                 .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
-                    // TODO implement lift
-                }).lineToConstantHeading(new Vector2d(45.0, 25.0))
+                    board.setSlideTar(1000); //TODO find the real value
+                })
+                .lineToConstantHeading(new Vector2d(45.0, 25.0))
                 .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
                 .build();
 
