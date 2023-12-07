@@ -83,7 +83,8 @@ public class SplitAuto extends OpMode {
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
                     // TODO implement April Tags
-                }).splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
+                })
+                .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
                     // TODO implement lift
                 }).lineToConstantHeading(new Vector2d(45.0, 25.0))
