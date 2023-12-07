@@ -49,23 +49,33 @@ public class SplitAuto extends OpMode {
                             wait(1000);
                             board.setIntake(0);
                         }
-                        drive.turn(90);
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
-                        }
-                        drive.turn(180 - 1e-6);
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
-                        }
-                        drive.turn(90);
                     } catch (Throwable e) {
                         telemetry.addData("Could not see because", e);
                     } finally {
-                        drive.followTrajectorySequence(sequence2);
+                        drive.turn(90);
+                        try {
+                            if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                board.setIntake(-1);
+                                wait(1000);
+                                board.setIntake(0);
+                            }
+                        } catch (Throwable e) {
+                            telemetry.addData("Could not see because", e);
+                        } finally {
+                            drive.turn(180 - 1e-6);
+                            try {
+                                if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                    board.setIntake(-1);
+                                    wait(1000);
+                                    board.setIntake(0);
+                                }
+                            } catch (Throwable e) {
+                                telemetry.addData("Could not see because", e);
+                            } finally {
+                                drive.turn(90);
+                                drive.followTrajectorySequence(sequence2);
+                            }
+                        }
                     }
                 })
                 .build();
