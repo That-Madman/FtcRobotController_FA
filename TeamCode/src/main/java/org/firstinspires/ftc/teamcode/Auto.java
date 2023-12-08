@@ -23,11 +23,11 @@ public class Auto extends OpMode {
     TrajectorySequence sequence;
 
     final double DESIRED_DISTANCE = 8; // inches
+    boolean target_found = false;
+    private AprilTagDetection desiredTag = null;
 
     @Override
     public void init() {
-
-        boolean target_found = false;
 
 
         drive = new SampleMecanumDrive(hardwareMap);
