@@ -19,7 +19,7 @@ public class SplitAuto extends OpMode {
 
     int spike = 0;
     SampleMecanumDrive drive;
-    TrajectorySequence sequence1, sequence2;
+    TrajectorySequence sequence1, sequence2, sequence3;
 
     @Override
     public void init() {
@@ -79,7 +79,7 @@ public class SplitAuto extends OpMode {
                                 telemetry.addData("Could not see because", e);
                             } finally {
                                 drive.turn(90);
-                                drive.followTrajectorySequence(sequence2);
+                                drive.followTrajectorySequenceAsync(sequence2);
                             }
                         }
                     }
@@ -100,6 +100,15 @@ public class SplitAuto extends OpMode {
                 .addDisplacementMarker(() -> {
                     // TODO implement April Tags
                 })
+                .build();
+        Pose2d end = sequence2.end();
+        if (spike == 1){
+           end.plus(new Pose2d(0, 10)); //TODO find real value
+        } else if (spike == 3){
+            end.plus(new Pose2d(0, -10)); //TODO ditto
+        }
+
+        sequence3 = drive.trajectorySequenceBuilder(new Pose2d())
                 .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
                     board.setSlideTar(1000); //TODO find the real value
@@ -140,5 +149,6 @@ public class SplitAuto extends OpMode {
     @Override
     public void loop() {
         drive.update();
+
     }
 }
