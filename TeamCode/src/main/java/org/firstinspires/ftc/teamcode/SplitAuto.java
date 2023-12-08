@@ -79,7 +79,7 @@ public class SplitAuto extends OpMode {
                                 telemetry.addData("Could not see because", e);
                             } finally {
                                 drive.turn(90);
-                                drive.followTrajectorySequence(sequence2);
+                                drive.followTrajectorySequenceAsync(sequence2);
                             }
                         }
                     }
@@ -140,5 +140,6 @@ public class SplitAuto extends OpMode {
     @Override
     public void loop() {
         drive.update();
+
     }
 }
