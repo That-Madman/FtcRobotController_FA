@@ -7,8 +7,12 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.List;
 
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
@@ -20,6 +24,18 @@ public class SplitAuto extends OpMode {
     int spike = 0;
     SampleMecanumDrive drive;
     TrajectorySequence sequence1, sequence2, sequence3;
+
+    final double DESIRED_DISTANCE = 8; // inches
+    boolean targetFound = false;
+    private AprilTagDetection desiredTag = null;
+    AprilTagProcessor aprilTag;
+    final int DESIRED_TAG_ID = -1;
+    final double speedGain = 0.02;
+    final double strafeGain = 0.015;
+    final double turnGain = 0.01;
+    final double maxAutoSpeed = 0.5;
+    final double maxAutoStrafe = 0.5;
+    final double maxAutoTurn = 0.3;
 
     @Override
     public void init() {
@@ -101,12 +117,6 @@ public class SplitAuto extends OpMode {
                     // TODO implement April Tags
                 })
                 .build();
-        Pose2d end = sequence2.end();
-        if (spike == 1){
-           end.plus(new Pose2d(0, 10)); //TODO find real value
-        } else if (spike == 3){
-            end.plus(new Pose2d(0, -10)); //TODO ditto
-        }
 
         sequence3 = drive.trajectorySequenceBuilder(new Pose2d())
                 .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
@@ -148,7 +158,40 @@ public class SplitAuto extends OpMode {
 
     @Override
     public void loop() {
+        boolean targetFound = false;
+        double  driveAprilTag = 0;
+        double  strafeAprilTag = 0;
+        double  turnAprilTag = 0;
         drive.update();
+        // april tag code here
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            // Look to see if we have size info on this tag.
+            if (detection.metadata != null) {
+                //  Check to see if we want to track towards this tag.
+                if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
+                    // Yes, we want to use this tag.
+                    targetFound = true;
+                    desiredTag = detection;
+                    break;
+                }
+            }
+        }
+
+        if(targetFound){
+            // calculate range, heading, yaw error to figure out what the speed of the bot should be
+            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);;
+            double headError = desiredTag.ftcPose.bearing - 0;;
+            double yawError = desiredTag.ftcPose.yaw - 0;
+
+            driveAprilTag  = Range.clip(rangeError * speedGain , -maxAutoSpeed, maxAutoSpeed);
+            turnAprilTag   = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn) ;
+            strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
+
+            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+        }
+        // sequence 3 road runner here
 
     }
 }
