@@ -19,15 +19,7 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
 @Autonomous
 public class SplitAuto extends OpMode {
-    Board board = new Board();
-
-    int spike = 0;
-    SampleMecanumDrive drive;
-    TrajectorySequence sequence1, sequence2, sequence3;
-
     final double DESIRED_DISTANCE = 8; // inches
-    private AprilTagDetection desiredTag = null;
-    AprilTagProcessor aprilTag;
     final int DESIRED_TAG_ID = -1;
     final double speedGain = 0.02;
     final double strafeGain = 0.015;
@@ -35,12 +27,17 @@ public class SplitAuto extends OpMode {
     final double maxAutoSpeed = 0.5;
     final double maxAutoStrafe = 0.5;
     final double maxAutoTurn = 0.3;
+    Board board = new Board();
+    int spike = 0;
+    SampleMecanumDrive drive;
+    TrajectorySequence sequence1, sequence2, sequence3;
+    AprilTagProcessor aprilTag;
     boolean Harvey;
-
     boolean targetFound = false;
-    double  driveAprilTag = 0;
-    double  strafeAprilTag = 0;
-    double  turnAprilTag = 0;
+    double driveAprilTag = 0;
+    double strafeAprilTag = 0;
+    double turnAprilTag = 0;
+    private AprilTagDetection desiredTag = null;
 
     @Override
     public void init() {
@@ -118,9 +115,7 @@ public class SplitAuto extends OpMode {
                     //TODO what was this for? I need to figure that out
                 })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
-                .addDisplacementMarker(() -> {
-                    Harvey = true;
-                })
+                .addDisplacementMarker(() -> Harvey = true)
                 .build();
 
         sequence3 = drive.trajectorySequenceBuilder(new Pose2d())
@@ -164,7 +159,7 @@ public class SplitAuto extends OpMode {
     @Override
     public void loop() {
         targetFound = false;
-        desiredTag  = null;
+        desiredTag = null;
 
         drive.update();
         // april tag code here
@@ -183,14 +178,14 @@ public class SplitAuto extends OpMode {
             }
         }
 
-        if(targetFound && Harvey) {
+        if (targetFound && Harvey) {
             // calculate range, heading, yaw error to figure out what the speed of the bot should be
-            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);;
-            double headError = desiredTag.ftcPose.bearing - 0;;
+            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+            double headError = desiredTag.ftcPose.bearing - 0;
             double yawError = desiredTag.ftcPose.yaw - 0;
 
-            driveAprilTag  = Range.clip(rangeError * speedGain , -maxAutoSpeed, maxAutoSpeed);
-            turnAprilTag   = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn) ;
+            driveAprilTag = Range.clip(rangeError * speedGain, -maxAutoSpeed, maxAutoSpeed);
+            turnAprilTag = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn);
             strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
 
 //            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
