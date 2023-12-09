@@ -32,9 +32,12 @@ public class SplitAuto extends OpMode {
     Board board = new Board();
     int spike = -1;
     SampleMecanumDrive drive;
-    TrajectorySequence sequence1, sequence2;
-
-    TrajectorySequence sequence3a, sequence3b, sequence3c;
+    TrajectorySequence
+            sequence1,
+            sequence2,
+            sequence3a,
+            sequence3b,
+            sequence3c;
 
     AprilTagProcessor aprilTag;
 
