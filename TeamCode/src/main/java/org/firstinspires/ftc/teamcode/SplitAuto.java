@@ -26,7 +26,6 @@ public class SplitAuto extends OpMode {
     TrajectorySequence sequence1, sequence2, sequence3;
 
     final double DESIRED_DISTANCE = 8; // inches
-    boolean targetFound = false;
     private AprilTagDetection desiredTag = null;
     AprilTagProcessor aprilTag;
     final int DESIRED_TAG_ID = -1;
@@ -36,6 +35,12 @@ public class SplitAuto extends OpMode {
     final double maxAutoSpeed = 0.5;
     final double maxAutoStrafe = 0.5;
     final double maxAutoTurn = 0.3;
+    boolean harvy;
+
+    boolean targetFound = false;
+    double  driveAprilTag = 0;
+    double  strafeAprilTag = 0;
+    double  turnAprilTag = 0;
 
     @Override
     public void init() {
@@ -158,10 +163,9 @@ public class SplitAuto extends OpMode {
 
     @Override
     public void loop() {
-        boolean targetFound = false;
-        double  driveAprilTag = 0;
-        double  strafeAprilTag = 0;
-        double  turnAprilTag = 0;
+        targetFound = false;
+        desiredTag  = null;
+
         drive.update();
         // april tag code here
 
@@ -192,7 +196,7 @@ public class SplitAuto extends OpMode {
             board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
             //april tag done
         }
-        // sequence 3 road runner here
+        // TODO sequence 3 road runner here
 
     }
 }
