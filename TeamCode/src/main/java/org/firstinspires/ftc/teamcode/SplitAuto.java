@@ -20,15 +20,15 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class SplitAuto extends OpMode {
 
-//    final int DESIRED_TAG_ID = -1; //don't use this, we don't want a final variable
+    //    final int DESIRED_TAG_ID = -1; //don't use this, we don't want a final variable
     final double
-        DESIRED_DISTANCE = 8, // inches
-        speedGain = 0.02,
-        strafeGain = 0.015,
-        turnGain = 0.01,
-        maxAutoSpeed = 0.5,
-        maxAutoStrafe = 0.5,
-        maxAutoTurn = 0.3;
+            DESIRED_DISTANCE = 8, // inches
+            speedGain = 0.02,
+            strafeGain = 0.015,
+            turnGain = 0.01,
+            maxAutoSpeed = 0.5,
+            maxAutoStrafe = 0.5,
+            maxAutoTurn = 0.3;
     Board board = new Board();
     int spike = -1;
     SampleMecanumDrive drive;
@@ -46,9 +46,9 @@ public class SplitAuto extends OpMode {
      */
     boolean Harvey;
     boolean targetFound = false;
-    double driveAprilTag = 0;
-    double strafeAprilTag = 0;
-    double turnAprilTag = 0;
+    double driveAprilTag,
+            strafeAprilTag,
+            turnAprilTag = 0;
     private AprilTagDetection desiredTag = null;
 
     @Override
