@@ -25,10 +25,6 @@ public class AprilDrivingTest extends OpMode {
             maxAutoStrafe = 0.5,
             maxAutoTurn = 0.3;
     private boolean targetFound = false;
-    private double
-            driveAprilTag,
-            strafeAprilTag,
-            turnAprilTag = 0;
     private AprilTagDetection desiredTag = null;
     Board board = new Board();
     SampleMecanumDrive drive;
@@ -41,6 +37,7 @@ public class AprilDrivingTest extends OpMode {
     @Override
     public void init_loop() {
         try { //start of TensorFlow
+            //noinspection DataFlowIssue
             board.getEyes().getTfod().getRecognitions().forEach(
                     thing -> telemetry.addLine("found " + thing)
             );
@@ -49,6 +46,7 @@ public class AprilDrivingTest extends OpMode {
         } //end of tensorFlow
 
         try { //start of April tags
+            //noinspection DataFlowIssue
             if (board.getEyes().getApril().getDetections().size() > 0) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
 
@@ -67,36 +65,38 @@ public class AprilDrivingTest extends OpMode {
 
     @Override
     public void loop() {
-        List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            // Look to see if we have size info on this tag.
-            if (detection.metadata != null) {
-                //  Check to see if we want to track towards this tag.
-                //noinspection ConstantValue
-                if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
-                    // Yes, we want to use this tag.
-                    targetFound = true;
-                    desiredTag = detection;
-                    break;
+        try {
+            List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
+            for (AprilTagDetection detection : currentDetections) {
+                // Look to see if we have size info on this tag.
+                if (detection.metadata != null) {
+                    //  Check to see if we want to track towards this tag.
+                    if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
+                        // Yes, we want to use this tag.
+                        targetFound = true;
+                        desiredTag = detection;
+                        break;
+                    }
                 }
             }
+        } catch(Throwable e){
+            telemetry.addData("eye failure because ", e);
         }
-
         if (targetFound) {
             // calculate range, heading, yaw error to figure out what the speed of the bot should be
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double headError = desiredTag.ftcPose.bearing - 0;
             double yawError = desiredTag.ftcPose.yaw - 0;
 
-            driveAprilTag = Range.clip(
+            double driveAprilTag = Range.clip(
                     rangeError * speedGain,
                     -maxAutoSpeed,
                     maxAutoSpeed);
-            strafeAprilTag = Range.clip(
+            double strafeAprilTag = Range.clip(
                     -yawError * strafeGain,
                     -maxAutoStrafe,
                     maxAutoStrafe);
-            turnAprilTag = Range.clip(
+            double turnAprilTag = Range.clip(
                     headError * turnGain,
                     -maxAutoTurn,
                     maxAutoTurn);
