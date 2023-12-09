@@ -35,7 +35,7 @@ public class SplitAuto extends OpMode {
     final double maxAutoSpeed = 0.5;
     final double maxAutoStrafe = 0.5;
     final double maxAutoTurn = 0.3;
-    boolean harvy;
+    boolean Harvey;
 
     boolean targetFound = false;
     double  driveAprilTag = 0;
@@ -119,7 +119,7 @@ public class SplitAuto extends OpMode {
                 })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
-                    // TODO implement April Tags
+                    Harvey = true;
                 })
                 .build();
 
@@ -183,7 +183,7 @@ public class SplitAuto extends OpMode {
             }
         }
 
-        if(targetFound){
+        if(targetFound && Harvey) {
             // calculate range, heading, yaw error to figure out what the speed of the bot should be
             double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);;
             double headError = desiredTag.ftcPose.bearing - 0;;
@@ -193,7 +193,8 @@ public class SplitAuto extends OpMode {
             turnAprilTag   = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn) ;
             strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
 
-            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+//            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+            drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
             //april tag done
         }
         // TODO sequence 3 road runner here

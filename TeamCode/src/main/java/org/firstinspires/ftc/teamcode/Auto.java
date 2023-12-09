@@ -22,14 +22,10 @@ public class Auto extends OpMode {
     SampleMecanumDrive drive;
     TrajectorySequence sequence;
 
-    final double DESIRED_DISTANCE = 8; // inches
-    boolean target_found = false;
     private AprilTagDetection desiredTag = null;
 
     @Override
     public void init() {
-
-
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         try {

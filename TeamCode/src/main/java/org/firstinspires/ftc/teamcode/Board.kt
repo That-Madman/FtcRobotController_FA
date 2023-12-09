@@ -57,7 +57,7 @@ class Board {
         } catch (_: Throwable) {
             broken.add("slide Motor")
         }
-//        if (!auto) {
+        if (!auto) {
         try {
             driveBase[0] = hwMap.get(DcMotorImplEx::class.java, "frontLeft")
             driveBase[1] = hwMap.get(DcMotorImplEx::class.java, "frontRight")
@@ -76,7 +76,7 @@ class Board {
         } catch (_: Throwable) {
             broken.add("Drivebase")
         }
-//    }
+    }
         try {
             dropper = hwMap.get(Servo::class.java, "claw")
             dropper!!.position = 1.0
