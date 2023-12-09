@@ -46,7 +46,8 @@ public class SplitAuto extends OpMode {
      */
     boolean Harvey;
     boolean targetFound = false;
-    double driveAprilTag,
+    double
+            driveAprilTag,
             strafeAprilTag,
             turnAprilTag = 0;
     private AprilTagDetection desiredTag = null;
