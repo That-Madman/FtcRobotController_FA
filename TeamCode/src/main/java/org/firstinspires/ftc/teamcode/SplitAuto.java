@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
@@ -39,7 +38,6 @@ public class SplitAuto extends OpMode {
             sequence3b,
             sequence3c;
 
-    AprilTagProcessor aprilTag;
 
     /**
      * A boolean to determine if sequences 1 and 2 are done. Named Harvey for reasons.
@@ -181,7 +179,7 @@ public class SplitAuto extends OpMode {
         drive.update();
         // april tag code here
 
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             // Look to see if we have size info on this tag.
             if (detection.metadata != null) {
