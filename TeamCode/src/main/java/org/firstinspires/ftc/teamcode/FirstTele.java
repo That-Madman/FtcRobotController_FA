@@ -42,8 +42,13 @@ public class FirstTele extends OpMode {
 
         board.setClaw(clawOpen);
 
-
-        board.setSlide(gamepad2.right_trigger - gamepad2.left_trigger);
+        try {
+            board.setSlideTar(
+                    board.getSlidePos() +
+                            ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000));
+        } catch (Throwable e) {
+            telemetry.addData("Issue with lift because ", e);
+        }
 
         if (gamepad1.right_bumper && !bumperRightHeld) {
             inDir = 1.0;
