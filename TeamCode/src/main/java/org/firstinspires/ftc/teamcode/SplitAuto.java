@@ -33,6 +33,8 @@ public class SplitAuto extends OpMode {
     SampleMecanumDrive drive;
     TrajectorySequence sequence1, sequence2, sequence3;
     AprilTagProcessor aprilTag;
+
+    /** A boolean to determine if sequences 1 and 2 are done. Named Harvey for reasons.*/
     boolean Harvey;
     boolean targetFound = false;
     double driveAprilTag = 0;
@@ -167,7 +169,7 @@ public class SplitAuto extends OpMode {
             turnAprilTag = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn);
             strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
 
-//          board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+//            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
             drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
             //april tag done
         }
