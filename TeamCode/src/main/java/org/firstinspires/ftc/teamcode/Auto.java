@@ -15,6 +15,7 @@ import java.util.List;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
+@Deprecated
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
