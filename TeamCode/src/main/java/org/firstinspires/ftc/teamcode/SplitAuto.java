@@ -22,12 +22,12 @@ public class SplitAuto extends OpMode {
     final double DESIRED_DISTANCE = 8; // inches
 
 //    final int DESIRED_TAG_ID = -1; //don't use this, we don't want a final variable
-    final double speedGain = 0.02;
-    final double strafeGain = 0.015;
-    final double turnGain = 0.01;
-    final double maxAutoSpeed = 0.5;
-    final double maxAutoStrafe = 0.5;
-    final double maxAutoTurn = 0.3;
+    final double speedGain = 0.02,
+        strafeGain = 0.015,
+        turnGain = 0.01,
+        maxAutoSpeed = 0.5,
+        maxAutoStrafe = 0.5,
+        maxAutoTurn = 0.3;
     Board board = new Board();
     int spike = -1;
     SampleMecanumDrive drive;
@@ -137,8 +137,9 @@ public class SplitAuto extends OpMode {
                 .build();
 
         telemetry.addLine("compiled");
-        telemetry.update();
         drive.followTrajectorySequenceAsync(sequence1);
+        telemetry.addLine("ready to run");
+        telemetry.update();
     }
 
     @Override
@@ -194,8 +195,8 @@ public class SplitAuto extends OpMode {
             double yawError = desiredTag.ftcPose.yaw - 0;
 
             driveAprilTag = Range.clip(rangeError * speedGain, -maxAutoSpeed, maxAutoSpeed);
-            turnAprilTag = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn);
             strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
+            turnAprilTag = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn);
 
 //            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
             drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
