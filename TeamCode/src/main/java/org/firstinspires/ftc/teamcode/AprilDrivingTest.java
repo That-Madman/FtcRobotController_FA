@@ -15,8 +15,8 @@ import autoThings.roadRunner.drive.SampleMecanumDrive;
 @Autonomous
 @Config
 public class AprilDrivingTest extends OpMode {
-    int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
-    final double
+    static int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
+    static double
             DESIRED_DISTANCE = 8, // inches
             speedGain = 0.02,
             strafeGain = 0.015,
