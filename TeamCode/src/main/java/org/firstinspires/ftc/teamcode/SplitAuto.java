@@ -31,10 +31,15 @@ public class SplitAuto extends OpMode {
     Board board = new Board();
     int spike = -1;
     SampleMecanumDrive drive;
-    TrajectorySequence sequence1, sequence2, sequence3;
+    TrajectorySequence sequence1, sequence2;
+
+    TrajectorySequence sequence3a, sequence3b, sequence3c;
+
     AprilTagProcessor aprilTag;
 
-    /** A boolean to determine if sequences 1 and 2 are done. Named Harvey for reasons.*/
+    /**
+     * A boolean to determine if sequences 1 and 2 are done. Named Harvey for reasons.
+     */
     boolean Harvey;
     boolean targetFound = false;
     double driveAprilTag = 0;
@@ -59,33 +64,14 @@ public class SplitAuto extends OpMode {
         }
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
 
-        sequence1 = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0))).setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, 1.5, 14.97)).lineToConstantHeading(new Vector2d(-36.0, 35.0)).addDisplacementMarker(() -> {
-            // TODO figure out how to make this work
-            try {
-                if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                    spike = 1;
-                    board.setIntake(-1);
-                    wait(1000);
-                    board.setIntake(0);
-                }
-            } catch (Throwable e) {
-                telemetry.addData("Could not see because", e);
-            } finally {
-                drive.turn(90);
-                try {
-                    if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                        spike = 2;
-                        board.setIntake(-1);
-                        wait(1000);
-                        board.setIntake(0);
-                    }
-                } catch (Throwable e) {
-                    telemetry.addData("Could not see because", e);
-                } finally {
-                    drive.turn(180 - 1e-6);
+        sequence1 = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, 1.5, 14.97))
+                .lineToConstantHeading(new Vector2d(-36.0, 35.0))
+                .addDisplacementMarker(() -> {
+                    // TODO make sure this works
                     try {
                         if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            spike = 3;
+                            spike = 1;
                             board.setIntake(-1);
                             wait(1000);
                             board.setIntake(0);
@@ -94,19 +80,61 @@ public class SplitAuto extends OpMode {
                         telemetry.addData("Could not see because", e);
                     } finally {
                         drive.turn(90);
-                        drive.followTrajectorySequenceAsync(sequence2);
+                        try {
+                            if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                spike = 2;
+                                board.setIntake(-1);
+                                wait(1000);
+                                board.setIntake(0);
+                            }
+                        } catch (Throwable e) {
+                            telemetry.addData("Could not see because", e);
+                        } finally {
+                            drive.turn(180 - 1e-6);
+                            try {
+                                if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                                    spike = 3;
+                                    board.setIntake(-1);
+                                    wait(1000);
+                                    board.setIntake(0);
+                                }
+                            } catch (Throwable e) {
+                                telemetry.addData("Could not see because", e);
+                            } finally {
+                                drive.turn(90);
+                                drive.followTrajectorySequenceAsync(sequence2);
+                            }
+                        }
                     }
-                }
-            }
-        }).build();
+                })
+                .build();
 
-        sequence2 = drive.trajectorySequenceBuilder(sequence1.end()).addDisplacementMarker(() -> drive.updatePoseEstimate()).lineToConstantHeading(new Vector2d(-36.0, 40.0)).splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0)).lineToConstantHeading(new Vector2d(-53.0, 12.0)).splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0)).lineToConstantHeading(new Vector2d(20.0, 0.0)).addDisplacementMarker(() -> {
-            //TODO what was this for? I need to figure that out
-        }).splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0).addDisplacementMarker(() -> Harvey = true).build();
+        sequence2 = drive.trajectorySequenceBuilder(sequence1.end())
+                .addDisplacementMarker(() -> drive.updatePoseEstimate())
+                .lineToConstantHeading(new Vector2d(-36.0, 40.0))
+                .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
+                .lineToConstantHeading(new Vector2d(-53.0, 12.0))
+                .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
+                .lineToConstantHeading(new Vector2d(20.0, 0.0))
+                .addDisplacementMarker(() -> {
+                    //TODO what was this for? I need to figure that out
+                })
+                .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
+                .addDisplacementMarker(() -> {
+                    if (spike != 2) Harvey = true;
+                        //defaults to middle scoring
+                    else drive.followTrajectorySequenceAsync(sequence3b);
+                })
+                .build();
 
-        sequence3 = drive.trajectorySequenceBuilder(new Pose2d()).splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0).addDisplacementMarker(() -> {
-            board.setSlideTar(1000); //TODO find the real value
-        }).lineToConstantHeading(new Vector2d(45.0, 25.0)).splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0)).build();
+        sequence3b = drive.trajectorySequenceBuilder(new Pose2d())
+                .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
+                .addDisplacementMarker(() -> {
+                    board.setSlideTar(1000); //TODO find the real value
+                })
+                .lineToConstantHeading(new Vector2d(45.0, 25.0))
+                .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
+                .build();
 
         telemetry.addLine("compiled");
         telemetry.update();
