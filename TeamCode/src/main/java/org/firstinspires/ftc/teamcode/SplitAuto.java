@@ -21,7 +21,7 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 public class SplitAuto extends OpMode {
     final double DESIRED_DISTANCE = 8; // inches
 
-    //    final int DESIRED_TAG_ID = -1;
+//    final int DESIRED_TAG_ID = -1; //don't use this, we don't want a final variable
     final double speedGain = 0.02;
     final double strafeGain = 0.015;
     final double turnGain = 0.01;
