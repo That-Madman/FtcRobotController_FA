@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
 
@@ -10,8 +12,10 @@ import java.util.List;
 
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 
+@Autonomous
+@Config
 public class AprilDrivingTest extends OpMode {
-    final int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
+    int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
     final double
             DESIRED_DISTANCE = 8, // inches
             speedGain = 0.02,
@@ -20,8 +24,8 @@ public class AprilDrivingTest extends OpMode {
             maxAutoSpeed = 0.5,
             maxAutoStrafe = 0.5,
             maxAutoTurn = 0.3;
-    boolean targetFound = false;
-    double
+    private boolean targetFound = false;
+    private double
             driveAprilTag,
             strafeAprilTag,
             turnAprilTag = 0;
@@ -68,6 +72,7 @@ public class AprilDrivingTest extends OpMode {
             // Look to see if we have size info on this tag.
             if (detection.metadata != null) {
                 //  Check to see if we want to track towards this tag.
+                //noinspection ConstantValue
                 if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
                     // Yes, we want to use this tag.
                     targetFound = true;
