@@ -122,7 +122,7 @@ public class SplitAuto extends OpMode {
                 .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
                 .lineToConstantHeading(new Vector2d(20.0, 0.0))
                 .addDisplacementMarker(() -> {
-                    //TODO what was this for? I need to figure that out
+                    //TODO what was this for? I need to figure that out.
                 })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
@@ -150,7 +150,9 @@ public class SplitAuto extends OpMode {
     @Override
     public void init_loop() {
         try { //start of TensorFlow
-            board.getEyes().getTfod().getRecognitions().forEach(thing -> telemetry.addLine("found " + thing));
+            board.getEyes().getTfod().getRecognitions().forEach(
+                    thing -> telemetry.addLine("found " + thing)
+            );
         } catch (Throwable e) {
             telemetry.addData("Error in using camera because:", e);
         } //end of tensorFlow
