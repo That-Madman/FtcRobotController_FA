@@ -190,6 +190,7 @@ public class SplitAuto extends OpMode {
             strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
 
             board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+            //april tag done
         }
         // sequence 3 road runner here
 
