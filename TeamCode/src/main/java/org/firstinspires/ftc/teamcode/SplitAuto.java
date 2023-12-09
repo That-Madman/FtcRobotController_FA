@@ -201,9 +201,18 @@ public class SplitAuto extends OpMode {
             double headError = desiredTag.ftcPose.bearing - 0;
             double yawError = desiredTag.ftcPose.yaw - 0;
 
-            driveAprilTag = Range.clip(rangeError * speedGain, -maxAutoSpeed, maxAutoSpeed);
-            strafeAprilTag = Range.clip(-yawError * strafeGain, -maxAutoStrafe, maxAutoStrafe);
-            turnAprilTag = Range.clip(headError * turnGain, -maxAutoTurn, maxAutoTurn);
+            driveAprilTag = Range.clip(
+                    rangeError * speedGain,
+                    -maxAutoSpeed,
+                    maxAutoSpeed);
+            strafeAprilTag = Range.clip(
+                    -yawError * strafeGain,
+                    -maxAutoStrafe,
+                    maxAutoStrafe);
+            turnAprilTag = Range.clip(
+                    headError * turnGain,
+                    -maxAutoTurn,
+                    maxAutoTurn);
 
 //            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
             drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
