@@ -7,11 +7,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.List;
 
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
@@ -38,9 +35,8 @@ public class SplitAuto extends OpMode {
             sequence3b,
             sequence3c;
 
-
     /**
-     * A boolean to determine if sequences 1 and 2 are done. Named Harvey for reasons.
+     * A boolean to determine if sequences 1 and 2 are done. Named Harvey for...reasons.
      */
     boolean Harvey;
     boolean targetFound = false;
@@ -68,7 +64,9 @@ public class SplitAuto extends OpMode {
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
 
         sequence1 = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, 1.5, 14.97))
+                .setVelConstraint(
+                        SampleMecanumDrive.getVelocityConstraint(
+                                40, 1.5, 14.97))
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
                 .addDisplacementMarker(() -> {
                     // TODO make sure this works
@@ -76,34 +74,34 @@ public class SplitAuto extends OpMode {
                         if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                             spike = 1;
                             board.setIntake(-1);
-                            wait(1000);
-                            board.setIntake(0);
+//                            wait(1000);
                         }
                     } catch (Throwable e) {
                         telemetry.addData("Could not see because", e);
                     } finally {
+                        board.setIntake(0);
                         drive.turn(90);
                         try {
                             if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                                 spike = 2;
                                 board.setIntake(-1);
-                                wait(1000);
-                                board.setIntake(0);
+//                                wait(1000);
                             }
                         } catch (Throwable e) {
                             telemetry.addData("Could not see because", e);
                         } finally {
+                            board.setIntake(0);
                             drive.turn(180 - 1e-6);
                             try {
                                 if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                                     spike = 3;
                                     board.setIntake(-1);
-                                    wait(1000);
-                                    board.setIntake(0);
+//                                    wait(1000);
                                 }
                             } catch (Throwable e) {
                                 telemetry.addData("Could not see because", e);
                             } finally {
+                                board.setIntake(0);
                                 drive.turn(90);
                                 drive.followTrajectorySequenceAsync(sequence2);
                             }
@@ -124,9 +122,11 @@ public class SplitAuto extends OpMode {
                 })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
-                    if (spike != 2) Harvey = true;
-                        //defaults to middle scoring
-                    else drive.followTrajectorySequenceAsync(sequence3b);
+//                    if (spike != 2) Harvey = true; todo uncomment when working
+                    //defaults to middle scoring
+//                    else{
+                    drive.followTrajectorySequenceAsync(sequence3b);
+//                    }
                 })
                 .build();
 
@@ -179,43 +179,43 @@ public class SplitAuto extends OpMode {
         drive.update();
         // april tag code here
 
-        List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            // Look to see if we have size info on this tag.
-            if (detection.metadata != null) {
-                //  Check to see if we want to track towards this tag.
-                if ((spike < 0) || (detection.id == spike)) {
-                    // Yes, we want to use this tag.
-                    targetFound = true;
-                    desiredTag = detection;
-                    break;
-                }
-            }
-        }
-
-        if (targetFound && Harvey) {
-            // calculate range, heading, yaw error to figure out what the speed of the bot should be
-            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double headError = desiredTag.ftcPose.bearing - 0;
-            double yawError = desiredTag.ftcPose.yaw - 0;
-
-            driveAprilTag = Range.clip(
-                    rangeError * speedGain,
-                    -maxAutoSpeed,
-                    maxAutoSpeed);
-            strafeAprilTag = Range.clip(
-                    -yawError * strafeGain,
-                    -maxAutoStrafe,
-                    maxAutoStrafe);
-            turnAprilTag = Range.clip(
-                    headError * turnGain,
-                    -maxAutoTurn,
-                    maxAutoTurn);
-
-//            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
-            drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
-            //april tag done
-        }
+//        List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
+//        for (AprilTagDetection detection : currentDetections) {
+//            // Look to see if we have size info on this tag.
+//            if (detection.metadata != null) { todo uncomment when working
+//                //  Check to see if we want to track towards this tag.
+//                if ((spike < 0) || (detection.id == spike)) {
+//                    // Yes, we want to use this tag.
+//                    targetFound = true;
+//                    desiredTag = detection;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if (targetFound && Harvey) { todo uncomment when working
+//            // calculate range, heading, yaw error to figure out what the speed of the bot should be
+//            double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+//            double headError = desiredTag.ftcPose.bearing - 0;
+//            double yawError = desiredTag.ftcPose.yaw - 0;
+//
+//            driveAprilTag = Range.clip(
+//                    rangeError * speedGain,
+//                    -maxAutoSpeed,
+//                    maxAutoSpeed);
+//            strafeAprilTag = Range.clip(
+//                    -yawError * strafeGain,
+//                    -maxAutoStrafe,
+//                    maxAutoStrafe);
+//            turnAprilTag = Range.clip(
+//                    headError * turnGain,
+//                    -maxAutoTurn,
+//                    maxAutoTurn);
+//
+////            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
+//            drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
+//            //april tag done
+//        }
         // TODO sequence 3 road runner here
 
     }
