@@ -119,8 +119,6 @@ class Board {
             } catch (_: Throwable) {
                 broken.add("Hook")
             }
-
-
             try {
                 imu = hwMap.get(IMU::class.java, "imu")
                 imu?.initialize(

@@ -49,29 +49,41 @@ public class Auto extends OpMode {
                 .lineToConstantHeading(new Vector2d(-36.0, 35.0))
                 .addDisplacementMarker(() -> {
                     // TODO figure out how to make this work
-//                    try {
-//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-//                            board.setIntake(-1);
-//                            wait(1000);
-//                            board.setIntake(0);
-//                        }
-//                        drive.turn(90);
-//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-//                            board.setIntake(-1);
-//                            wait(1000);
-//                            board.setIntake(0);
-//                        }
-//                        drive.turn(180 - 1e-6);
-//                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-//                            board.setIntake(-1);
-//                            wait(1000);
-//                            board.setIntake(0);
-//                        }
-//                        drive.turn(90);
-//                    } catch (Throwable e) {
-//                        telemetry.addData("Could not see because", e);
-//                    }
-                })
+                    try {
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            board.setIntake(-1);
+                            wait(1000);
+                        }
+                    } catch(Throwable e){
+                        telemetry.addData("Could not see because", e);
+                        } finally {
+                        board.setIntake(0);
+                    }})
+                        .turn(toRadians(90))
+                .addDisplacementMarker(() -> {
+                    try {
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            board.setIntake(-1);
+                            wait(1000);
+                        }
+                    } catch(Throwable e){
+                        telemetry.addData("Could not see because", e);
+                    } finally {
+                        board.setIntake(0);
+                    }})
+                        .turn(toRadians(180) - 1e-6)
+                .addDisplacementMarker(() -> {
+                    try {
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            board.setIntake(-1);
+                            wait(1000);
+                        }
+                    } catch(Throwable e){
+                        telemetry.addData("Could not see because", e);
+                    } finally {
+                        board.setIntake(0);
+                    }})
+                .turn(toRadians(90))
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
                 .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
                 .lineToConstantHeading(new Vector2d(-53.0, 12.0))
@@ -84,9 +96,9 @@ public class Auto extends OpMode {
                     // TODO implement April Tags
                 })
                 .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
-                .addDisplacementMarker(() -> {
-                    // TODO implement lift
-                })
+                .addDisplacementMarker(() ->
+                    board.setSlideTar(1000)
+                )
                 .lineToConstantHeading(new Vector2d(45.0, 25.0))
                 .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
                 .build();
