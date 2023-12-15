@@ -15,7 +15,6 @@ import java.util.List;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
-@Deprecated
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
@@ -58,7 +57,8 @@ public class Auto extends OpMode {
                         telemetry.addData("Could not see because", e);
                         } finally {
                         board.setIntake(0);
-                    }})
+                    }
+                })
                         .turn(toRadians(90))
                 .addDisplacementMarker(() -> {
                     try {
@@ -70,7 +70,8 @@ public class Auto extends OpMode {
                         telemetry.addData("Could not see because", e);
                     } finally {
                         board.setIntake(0);
-                    }})
+                    }
+                })
                         .turn(toRadians(180) - 1e-6)
                 .addDisplacementMarker(() -> {
                     try {
@@ -82,7 +83,8 @@ public class Auto extends OpMode {
                         telemetry.addData("Could not see because", e);
                     } finally {
                         board.setIntake(0);
-                    }})
+                    }
+                })
                 .turn(toRadians(90))
                 .lineToConstantHeading(new Vector2d(-36.0, 40.0))
                 .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
