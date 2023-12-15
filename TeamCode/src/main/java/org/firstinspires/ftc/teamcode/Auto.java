@@ -22,6 +22,7 @@ public class Auto extends OpMode {
     SampleMecanumDrive drive;
     TrajectorySequence sequence;
 
+    boolean Harvey;
     private AprilTagDetection desiredTag = null;
 
     @Override
@@ -45,64 +46,66 @@ public class Auto extends OpMode {
                         40,
                         1.5,
                         14.97))
-                .lineToConstantHeading(new Vector2d(-36.0, 35.0))
-                .addDisplacementMarker(() -> {
-                    // TODO figure out how to make this work
-                    try {
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                        }
-                    } catch(Throwable e){
-                        telemetry.addData("Could not see because", e);
-                        } finally {
-                        board.setIntake(0);
-                    }
-                })
-                        .turn(toRadians(90))
+                .lineToLinearHeading(new Pose2d(-36.0, 35.0, toRadians(270)))
                 .addDisplacementMarker(() -> {
                     try {
                         if (board.getEyes().getTfod().getRecognitions().size() != 0) {
                             board.setIntake(-1);
                             wait(1000);
                         }
-                    } catch(Throwable e){
-                        telemetry.addData("Could not see because", e);
-                    } finally {
-                        board.setIntake(0);
-                    }
-                })
-                        .turn(toRadians(180) - 1e-6)
-                .addDisplacementMarker(() -> {
-                    try {
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                        }
-                    } catch(Throwable e){
+                    } catch (Throwable e) {
                         telemetry.addData("Could not see because", e);
                     } finally {
                         board.setIntake(0);
                     }
                 })
                 .turn(toRadians(90))
-                .lineToConstantHeading(new Vector2d(-36.0, 40.0))
+                .addDisplacementMarker(() -> {
+                    try {
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            board.setIntake(-1);
+                            wait(1000);
+                        }
+                    } catch (Throwable e) {
+                        telemetry.addData("Could not see because", e);
+                    } finally {
+                        board.setIntake(0);
+                    }
+                })
+                .turn(toRadians(180) - 1e-6)
+                .addDisplacementMarker(() -> {
+                    try {
+                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
+                            board.setIntake(-1);
+                            wait(1000);
+                        }
+                    } catch (Throwable e) {
+                        telemetry.addData("Could not see because", e);
+                    } finally {
+                        board.setIntake(0);
+                    }
+                })
+                .turn(toRadians(90))
+                .lineToLinearHeading(new Pose2d(-36.0, 40.0, toRadians(270)))
                 .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
-                .lineToConstantHeading(new Vector2d(-53.0, 12.0))
-                .splineToConstantHeading(new Vector2d(-20.0, 0.0), toRadians(270.0))
-                .lineToConstantHeading(new Vector2d(20.0, 0.0))
+                .lineToLinearHeading(new Pose2d(-53.0, 12.0, toRadians(270)))
+                .splineToLinearHeading(new Pose2d(-20.0, 0.0, toRadians(270)), toRadians(270.0))
+                .lineToLinearHeading(new Pose2d(20.0, 0.0, toRadians(270)))
 //                .addDisplacementMarker(() -> {
 //                })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
                     // TODO implement April Tags
                 })
-                .splineToSplineHeading(new Pose2d(49.0, 30.0, 0.0), 0.0)
-                .addDisplacementMarker(() ->
-                    board.setSlideTar(1000)
+                .splineToSplineHeading(new Pose2d(49.0, 35.0, 0.0), 0.0)
+                .addDisplacementMarker(() -> {
+                            board.setSlideTar(1000);
+                            Harvey = true;
+                        }
                 )
-                .lineToConstantHeading(new Vector2d(45.0, 25.0))
-                .splineToConstantHeading(new Vector2d(60.0, 12.0), toRadians(10.0))
+                .addDisplacementMarker(() -> board.setClaw(true))
+                .lineToLinearHeading(new Pose2d(45.0, 30.0, 0))
+                .splineToLinearHeading(new Pose2d(60.0, 12.0, 0), toRadians(10.0))
                 .build();
 
         telemetry.addLine("compiled");
@@ -141,6 +144,10 @@ public class Auto extends OpMode {
 
     @Override
     public void loop() {
-        drive.update();
+        try {
+            if (!Harvey || board.getSlidePos() > 1000) drive.update();
+        } catch (Throwable ignored) {
+            drive.update();
+        }
     }
 }

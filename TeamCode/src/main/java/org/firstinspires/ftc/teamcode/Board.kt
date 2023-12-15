@@ -35,9 +35,6 @@ class Board {
 
     private var imu: IMU? = null
 
-    private var droneWheel1: CRServo? = null
-    private var droneWheel2: CRServo? = null
-
     private var launchServo: Servo? = null
 
     var eyes = AEyes()
@@ -135,13 +132,6 @@ class Board {
             } catch (_: Throwable) {
                 broken.add("IMU")
             }
-        }
-
-        try{
-            droneWheel1 = hwMap.get(CRServo::class.java, "droneWheel1")
-            droneWheel2 = hwMap.get(CRServo::class.java, "droneWheel2")
-        } catch(_: Throwable){
-            broken.add("Launch Spinners")
         }
 
         if (broken.isNotEmpty() && telemetry != null) {
@@ -259,15 +249,11 @@ class Board {
     }
 
     fun launch() {
-        droneWheel1?.power = 1.0
-        droneWheel2?.power = 1.0
         launchServo?.position = 1.0
     }
 
     fun relatch() {
         launchServo?.position = 0.0
-        droneWheel1?.power = 0.0
-        droneWheel2?.power = 0.0
     }
 
     fun theHookBringsYouBack(pow: Double) {
