@@ -124,8 +124,7 @@ public class Auto extends OpMode {
             if (board.getEyes().getApril().getDetections().size() > 0) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
 
-                //use apriltagdetection class to find april tags/get data
-
+                //use aprilTagDetection class to find april tags/get data
                 telemetry.addData("x", tag.ftcPose.x);
                 telemetry.addData("y", tag.ftcPose.y);
                 telemetry.addData("z", tag.ftcPose.z);
