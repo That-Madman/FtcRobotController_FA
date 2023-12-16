@@ -267,5 +267,6 @@ class Board {
 
     fun theHookBringsYouBack(pow: Double) {
         hook1?.power = pow
+        hook2?.power = pow
     }
 }
