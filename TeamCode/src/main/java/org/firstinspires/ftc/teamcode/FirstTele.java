@@ -12,8 +12,10 @@ public class FirstTele extends OpMode {
             a2Held,
             rightHeld,
             inDirOn = false;
-    boolean clawOpen = true;
+
     double inDir = 0;
+
+    int dropperPos = 0;
 
 
     @Override
@@ -24,7 +26,7 @@ public class FirstTele extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.y && !y1Held) trueNorth = !trueNorth;
-        if (gamepad2.a && !a2Held) clawOpen = !clawOpen;
+        if (gamepad2.a && !a2Held) ++dropperPos;
 
         if (trueNorth) {
             board.driveFieldRelative(
@@ -40,7 +42,7 @@ public class FirstTele extends OpMode {
             );
         }
 
-        board.setClaw(clawOpen);
+        board.setDrop(dropperPos);
 
         try {
             board.setSlideTar(
@@ -57,7 +59,7 @@ public class FirstTele extends OpMode {
         }
         if (inDirOn && inDir != 1.0 && gamepad1.right_bumper && !rightHeld) inDir = 1.0;
         else if (inDirOn && inDir != -1.0 && gamepad1.right_bumper && !rightHeld) inDir = -1.0;
-        else inDir = 0.0;
+        else if (!inDirOn) inDir = 0.0;
         board.setIntake(inDir);
 
         y1Held = gamepad1.y;
