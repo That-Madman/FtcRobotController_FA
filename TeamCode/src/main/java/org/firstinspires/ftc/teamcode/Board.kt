@@ -31,7 +31,8 @@ class Board {
     private var intakeServo: CRServo? = null
     private var intakeMotor: DcMotorImplEx? = null
 
-    private var hook: DcMotor? = null
+    private var hook1: DcMotor? = null
+    private var hook2: DcMotor? = null
 
     private var imu: IMU? = null
 
@@ -114,11 +115,19 @@ class Board {
         }
         if (!auto) {
             try {
-                hook = hwMap.get(DcMotor::class.java, "hook")
-                hook!!.direction = Direction.FORWARD
+                hook1 = hwMap.get(DcMotor::class.java, "hook")
+                hook1!!.direction = Direction.FORWARD
             } catch (_: Throwable) {
-                broken.add("Hook")
+                broken.add("Hook 1")
             }
+
+            try {
+                hook2 = hwMap.get(DcMotor::class.java, "hook2")
+                hook2!!.direction = Direction.FORWARD
+            } catch (_: Throwable) {
+                broken.add("Hook 2")
+            }
+
             try {
                 imu = hwMap.get(IMU::class.java, "imu")
                 imu?.initialize(
@@ -257,6 +266,6 @@ class Board {
     }
 
     fun theHookBringsYouBack(pow: Double) {
-        hook?.power = pow
+        hook1?.power = pow
     }
 }
