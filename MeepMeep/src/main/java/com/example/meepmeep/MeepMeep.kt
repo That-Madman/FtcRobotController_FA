@@ -10,7 +10,7 @@ import com.noahbres.meepmeep.roadrunner.DriveShim
 object MeepMeep {
     @JvmStatic
     fun main(args: Array<String>) {
-        val meepMeep = MeepMeep(800)
+        val meepMeep = MeepMeep(600)
         val myBot =
             DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -23,21 +23,11 @@ object MeepMeep {
                 )
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(
-                        Pose2d(
-                            -36.0, 61.0, 270.0.toRadians()
-                        )
+                        Pose2d(46.0, -40.0, 0.0)
                     )
-                        .lineToConstantHeading(Vector2d(-36.0, 35.0))
-                        .lineToConstantHeading(Vector2d(-36.0, 40.0))
-                        .splineToConstantHeading(Vector2d(-53.0, 50.0), 135.0.toRadians())
-                        .lineToConstantHeading(Vector2d(-53.0, 12.0))
-                        .splineToConstantHeading(Vector2d(-20.0, 0.0), 270.0.toRadians())
-                        .lineToConstantHeading(Vector2d(20.0, 0.0))
-                        .splineToSplineHeading(Pose2d(44.0, 30.0, 0.0), 0.0)
+                        .lineToConstantHeading(Vector2d(35.0, -46.0))
+                        .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0)
                         .addDisplacementMarker{}
-                        .splineToConstantHeading(Vector2d(49.0, 30.0), 0.0)
-                        .lineToConstantHeading(Vector2d(45.0, 25.0))
-                        .splineToConstantHeading(Vector2d(60.0, 12.0), 10.0.toRadians())
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

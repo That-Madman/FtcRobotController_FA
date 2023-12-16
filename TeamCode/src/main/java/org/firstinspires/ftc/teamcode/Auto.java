@@ -13,6 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
+//@Disabled
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
@@ -57,7 +58,7 @@ public class Auto extends OpMode {
                         board.setIntake(0);
                     }
                 })
-                .turn(toRadians(90))
+                .turn(toRadians(-90))
                 .addDisplacementMarker(() -> {
                     try {
                         if (board.getEyes().getTfod().getRecognitions().size() != 0) {
@@ -70,40 +71,38 @@ public class Auto extends OpMode {
                         board.setIntake(0);
                     }
                 })
-                .turn(toRadians(180) - 1e-6)
+                .turn(toRadians(180) + 1e-6)
                 .addDisplacementMarker(() -> {
                     try {
-                        if (board.getEyes().getTfod().getRecognitions().size() != 0) {
-                            board.setIntake(-1);
-                            wait(1000);
-                        }
+                        board.setIntake(-1);
+                        wait(1000);
                     } catch (Throwable e) {
                         telemetry.addData("Could not see because", e);
                     } finally {
                         board.setIntake(0);
                     }
                 })
-                .turn(toRadians(90))
+                .turn(toRadians(-90))
                 .lineToLinearHeading(new Pose2d(-36.0, 40.0, toRadians(270)))
                 .splineToConstantHeading(new Vector2d(-53.0, 50.0), toRadians(135.0))
                 .lineToLinearHeading(new Pose2d(-53.0, 12.0, toRadians(270)))
-                .splineToLinearHeading(new Pose2d(-20.0, 0.0, toRadians(270)), toRadians(270.0))
-                .lineToLinearHeading(new Pose2d(20.0, 0.0, toRadians(270)))
+                .splineToLinearHeading(new Pose2d(-20.0, 0.0, 0), toRadians(270.0))
+                .lineToLinearHeading(new Pose2d(20.0, 0.0, 0))
 //                .addDisplacementMarker(() -> {
 //                })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
                     // TODO implement April Tags
                 })
-                .splineToSplineHeading(new Pose2d(49.0, 35.0, 0.0), 0.0)
+                .splineToConstantHeading(new Vector2d(49.0, 50.0), 0.0)
                 .addDisplacementMarker(() -> {
-                            board.setSlideTar(1000);
+                            board.setSlideTar(2000);
                             Harvey = true;
                         }
                 )
                 .addDisplacementMarker(() -> board.setClaw(true))
-                .lineToLinearHeading(new Pose2d(45.0, 30.0, 0))
-                .splineToLinearHeading(new Pose2d(60.0, 12.0, 0), toRadians(10.0))
+                .lineToLinearHeading(new Pose2d(40.0, 40.0, 0))
+                .splineToLinearHeading(new Pose2d(60.0, 25.0, 0), toRadians(10.0))
                 .build();
 
         telemetry.addLine("compiled");
