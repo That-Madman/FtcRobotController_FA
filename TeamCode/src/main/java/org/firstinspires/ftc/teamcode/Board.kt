@@ -252,6 +252,14 @@ class Board {
         }
     }
 
+    fun setDrop(state: Int) {
+        when((state % 3)) {
+            0 -> dropper?.position = 1.0
+            1 -> dropper?.position = 0.5
+            2 -> dropper?.position = 0.0
+        }
+    }
+
     fun setIntake(speed: Double) {
         intakeMotor?.power = speed
         intakeServo?.power = speed
