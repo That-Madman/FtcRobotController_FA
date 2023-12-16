@@ -10,8 +10,8 @@ public class FirstTele extends OpMode {
     boolean trueNorth,
             y1Held,
             a2Held,
-            bumperLeftHeld,
-            bumperRightHeld = false;
+            rightHeld,
+            inDirOn = false;
     boolean clawOpen = true;
     double inDir = 0;
 
@@ -50,26 +50,24 @@ public class FirstTele extends OpMode {
             telemetry.addData("Issue with lift because ", e);
         }
 
-        if (gamepad1.right_bumper && !bumperRightHeld) {
-            inDir = 1.0;
-        } else if (gamepad1.left_bumper && !bumperLeftHeld) {
-            inDir = -1.0;
-        } else if ((gamepad1.right_bumper && !bumperRightHeld && inDir == 1.0)
-                || (gamepad1.left_bumper && !bumperLeftHeld && inDir == -1.0)) {
-            inDir = 0.0;
+        if (gamepad1.right_bumper) {
+            inDirOn = true;
+        } else if (gamepad1.left_bumper) {
+            inDirOn = false;
         }
+        if (inDirOn && inDir != 1.0 && gamepad1.right_bumper && !rightHeld) inDir = 1.0;
+        else if (inDirOn && inDir != -1.0 && gamepad1.right_bumper && !rightHeld) inDir = -1.0;
+        else inDir = 0.0;
         board.setIntake(inDir);
 
         y1Held = gamepad1.y;
         a2Held = gamepad2.a;
+        rightHeld = gamepad1.right_bumper;
 
-        telemetry.addData("True North Enabled?", trueNorth);
+        telemetry.addData("True Nor th Enabled?", trueNorth);
 
         if (gamepad2.x) board.launch();
         if (gamepad2.y) board.relatch();
-
-        bumperLeftHeld = gamepad1.left_bumper;
-        bumperRightHeld = gamepad1.right_bumper;
 
         if (gamepad2.left_bumper) board.theHookBringsYouBack(1);
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1);
