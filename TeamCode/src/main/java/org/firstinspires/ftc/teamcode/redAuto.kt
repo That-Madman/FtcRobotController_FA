@@ -49,6 +49,7 @@ class redAuto : OpMode() {
 
         pixelTrajectory3 = drive!!.trajectorySequenceBuilder(firstTrajectory!!.end())
             .lineToLinearHeading(Pose2d(11.0, -32.0, 0.0))
+            .lineToLinearHeading(Pose2d(7.0, -32.0, 0.0))
             .build()
 
         return1 = drive!!.trajectorySequenceBuilder(pixelTrajectory1!!.end())
@@ -65,14 +66,13 @@ class redAuto : OpMode() {
             .build()
 
         boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .splineToLinearHeading(Pose2d(48.0, -39.0, 0.0), 0.0)
+            .splineToLinearHeading(Pose2d(54.0, -36.0, 0.0), 0.0)
             .build()
 
         parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
             .lineToConstantHeading(Vector2d(35.0, -46.0))
             .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0)
             .build()
-
     }
 
     override fun init_loop() {
@@ -200,22 +200,22 @@ class redAuto : OpMode() {
             "toBoard" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(2000)
+                    board.setSlideTar(2500)
                     step = "score"
                 }
             }
 
             "score" -> {
-                if (board.getSlidePos()!! >= 2000) {
-                    board.setClaw(true)
+                if (board.getSlidePos()!! >= 2500) {
+                    board.setClaw(false)
                     resetRuntime()
                     step = "drop"
                 }
             }
 
             "drop" -> {
-                if (runtime >= 1) {
-                    board.setClaw(false)
+                if (runtime >= 2) {
+                    board.setClaw(true)
                     drive!!.followTrajectorySequenceAsync(parkTrajectory)
                     step = "park"
                 }
