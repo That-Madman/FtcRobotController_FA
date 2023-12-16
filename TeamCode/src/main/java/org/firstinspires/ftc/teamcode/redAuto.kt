@@ -60,11 +60,12 @@ class redAuto : OpMode() {
             .build()
 
         return3 = drive!!.trajectorySequenceBuilder(pixelTrajectory3!!.end())
+            .lineToLinearHeading(Pose2d(22.0, pixelTrajectory3!!.end().y, 0.0))
             .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
             .build()
 
         boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .splineToLinearHeading(Pose2d(46.0, -40.0, 0.0), 0.0)
+            .splineToLinearHeading(Pose2d(48.0, -39.0, 0.0), 0.0)
             .build()
 
         parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
@@ -137,7 +138,7 @@ class redAuto : OpMode() {
             }
 
             "**spike1" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return1)
                     step = "board"
@@ -159,7 +160,7 @@ class redAuto : OpMode() {
             }
 
             "**spike2" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return2)
                     step = "board"
@@ -181,7 +182,7 @@ class redAuto : OpMode() {
             }
 
             "*spike3" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return3)
                     step = "board"
@@ -199,13 +200,13 @@ class redAuto : OpMode() {
             "toBoard" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(1000)
+                    board.setSlideTar(2000)
                     step = "score"
                 }
             }
 
             "score" -> {
-                if (board.getSlidePos()!! >= 1000) {
+                if (board.getSlidePos()!! >= 2000) {
                     board.setClaw(true)
                     resetRuntime()
                     step = "drop"
@@ -213,7 +214,7 @@ class redAuto : OpMode() {
             }
 
             "drop" -> {
-                if (runtime >= 500.0) {
+                if (runtime >= 1) {
                     board.setClaw(false)
                     drive!!.followTrajectorySequenceAsync(parkTrajectory)
                     step = "park"
