@@ -53,6 +53,7 @@ class Board {
         try {
             slideMotor = hwMap.get(DcMotorImplEx::class.java, "slideMotor")
             slideMotor?.direction = Direction.FORWARD
+            slideMotor?.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
             slideMotor?.power = 1.0
             slideMotor?.targetPosition = 0
             slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
@@ -69,7 +70,7 @@ class Board {
 
                 for (wheels in driveBase) {
                     wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-                    wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+                    wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
                 }
 
                 driveBase[0]?.direction = Direction.REVERSE
@@ -82,7 +83,7 @@ class Board {
         }
         try {
             dropper = hwMap.get(Servo::class.java, "claw")
-            dropper!!.position = 1.0
+            dropper!!.position = 0.0
         } catch (_: Throwable) {
             broken.add("Claw")
         }
@@ -116,14 +117,18 @@ class Board {
         if (!auto) {
             try {
                 hook1 = hwMap.get(DcMotor::class.java, "hook")
+                hook1!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 hook1!!.direction = Direction.FORWARD
+                hook1!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
             } catch (_: Throwable) {
                 broken.add("Hook 1")
             }
 
             try {
                 hook2 = hwMap.get(DcMotor::class.java, "hook2")
+                hook2!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 hook2!!.direction = Direction.FORWARD
+                hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
             } catch (_: Throwable) {
                 broken.add("Hook 2")
             }
@@ -161,17 +166,6 @@ class Board {
         driveBase[1]?.direction = Direction.FORWARD
         driveBase[2]?.direction = Direction.REVERSE
         driveBase[3]?.direction = Direction.FORWARD
-    }
-
-    fun changeToPow() {
-        for (wheel in driveBase) wheel?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-    }
-
-    fun posRun(target: Int) {
-        try {
-            for (i in driveBase.indices) driveBase[i]!!.targetPosition = target
-        } catch (_: Throwable) {
-        }
     }
 
     fun posRunSide(target: Int) {

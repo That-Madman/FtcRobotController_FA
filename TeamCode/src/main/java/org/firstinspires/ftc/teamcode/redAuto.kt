@@ -36,7 +36,8 @@ class redAuto : OpMode() {
         drive!!.poseEstimate = Pose2d(12.0, -61.0, toRadians(90.0))
 
         firstTrajectory = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .lineToConstantHeading(Vector2d(26.0, -59.5))
+            .lineToConstantHeading(Vector2d(drive!!.poseEstimate.x, -58.5))
+            .lineToConstantHeading(Vector2d(26.0, -58.5))
             .build()
 
         pixelTrajectory1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
