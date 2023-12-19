@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Board
 @Autonomous
 class BlueRightAuto : OpMode() {
     private val board = Board()
-    var drive: SampleMecanumDrive? = null
+    private var drive: SampleMecanumDrive? = null
 
     private var step = "start"
 
@@ -29,6 +29,7 @@ class BlueRightAuto : OpMode() {
 
     private var boardTrajectory: TrajectorySequence? = null
     private var parkTrajectory: TrajectorySequence? = null
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
