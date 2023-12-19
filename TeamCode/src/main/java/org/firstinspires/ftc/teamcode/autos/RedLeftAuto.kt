@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.autos
 
 import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
@@ -7,12 +7,12 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition
-import java.lang.Math.toRadians
+import org.firstinspires.ftc.teamcode.Board
 import java.util.function.Consumer
+
 @Disabled
 @Autonomous
-class blueLeftAuto : OpMode() {
+class RedLeftAuto : OpMode() {
     private val board = Board()
     var drive: SampleMecanumDrive? = null
 
@@ -35,10 +35,11 @@ class blueLeftAuto : OpMode() {
         board.getHW(hardwareMap, telemetry, true)
 
         drive!!.poseEstimate = Pose2d(
-            12.0, 61.0, toRadians(270.0)
+            12.0, 61.0, Math.toRadians(270.0)
         )
         firstTrajectory = drive!!.trajectorySequenceBuilder(
-            Pose2d(12.0, 61.0, toRadians(270.0)))
+            Pose2d(12.0, 61.0, Math.toRadians(270.0))
+        )
             .lineToConstantHeading(Vector2d(20.0, 61.0))
             .build()
     }
@@ -46,11 +47,12 @@ class blueLeftAuto : OpMode() {
     override fun init_loop() {
         try { //start of TensorFlow
             board.eyes.tfod!!.recognitions
-                .forEach(Consumer { thing: Recognition ->
-                    telemetry.addLine(
-                        "found $thing"
-                    )
-                })
+                .forEach(
+                    Consumer {
+                        telemetry.addLine(
+                            "found $it"
+                        )
+                    })
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
@@ -174,22 +176,24 @@ class blueLeftAuto : OpMode() {
             }
 
             "score" -> {
-                if(board.getSlidePos()!! >= 1000){
+                if (board.getSlidePos()!! >= 1000) {
                     board.setClaw(true)
                     resetRuntime()
                     step = "drop"
                 }
             }
+
             "drop" -> {
-                if(runtime >= 500.0){
+                if (runtime >= 500.0) {
                     board.setClaw(false)
                     drive!!.followTrajectorySequenceAsync(parkTrajectory)
                     step = "park"
                 }
             }
+
             "park" -> {
                 drive!!.update()
-                if(!drive!!.isBusy) {
+                if (!drive!!.isBusy) {
                     board.setSlideTar(0)
                     step = "done"
                 }
