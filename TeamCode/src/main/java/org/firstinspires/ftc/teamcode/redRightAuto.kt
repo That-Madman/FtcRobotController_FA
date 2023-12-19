@@ -5,14 +5,13 @@ import autoThings.roadRunner.trajectorysequence.TrajectorySequence
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import org.apache.commons.math3.util.FastMath.toRadians
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition
-import java.lang.Math.toRadians
 import java.util.function.Consumer
-@Disabled
+
 @Autonomous
-class blueAuto : OpMode() {
+class redRightAuto : OpMode() {
     private val board = Board()
     var drive: SampleMecanumDrive? = null
 
@@ -34,12 +33,46 @@ class blueAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(
-            12.0, 61.0, toRadians(270.0)
-        )
-        firstTrajectory = drive!!.trajectorySequenceBuilder(
-            Pose2d(12.0, 61.0, toRadians(270.0)))
-            .lineToConstantHeading(Vector2d(20.0, 61.0))
+        drive!!.poseEstimate = Pose2d(12.0, -61.0, toRadians(90.0))
+
+        firstTrajectory = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .lineToConstantHeading(Vector2d(drive!!.poseEstimate.x, -58.5))
+            .lineToConstantHeading(Vector2d(26.0, -58.5))
+            .build()
+
+        pixelTrajectory1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .lineToLinearHeading(Pose2d(12.0, -35.0, toRadians(270.0)))
+            .build()
+
+        pixelTrajectory2 = drive!!.trajectorySequenceBuilder(firstTrajectory!!.end())
+            .lineToLinearHeading(Pose2d(22.0, -45.0, toRadians(270.0)))
+            .build()
+
+        pixelTrajectory3 = drive!!.trajectorySequenceBuilder(firstTrajectory!!.end())
+            .lineToLinearHeading(Pose2d(11.0, -32.0, 0.0))
+            .lineToLinearHeading(Pose2d(7.0, -32.0, 0.0))
+            .build()
+
+        return1 = drive!!.trajectorySequenceBuilder(pixelTrajectory1!!.end())
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
+            .build()
+
+        return2 = drive!!.trajectorySequenceBuilder(pixelTrajectory2!!.end())
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
+            .build()
+
+        return3 = drive!!.trajectorySequenceBuilder(pixelTrajectory3!!.end())
+            .lineToLinearHeading(Pose2d(22.0, pixelTrajectory3!!.end().y, 0.0))
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
+            .build()
+
+        boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -61.0, toRadians(90.0)))
+            .splineToLinearHeading(Pose2d(54.0, -36.0, 0.0), 0.0)
+            .build()
+
+        parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
+            .lineToConstantHeading(Vector2d(35.0, -46.0))
+            .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0)
             .build()
     }
 
@@ -106,7 +139,7 @@ class blueAuto : OpMode() {
             }
 
             "**spike1" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return1)
                     step = "board"
@@ -128,7 +161,7 @@ class blueAuto : OpMode() {
             }
 
             "**spike2" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return2)
                     step = "board"
@@ -150,7 +183,7 @@ class blueAuto : OpMode() {
             }
 
             "*spike3" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return3)
                     step = "board"
@@ -168,28 +201,30 @@ class blueAuto : OpMode() {
             "toBoard" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(1000)
+                    board.setSlideTar(2500)
                     step = "score"
                 }
             }
 
             "score" -> {
-                if(board.getSlidePos()!! >= 1000){
-                    board.setClaw(true)
+                if (board.getSlidePos()!! >= 2500) {
+                    board.setClaw(false)
                     resetRuntime()
                     step = "drop"
                 }
             }
+
             "drop" -> {
-                if(runtime >= 500.0){
-                    board.setClaw(false)
+                if (runtime >= 2) {
+                    board.setClaw(true)
                     drive!!.followTrajectorySequenceAsync(parkTrajectory)
                     step = "park"
                 }
             }
+
             "park" -> {
                 drive!!.update()
-                if(!drive!!.isBusy) {
+                if (!drive!!.isBusy) {
                     board.setSlideTar(0)
                     step = "done"
                 }

@@ -5,6 +5,7 @@ import static java.lang.Math.toRadians;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -13,7 +14,9 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence;
 
-//@Disabled
+/** unsafe; don't know why, but lifts arm at start; broke hook*/
+@Disabled
+@Deprecated
 @Autonomous
 public class Auto extends OpMode {
     Board board = new Board();
@@ -33,11 +36,12 @@ public class Auto extends OpMode {
         } catch (Throwable e) {
             telemetry.addData("Could not access hardware because ", e);
         }
-        try {
-            board.changeToPos();
-        } catch (Throwable e) {
-            telemetry.addData("Trouble with accessing wheels because ", e);
-        }
+//        try {
+//            board.changeToPos();
+//        } catch (Throwable e) {
+//            telemetry.addData("Trouble with accessing wheels because ", e);
+//        }
+
         drive.setPoseEstimate(new Pose2d(-36.0, 61.0, toRadians(270.0)));
 
         sequence = drive.trajectorySequenceBuilder(new Pose2d(-36.0, 61.0, toRadians(270.0)))
@@ -88,11 +92,12 @@ public class Auto extends OpMode {
                 .lineToLinearHeading(new Pose2d(-53.0, 12.0, toRadians(270)))
                 .splineToLinearHeading(new Pose2d(-20.0, 0.0, 0), toRadians(270.0))
                 .lineToLinearHeading(new Pose2d(20.0, 0.0, 0))
-//                .addDisplacementMarker(() -> {
-//                })
+                .addDisplacementMarker(() -> {
+                    board.setIntake(1);
+                })
                 .splineToSplineHeading(new Pose2d(44.0, 30.0, 0.0), 0.0)
                 .addDisplacementMarker(() -> {
-                    // TODO implement April Tags
+                    board.setIntake(0);
                 })
                 .splineToConstantHeading(new Vector2d(49.0, 50.0), 0.0)
                 .addDisplacementMarker(() -> {
@@ -100,9 +105,7 @@ public class Auto extends OpMode {
                             Harvey = true;
                         }
                 )
-                .addDisplacementMarker(() -> board.setClaw(true))
-                .lineToLinearHeading(new Pose2d(40.0, 40.0, 0))
-                .splineToLinearHeading(new Pose2d(60.0, 25.0, 0), toRadians(10.0))
+                .addDisplacementMarker(() -> board.setDrop(3))
                 .build();
 
         telemetry.addLine("compiled");
