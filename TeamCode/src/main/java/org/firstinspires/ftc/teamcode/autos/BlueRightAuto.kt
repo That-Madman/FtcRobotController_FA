@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
-import java.util.function.Consumer
 
 @Disabled
 @Autonomous
@@ -39,19 +38,12 @@ class BlueRightAuto : OpMode() {
         )
         firstTrajectory = drive!!.trajectorySequenceBuilder(
             Pose2d(12.0, 61.0, Math.toRadians(270.0))
-        )
-            .lineToConstantHeading(Vector2d(20.0, 61.0))
-            .build()
+        ).lineToConstantHeading(Vector2d(20.0, 61.0)).build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions
-                .forEach(Consumer {
-                    telemetry.addLine(
-                        "found $it"
-                    )
-                })
+            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow

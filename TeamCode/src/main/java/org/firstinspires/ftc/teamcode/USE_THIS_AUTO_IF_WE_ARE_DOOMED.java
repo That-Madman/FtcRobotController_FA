@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+@Deprecated
+@Disabled
 @Autonomous
 public class USE_THIS_AUTO_IF_WE_ARE_DOOMED extends LinearOpMode {
     Board board = new Board();

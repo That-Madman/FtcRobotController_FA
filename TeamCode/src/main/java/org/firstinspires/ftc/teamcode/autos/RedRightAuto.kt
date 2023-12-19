@@ -7,9 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.apache.commons.math3.util.FastMath.toRadians
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition
 import org.firstinspires.ftc.teamcode.Board
-import java.util.function.Consumer
 
 @Autonomous
 class redRightAuto : OpMode() {
@@ -38,54 +36,40 @@ class redRightAuto : OpMode() {
 
         firstTrajectory = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .lineToConstantHeading(Vector2d(drive!!.poseEstimate.x, -58.5))
-            .lineToConstantHeading(Vector2d(26.0, -58.5))
-            .build()
+            .lineToConstantHeading(Vector2d(26.0, -58.5)).build()
 
         pixelTrajectory1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .lineToLinearHeading(Pose2d(12.0, -35.0, toRadians(270.0)))
-            .build()
+            .lineToLinearHeading(Pose2d(12.0, -35.0, toRadians(270.0))).build()
 
         pixelTrajectory2 = drive!!.trajectorySequenceBuilder(firstTrajectory!!.end())
-            .lineToLinearHeading(Pose2d(22.0, -45.0, toRadians(270.0)))
-            .build()
+            .lineToLinearHeading(Pose2d(22.0, -45.0, toRadians(270.0))).build()
 
         pixelTrajectory3 = drive!!.trajectorySequenceBuilder(firstTrajectory!!.end())
             .lineToLinearHeading(Pose2d(11.0, -32.0, 0.0))
-            .lineToLinearHeading(Pose2d(7.0, -32.0, 0.0))
-            .build()
+            .lineToLinearHeading(Pose2d(7.0, -32.0, 0.0)).build()
 
         return1 = drive!!.trajectorySequenceBuilder(pixelTrajectory1!!.end())
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .build()
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
 
         return2 = drive!!.trajectorySequenceBuilder(pixelTrajectory2!!.end())
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .build()
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
 
         return3 = drive!!.trajectorySequenceBuilder(pixelTrajectory3!!.end())
             .lineToLinearHeading(Pose2d(22.0, pixelTrajectory3!!.end().y, 0.0))
             .lineToLinearHeading(Pose2d(18.0, -60.0, toRadians(90.0)))
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .build()
+            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
 
         boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .splineToLinearHeading(Pose2d(54.0, -36.0, 0.0), 0.0)
-            .build()
+            .splineToLinearHeading(Pose2d(54.0, -36.0, 0.0), 0.0).build()
 
         parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
             .lineToConstantHeading(Vector2d(35.0, -46.0))
-            .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0)
-            .build()
+            .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0).build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions
-                .forEach(Consumer { thing: Recognition ->
-                    telemetry.addLine(
-                        "found $thing"
-                    )
-                })
+            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
