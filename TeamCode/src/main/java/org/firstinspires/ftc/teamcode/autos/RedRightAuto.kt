@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.autos
 
 import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.apache.commons.math3.util.FastMath.toRadians
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition
+import org.firstinspires.ftc.teamcode.Board
 import java.util.function.Consumer
 
 @Autonomous
@@ -63,6 +64,7 @@ class redRightAuto : OpMode() {
 
         return3 = drive!!.trajectorySequenceBuilder(pixelTrajectory3!!.end())
             .lineToLinearHeading(Pose2d(22.0, pixelTrajectory3!!.end().y, 0.0))
+            .lineToLinearHeading(Pose2d(18.0, -60.0, toRadians(90.0)))
             .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0)))
             .build()
 
