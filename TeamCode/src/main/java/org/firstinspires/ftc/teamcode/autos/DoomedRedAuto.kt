@@ -10,7 +10,7 @@ import java.lang.Math.toRadians
 
 @Autonomous(name = "WE ARE DOOMED (RED)")
 class DoomedRedAuto : OpMode() {
-    var drive: SampleMecanumDrive? = null
+    private var drive: SampleMecanumDrive? = null
     private var park: TrajectorySequence? = null
 
     override fun init() {
