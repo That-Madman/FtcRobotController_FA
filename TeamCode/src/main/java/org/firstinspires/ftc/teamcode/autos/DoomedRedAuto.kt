@@ -21,9 +21,10 @@ class DoomedRedAuto : OpMode() {
             .lineToConstantHeading(Vector2d(12.0, -59.0))
             .lineTo(Vector2d(59.0, -59.0))
             .build()
+        drive!!.followTrajectorySequenceAsync(park)
     }
 
     override fun loop() {
-        TODO("Not yet implemented")
+        drive!!.update()
     }
 }
