@@ -88,6 +88,7 @@ class redRightAuto : OpMode() {
         } catch (e: Throwable) {
             telemetry.addData("Issue with April Tags because ", e)
         } // end of April Tags
+        telemetry.update()
     }
 
     override fun loop() {
