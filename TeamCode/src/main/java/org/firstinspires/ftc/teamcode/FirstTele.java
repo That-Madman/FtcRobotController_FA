@@ -25,7 +25,10 @@ public class FirstTele extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.y && !y1Held) trueNorth = !trueNorth;
+        if (gamepad1.y && !y1Held) {
+            trueNorth = !trueNorth;
+            board.resetIMU();
+        }
         if (gamepad2.a && !a2Held) ++dropperPos;
 
         if (trueNorth) {
