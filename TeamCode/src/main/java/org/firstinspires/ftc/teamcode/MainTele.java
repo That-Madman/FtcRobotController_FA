@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "TeleOp")
-public class FirstTele extends OpMode {
+public class MainTele extends OpMode {
     Board board = new Board();
 
     boolean trueNorth,
