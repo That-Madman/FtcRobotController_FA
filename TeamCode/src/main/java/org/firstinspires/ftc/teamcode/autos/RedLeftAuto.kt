@@ -81,9 +81,18 @@ class RedLeftAuto : OpMode() {
             "*not1" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    step = if (board.eyes.tfod!!.recognitions.size != 0) "spike2"
-                    else "not2"
+                    resetRuntime()
+                    step = "**not1"
                 }
+            }
+
+            "**not1" -> {
+                if (runtime == 0.5) step = "***not1"
+            }
+
+            "***not1" -> {
+                step = if (board.eyes.tfod!!.recognitions.size != 0) "spike2"
+                else "not2"
             }
 
             "spike1" -> {
