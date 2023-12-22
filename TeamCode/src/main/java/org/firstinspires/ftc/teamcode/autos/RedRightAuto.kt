@@ -74,19 +74,17 @@ class redRightAuto : OpMode() {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
         try { //start of April tags
-            if (board.eyes.april!!.detections.size > 0) {
-                val tag = board.eyes.april!!.detections[0]
-
+            board.eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
-                telemetry.addData("x", tag.ftcPose.x)
-                telemetry.addData("y", tag.ftcPose.y)
-                telemetry.addData("z", tag.ftcPose.z)
-                telemetry.addData("roll", tag.ftcPose.roll)
-                telemetry.addData("pitch", tag.ftcPose.pitch)
-                telemetry.addData("yaw", tag.ftcPose.yaw)
+                telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
+                telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
+                telemetry.addLine("z of tag ${it.id} is ${it.ftcPose.z}")
+                telemetry.addLine("roll of tag ${it.id} is ${it.ftcPose.roll}")
+                telemetry.addLine("pitch of ${it.id} is ${it.ftcPose.pitch}")
+                telemetry.addLine("yaw of ${it.id} is ${it.ftcPose.yaw}")
             }
         } catch (e: Throwable) {
-            telemetry.addData("Issue with April Tags because ", e)
+            telemetry.addData("Issue with April Tags because: ", e)
         } // end of April Tags
         telemetry.update()
     }
