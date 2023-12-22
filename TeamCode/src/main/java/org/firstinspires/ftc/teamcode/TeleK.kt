@@ -43,7 +43,8 @@ class TeleK : OpMode() {
 
         try {
             board.setSlideTar(
-                board.getSlidePos()!! + (gamepad2.right_trigger - gamepad2.left_trigger).toInt() * 1000
+                board.getSlidePos()!!
+                        + (gamepad2.right_trigger - gamepad2.left_trigger).toInt() * 1000
             )
         } catch (e: Throwable) {
             telemetry.addData("Issue with lift because ", e)
