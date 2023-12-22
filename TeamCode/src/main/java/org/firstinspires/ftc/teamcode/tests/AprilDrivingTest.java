@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -6,13 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.Board;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 
-@Autonomous
+@Autonomous(group = "Tests")
 @Config
 public class AprilDrivingTest extends OpMode {
     static int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
@@ -24,10 +25,11 @@ public class AprilDrivingTest extends OpMode {
             maxAutoSpeed = 0.5,
             maxAutoStrafe = 0.5,
             maxAutoTurn = 0.3;
-    private boolean targetFound = false;
-    private AprilTagDetection desiredTag = null;
     Board board = new Board();
     SampleMecanumDrive drive;
+    private boolean targetFound = false;
+    private AprilTagDetection desiredTag = null;
+
     @Override
     public void init() {
         drive = new SampleMecanumDrive(hardwareMap);
@@ -79,7 +81,7 @@ public class AprilDrivingTest extends OpMode {
                     }
                 }
             }
-        } catch(Throwable e){
+        } catch (Throwable e) {
             telemetry.addData("eye failure because ", e);
         }
         if (targetFound) {

@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.tests
 
 import autoThings.AEyes
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 
-@Autonomous
+@Autonomous(group = "Tests")
 class TestEyes : OpMode() {
 
     private val eyes = AEyes()

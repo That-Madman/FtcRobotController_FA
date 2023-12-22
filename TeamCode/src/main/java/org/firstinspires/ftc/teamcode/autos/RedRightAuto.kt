@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Board
 @Autonomous
 class redRightAuto : OpMode() {
     private val board = Board()
-    private val eyes = Board().eyes
     var drive: SampleMecanumDrive? = null
 
     private var step = "start"
@@ -29,6 +28,9 @@ class redRightAuto : OpMode() {
 
     private var boardTrajectory: TrajectorySequence? = null
     private var parkTrajectory: TrajectorySequence? = null
+
+    private val slideHeight: Int = 6250
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
@@ -66,17 +68,17 @@ class redRightAuto : OpMode() {
 
         parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
             .lineToConstantHeading(Vector2d(35.0, -46.0))
-            .splineToLinearHeading(Pose2d(59.0, -59.0, 0.0), 0.0).build()
+            .splineToLinearHeading(Pose2d(59.0, -53.0, 0.0), 0.0).build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
         try { //start of April tags
-            eyes.april!!.detections.forEach {
+            board.eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
@@ -94,10 +96,15 @@ class redRightAuto : OpMode() {
     override fun loop() {
         when (step) {
             "start" -> {
-                step =
-                    if (eyes.tfod!!.recognitions.size != 0 && eyes.tfod!!.recognitions[0].right >= 480)
+                step = try {
+                    if (board.eyes.tfod!!.recognitions.size != 0
+                        && board.eyes.tfod!!.recognitions[0].right >= 480
+                    )
                         "spike1"
                     else "not1"
+                } catch (_: Throwable) {
+                    "not1"
+                }
             }
 
             "not1" -> {
@@ -119,9 +126,15 @@ class redRightAuto : OpMode() {
 
             "***not1" -> {
                 step =
-                    if (eyes.tfod!!.recognitions.size != 0 && eyes.tfod!!.recognitions[0].left >= 240)
-                        "spike2"
-                    else "not2"
+                    try {
+                        if (board.eyes.tfod!!.recognitions.size != 0 &&
+                            board.eyes.tfod!!.recognitions[0].left >= 240
+                        )
+                            "spike2"
+                        else "not2"
+                    } catch (_: Throwable) {
+                        "not2"
+                    }
             }
 
             "spike1" -> {
@@ -201,13 +214,14 @@ class redRightAuto : OpMode() {
             "toBoard" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(2500)
+                    board.setSlideTar(slideHeight)
                     step = "score"
                 }
             }
 
             "score" -> {
-                if (board.getSlidePos()!! >= 2500) {
+                telemetry.addData("current lift position: ", board.getSlidePos())
+                if (board.getSlidePos()!! >= slideHeight) {
                     board.setClaw(false)
                     resetRuntime()
                     step = "drop"
@@ -230,6 +244,6 @@ class redRightAuto : OpMode() {
                 }
             }
         }
-        telemetry.addData("current step = ", step)
+        telemetry.addData("The current step is ", "$step.")
     }
 }
