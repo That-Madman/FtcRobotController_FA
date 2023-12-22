@@ -21,8 +21,8 @@ class TestLift : OpMode() {
 
     override fun loop() {
         slideMotor!!.targetPosition =
-            slideMotor!!.currentPosition
-        +(gamepad1.right_trigger - gamepad1.left_trigger).toInt() * 1000
+            slideMotor!!.currentPosition +
+                    (gamepad1.right_trigger - gamepad1.left_trigger).toInt() * 1000
 
         telemetry.addLine("The slide is at ${slideMotor!!.currentPosition} tics.")
     }
