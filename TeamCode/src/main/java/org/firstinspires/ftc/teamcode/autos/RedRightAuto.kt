@@ -49,6 +49,7 @@ class redRightAuto : OpMode() {
             .lineToLinearHeading(Pose2d(7.0, -32.0, 0.0)).build()
 
         return1 = drive!!.trajectorySequenceBuilder(pixelTrajectory1!!.end())
+            .lineToConstantHeading(Vector2d(20.0, -40.0))
             .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
 
         return2 = drive!!.trajectorySequenceBuilder(pixelTrajectory2!!.end())
