@@ -18,7 +18,7 @@ class TestEyes : OpMode() {
 
     override fun init_loop() {
         try { //start of TensorFlow
-            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found ${it.label}") }
         } catch (e: Throwable) {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow
@@ -40,7 +40,7 @@ class TestEyes : OpMode() {
 
     override fun loop() {
         try { //start of TensorFlow
-            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found ${it.label}") }
         } catch (e: Throwable) {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow

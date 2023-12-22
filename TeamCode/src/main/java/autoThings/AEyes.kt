@@ -13,7 +13,10 @@ class AEyes {
     fun initVision(hwMap: HardwareMap) {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
-        tfod = TfodProcessor.Builder().build()
+        tfod = TfodProcessor.Builder()
+            .setModelFileName("Test_Model.tflite")
+            .setModelLabels(arrayOf("prop"))
+            .build()
         april = AprilTagProcessor
             .Builder()
             .setDrawAxes(true)
