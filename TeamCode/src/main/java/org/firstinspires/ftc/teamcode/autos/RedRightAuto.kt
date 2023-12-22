@@ -29,7 +29,7 @@ class redRightAuto : OpMode() {
     private var boardTrajectory: TrajectorySequence? = null
     private var parkTrajectory: TrajectorySequence? = null
 
-    private val slideHeight: Int = 6250
+    private val slideHeight: Int = 3750
 
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
