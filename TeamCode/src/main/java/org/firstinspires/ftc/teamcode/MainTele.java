@@ -69,7 +69,7 @@ public class MainTele extends OpMode {
         a2Held = gamepad2.a;
         rightHeld = gamepad1.right_bumper;
 
-        telemetry.addData("True Nor th Enabled?", trueNorth);
+        telemetry.addData("True North Enabled?", trueNorth);
 
         if (gamepad2.x) board.launch();
         if (gamepad2.y) board.relatch();
