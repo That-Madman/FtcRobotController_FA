@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Board
 @Autonomous
 class redRightAuto : OpMode() {
     private val board = Board()
+    private val eyes = Board().eyes
     var drive: SampleMecanumDrive? = null
 
     private var step = "start"
@@ -70,12 +71,12 @@ class redRightAuto : OpMode() {
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
         try { //start of April tags
-            board.eyes.april!!.detections.forEach {
+            eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
@@ -93,8 +94,10 @@ class redRightAuto : OpMode() {
     override fun loop() {
         when (step) {
             "start" -> {
-                step = if (board.eyes.tfod!!.recognitions.size != 0) "spike1"
-                else "not1"
+                step =
+                    if (eyes.tfod!!.recognitions.size != 0 && eyes.tfod!!.recognitions[0].right >= 480)
+                        "spike1"
+                    else "not1"
             }
 
             "not1" -> {
@@ -115,8 +118,10 @@ class redRightAuto : OpMode() {
             }
 
             "***not1" -> {
-                step = if (board.eyes.tfod!!.recognitions.size != 0) "spike2"
-                else "not2"
+                step =
+                    if (eyes.tfod!!.recognitions.size != 0 && eyes.tfod!!.recognitions[0].left >= 240)
+                        "spike2"
+                    else "not2"
             }
 
             "spike1" -> {
