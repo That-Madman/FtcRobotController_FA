@@ -27,7 +27,8 @@ object MeepMeep {
                             12.0, 61.0, 270.0.toRadians()
                         )
                     )
-                        .lineToConstantHeading(Vector2d(20.0, 61.0))
+                        .lineToConstantHeading(Vector2d(12.0, 58.5))
+                        .lineToConstantHeading(Vector2d(20.0, 58.5))
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
