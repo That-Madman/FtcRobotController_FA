@@ -24,7 +24,6 @@ class TestLift : OpMode() {
         slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
         slideMotor?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
-
         dropper = hardwareMap.get(Servo::class.java, "claw")
         dropper!!.position = 1.0
     }
