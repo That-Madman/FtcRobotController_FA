@@ -52,22 +52,22 @@ class redRightAuto : OpMode() {
 
         return1 = drive!!.trajectorySequenceBuilder(pixelTrajectory1!!.end())
             .lineToConstantHeading(Vector2d(20.0, -40.0))
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
+            .lineToLinearHeading(Pose2d(12.0, -59.0, toRadians(90.0))).build()
 
         return2 = drive!!.trajectorySequenceBuilder(pixelTrajectory2!!.end())
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
+            .lineToLinearHeading(Pose2d(12.0, -59.0, toRadians(90.0))).build()
 
         return3 = drive!!.trajectorySequenceBuilder(pixelTrajectory3!!.end())
             .lineToLinearHeading(Pose2d(22.0, pixelTrajectory3!!.end().y, 0.0))
             .lineToLinearHeading(Pose2d(18.0, -60.0, toRadians(90.0)))
-            .lineToLinearHeading(Pose2d(12.0, -61.0, toRadians(90.0))).build()
+            .lineToLinearHeading(Pose2d(12.0, -59.0, toRadians(90.0))).build()
 
-        boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -61.0, toRadians(90.0)))
-            .splineToLinearHeading(Pose2d(54.0, -36.0, 0.0), 0.0).build()
+        boardTrajectory = drive!!.trajectorySequenceBuilder(Pose2d(12.0, -59.0, toRadians(90.0)))
+            .splineToLinearHeading(Pose2d(53.5, -36.0, 0.0), 0.0).build()
 
         parkTrajectory = drive!!.trajectorySequenceBuilder(boardTrajectory!!.end())
             .lineToConstantHeading(Vector2d(35.0, -46.0))
-            .splineToLinearHeading(Pose2d(59.0, -53.0, 0.0), 0.0).build()
+            .splineToLinearHeading(Pose2d(58.5, -54.0, 0.0), 0.0).build()
     }
 
     override fun init_loop() {
@@ -120,7 +120,7 @@ class redRightAuto : OpMode() {
             }
 
             "**not1" -> {
-                if (runtime == 0.5) step = "***not1"
+                if (runtime >= 0.5) step = "***not1"
             }
 
             "***not1" -> {
