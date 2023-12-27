@@ -37,12 +37,12 @@ class blueLeftAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(
-            12.0, 61.0, toRadians(270.0)
-        )
-        firstTrajectory = drive!!.trajectorySequenceBuilder(
-            Pose2d(12.0, 61.0, toRadians(270.0))
-        ).lineToConstantHeading(Vector2d(20.0, 61.0)).build()
+        drive!!.poseEstimate = Pose2d(12.0, 61.0, toRadians(270.0))
+
+        firstTrajectory = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .lineToConstantHeading(Vector2d(12.0, 58.5))
+            .lineToConstantHeading(Vector2d(20.0, 58.5))
+            .build()
     }
 
     override fun init_loop() {
@@ -66,6 +66,7 @@ class blueLeftAuto : OpMode() {
         } catch (e: Throwable) {
             telemetry.addData("Issue with April Tags because ", e)
         } // end of April Tags
+        telemetry.update()
     }
 
     override fun loop() {
