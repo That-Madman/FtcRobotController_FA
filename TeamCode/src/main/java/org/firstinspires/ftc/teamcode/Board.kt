@@ -83,7 +83,7 @@ class Board {
         }
         try {
             dropper = hwMap.get(Servo::class.java, "claw")
-            dropper!!.position = 0.0
+            dropper!!.position = 1.0
         } catch (_: Throwable) {
             broken.add("Claw")
         }
