@@ -7,7 +7,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
 import org.firstinspires.ftc.vision.tfod.TfodProcessor
 
 class AEyes {
-    var visionPortal: VisionPortal? = null
+    private var visionPortal: VisionPortal? = null
     var tfod: TfodProcessor? = null
     var april: AprilTagProcessor? = null
     fun initVision(hwMap: HardwareMap) {

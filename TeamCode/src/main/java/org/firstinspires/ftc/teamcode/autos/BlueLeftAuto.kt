@@ -30,6 +30,9 @@ class blueLeftAuto : OpMode() {
 
     private var boardTrajectory: TrajectorySequence? = null
     private var parkTrajectory: TrajectorySequence? = null
+
+    private val slideHeight: Int = 3750
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
@@ -68,8 +71,15 @@ class blueLeftAuto : OpMode() {
     override fun loop() {
         when (step) {
             "start" -> {
-                step = if (board.eyes.tfod!!.recognitions.size != 0) "spike1"
-                else "not1"
+                step = try {
+                    if (board.eyes.tfod!!.recognitions.size != 0
+                        && board.eyes.tfod!!.recognitions[0].right >= 480
+                    )
+                        "spike1"
+                    else "not1"
+                } catch (_: Throwable) {
+                    "not1"
+                }
             }
 
             "not1" -> {
@@ -90,8 +100,16 @@ class blueLeftAuto : OpMode() {
             }
 
             "***not1" -> {
-                step = if (board.eyes.tfod!!.recognitions.size != 0) "spike2"
-                else "not2"
+                step =
+                    try {
+                        if (board.eyes.tfod!!.recognitions.size != 0 &&
+                            board.eyes.tfod!!.recognitions[0].left >= 240
+                        )
+                            "spike2"
+                        else "not2"
+                    } catch (_: Throwable) {
+                        "not2"
+                    }
             }
 
             "spike1" -> {
@@ -109,7 +127,7 @@ class blueLeftAuto : OpMode() {
             }
 
             "**spike1" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return1)
                     step = "board"
@@ -131,7 +149,7 @@ class blueLeftAuto : OpMode() {
             }
 
             "**spike2" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return2)
                     step = "board"
@@ -153,7 +171,7 @@ class blueLeftAuto : OpMode() {
             }
 
             "*spike3" -> {
-                if (runtime >= 1000.0) {
+                if (runtime >= 1.0) {
                     board.setIntake(0.0)
                     drive!!.followTrajectorySequenceAsync(return3)
                     step = "board"
@@ -171,22 +189,23 @@ class blueLeftAuto : OpMode() {
             "toBoard" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(1000)
+                    board.setSlideTar(slideHeight)
                     step = "score"
                 }
             }
 
             "score" -> {
-                if (board.getSlidePos()!! >= 1000) {
-                    board.setClaw(true)
+                telemetry.addData("current lift position: ", board.getSlidePos())
+                if (board.getSlidePos()!! >= slideHeight) {
+                    board.setClaw(false)
                     resetRuntime()
                     step = "drop"
                 }
             }
 
             "drop" -> {
-                if (runtime >= 500.0) {
-                    board.setClaw(false)
+                if (runtime >= 2) {
+                    board.setClaw(true)
                     drive!!.followTrajectorySequenceAsync(parkTrajectory)
                     step = "park"
                 }
@@ -200,6 +219,6 @@ class blueLeftAuto : OpMode() {
                 }
             }
         }
-        telemetry.addData("current step = ", step)
+        telemetry.addData("The current step is ", "$step.")
     }
 }
