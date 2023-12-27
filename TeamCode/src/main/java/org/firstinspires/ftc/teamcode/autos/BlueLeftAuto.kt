@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autos
 
 import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
+import autoThings.slideHeight
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
@@ -30,8 +31,6 @@ class blueLeftAuto : OpMode() {
 
     private var boardTrajectory: TrajectorySequence? = null
     private var parkTrajectory: TrajectorySequence? = null
-
-    private val slideHeight: Int = 3750
 
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
