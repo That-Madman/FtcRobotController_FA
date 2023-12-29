@@ -46,7 +46,8 @@ class RedRightAuto2 : OpMode() {
             .splineToConstantHeading(Vector2d(50.0, -29.0), 0.0)
             .build()
 
-        park1 = drive!!.trajectorySequenceBuilder(board1!!.end()).setReversed(true)
+        park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
+            .setReversed(true)
             .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
             .build()
 
@@ -57,7 +58,6 @@ class RedRightAuto2 : OpMode() {
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .setReversed(true)
             .splineToLinearHeading(Pose2d(50.0, -36.5, 0.0), 0.0)
             .build()
 
@@ -71,6 +71,18 @@ class RedRightAuto2 : OpMode() {
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(180.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(14.0, -30.0), toRadians(-135.0))
             .build()
+
+        board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
+            .splineToConstantHeading(Vector2d(14.0, -50.0), toRadians(270.0))
+            .setReversed(true)
+            .splineToLinearHeading(Pose2d(50.0, -40.0, 0.0), 0.0)
+            .build()
+
+        park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
+            .setReversed(true)
+            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .build()
+
     }
 
     override fun init_loop() {
