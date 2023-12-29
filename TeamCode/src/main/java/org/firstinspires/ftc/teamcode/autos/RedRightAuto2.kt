@@ -4,9 +4,11 @@ import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
 import autoThings.slideHeight
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
+import java.lang.Math.toRadians
 
 @Autonomous(name = "New Red Right")
 class RedRightAuto2 : OpMode() {
@@ -32,10 +34,42 @@ class RedRightAuto2 : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(12.0, 61.0, Math.toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(12.0, -61.0, toRadians(90.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(12.0, -36.0, 0.0), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(10.0, -30.0), toRadians(135.0))
+            .build()
 
+        board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
+            .splineToConstantHeading(Vector2d(50.0, -29.0), 0.0)
+            .build()
+
+        park1 = drive!!.trajectorySequenceBuilder(board1!!.end()).setReversed(true)
+            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .build()
+
+        spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(270.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
+            .build()
+
+        board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
+            .setReversed(true)
+            .splineToLinearHeading(Pose2d(50.0, -36.5, 0.0), 0.0)
+            .build()
+
+        park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
+            .setReversed(true)
+            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .build()
+
+        spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(180.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(14.0, -30.0), toRadians(-135.0))
             .build()
     }
 
@@ -70,17 +104,14 @@ class RedRightAuto2 : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right >= 480
-                    ) spike = 2
-                    else if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right <= 480
-                    ) spike = 1
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
+                        2
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                        1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0
-                            && board.eyes.tfod!!.recognitions[0].right <= 480
-                        ) spike = 1
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                            1
                     } catch (_: Throwable) {
                     }
                 } finally {
