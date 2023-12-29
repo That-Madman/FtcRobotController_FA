@@ -4,9 +4,11 @@ import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
 import autoThings.slideHeight
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
 
+@Autonomous(name = "New Red Right")
 class RedRightAuto2 : OpMode() {
     private val board = Board()
     private var drive: SampleMecanumDrive? = null
@@ -31,14 +33,23 @@ class RedRightAuto2 : OpMode() {
         board.getHW(hardwareMap, telemetry, true)
 
         drive!!.poseEstimate = Pose2d(12.0, 61.0, Math.toRadians(270.0))
+
+        spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+
+            .build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            board.eyes.tfod!!.recognitions.forEach {
+                telemetry.addLine("found $it")
+                if (it.right <= 480) spike = 1
+                else if (it.right >= 480) spike = 2
+            }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
+
         try { //start of April tags
             board.eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
@@ -77,7 +88,7 @@ class RedRightAuto2 : OpMode() {
                         1 -> drive!!.followTrajectorySequenceAsync(spike1)
                         2 -> drive!!.followTrajectorySequenceAsync(spike2)
                         3 -> drive!!.followTrajectorySequenceAsync(spike3)
-                        else -> throw Error("How? You are miraculously bad at this.")
+                        else -> throw Error("We are at a point that shouldn't even exist.")
                     }
                 }
                 step = "spikeScore"
@@ -99,7 +110,7 @@ class RedRightAuto2 : OpMode() {
                         1 -> drive!!.followTrajectorySequenceAsync(board1)
                         2 -> drive!!.followTrajectorySequenceAsync(board2)
                         3 -> drive!!.followTrajectorySequenceAsync(board3)
-                        else -> throw Error("How? You are miraculously bad at this.")
+                        else -> throw Error("We are at a point that shouldn't even exist.")
                     }
                     step = "boardDrive"
                 }
@@ -129,7 +140,7 @@ class RedRightAuto2 : OpMode() {
                         1 -> drive!!.followTrajectorySequenceAsync(park1)
                         2 -> drive!!.followTrajectorySequenceAsync(park2)
                         3 -> drive!!.followTrajectorySequenceAsync(park3)
-                        else -> throw Error("How? You are miraculously bad at this.")
+                        else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
                     board.setSlideTar(0)
