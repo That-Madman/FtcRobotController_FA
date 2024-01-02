@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
+import java.lang.Math.toRadians
 
 @Disabled
 @Deprecated("Todo")
@@ -17,183 +18,129 @@ class BlueRightAuto : OpMode() {
     private val board = Board()
     private var drive: SampleMecanumDrive? = null
 
+    private var spike1: TrajectorySequence? = null
+    private var spike2: TrajectorySequence? = null
+    private var spike3: TrajectorySequence? = null
+
+    private var board1: TrajectorySequence? = null
+    private var board2: TrajectorySequence? = null
+    private var board3: TrajectorySequence? = null
+
+    private var park1: TrajectorySequence? = null
+    private var park2: TrajectorySequence? = null
+    private var park3: TrajectorySequence? = null
+
     private var step = "start"
-
-    private var firstTrajectory: TrajectorySequence? = null
-
-    private var pixelTrajectory1: TrajectorySequence? = null
-    private var pixelTrajectory2: TrajectorySequence? = null
-    private var pixelTrajectory3: TrajectorySequence? = null
-
-    private var return1: TrajectorySequence? = null
-    private var return2: TrajectorySequence? = null
-    private var return3: TrajectorySequence? = null
-
-    private var boardTrajectory: TrajectorySequence? = null
-    private var parkTrajectory: TrajectorySequence? = null
+    private var spike = 3
 
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(
-            -35.0, 61.0, Math.toRadians(270.0)
-        )
-        firstTrajectory = drive!!.trajectorySequenceBuilder(
-            Pose2d(12.0, 61.0, Math.toRadians(270.0))
-        ).lineToConstantHeading(Vector2d(20.0, 61.0)).build()
+        drive!!.poseEstimate = Pose2d(-35.0, 61.0, toRadians(270.0))
+
+        spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
+            .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(180.0)), toRadians(270.0))
+            .splineToConstantHeading(Vector2d(-32.0, 30.0), toRadians(315.0))
+            .build()
+
+        board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
+            .lineToConstantHeading(Vector2d(-35.0, 10.0))
+            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, 10.0))
+            .lineToLinearHeading(Pose2d(48.0, 38.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, 40.0))
+            .build()
+
+        park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
+            .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
+            .build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions.forEach { telemetry.addLine("found $it") }
+            board.eyes.tfod!!.recognitions.forEach {
+                telemetry.addLine("found $it")
+                if (it.right <= 480) spike = 1
+                else if (it.right >= 480) spike = 2
+            }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
         } //end of tensorFlow
-        try { //start of April tags
-            if (board.eyes.april!!.detections.size > 0) {
-                val tag = board.eyes.april!!.detections[0]
 
+        try { //start of April tags
+            board.eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
-                telemetry.addData("x", tag.ftcPose.x)
-                telemetry.addData("y", tag.ftcPose.y)
-                telemetry.addData("z", tag.ftcPose.z)
-                telemetry.addData("roll", tag.ftcPose.roll)
-                telemetry.addData("pitch", tag.ftcPose.pitch)
-                telemetry.addData("yaw", tag.ftcPose.yaw)
+                telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
+                telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
+                telemetry.addLine("z of tag ${it.id} is ${it.ftcPose.z}")
+                telemetry.addLine("roll of tag ${it.id} is ${it.ftcPose.roll}")
+                telemetry.addLine("pitch of ${it.id} is ${it.ftcPose.pitch}")
+                telemetry.addLine("yaw of ${it.id} is ${it.ftcPose.yaw}")
             }
         } catch (e: Throwable) {
-            telemetry.addData("Issue with April Tags because ", e)
+            telemetry.addData("Issue with April Tags because: ", e)
         } // end of April Tags
+        telemetry.update()
     }
 
     override fun loop() {
         when (step) {
             "start" -> {
-                step = try {
-                    if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right >= 480
-                    )
-                        "spike1"
-                    else "not1"
+                try {
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
+                        2
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                        1
                 } catch (_: Throwable) {
-                    "not1"
-                }
-            }
-
-            "not1" -> {
-                drive!!.followTrajectorySequenceAsync(firstTrajectory)
-                step = "*not1"
-            }
-
-            "*not1" -> {
-                drive!!.update()
-                if (!drive!!.isBusy) {
-                    resetRuntime()
-                    step = "**not1"
-                }
-            }
-
-            "**not1" -> {
-                if (runtime == 0.5) step = "***not1"
-            }
-
-            "***not1" -> {
-                step =
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 &&
-                            board.eyes.tfod!!.recognitions[0].left >= 240
-                        )
-                            "spike2"
-                        else "not2"
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                            1
                     } catch (_: Throwable) {
-                        "not2"
                     }
+                } finally {
+                    when (spike) {
+                        1 -> drive!!.followTrajectorySequenceAsync(spike1)
+                        2 -> drive!!.followTrajectorySequenceAsync(spike2)
+                        3 -> drive!!.followTrajectorySequenceAsync(spike3)
+                        else -> throw Error("We are at a point that shouldn't even exist.")
+                    }
+                }
+                step = "spikeScore"
             }
 
-            "spike1" -> {
-                drive!!.followTrajectorySequenceAsync(pixelTrajectory1)
-                step = "*spike1"
-            }
-
-            "*spike1" -> {
+            "spikeScore" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
                     board.setIntake(-1.0)
                     resetRuntime()
-                    step = "**spike1"
+                    step = "ejectPixel"
                 }
             }
 
-            "**spike1" -> {
+            "ejectPixel" -> {
                 if (runtime >= 1.0) {
                     board.setIntake(0.0)
-                    drive!!.followTrajectorySequenceAsync(return1)
-                    step = "board"
+                    when (spike) {
+                        1 -> drive!!.followTrajectorySequenceAsync(board1)
+                        2 -> drive!!.followTrajectorySequenceAsync(board2)
+                        3 -> drive!!.followTrajectorySequenceAsync(board3)
+                        else -> throw Error("We are at a point that shouldn't even exist.")
+                    }
+                    step = "boardDrive"
                 }
             }
 
-            "spike2" -> {
-                drive!!.followTrajectorySequenceAsync(pixelTrajectory2)
-                step = "*spike2"
-            }
-
-            "*spike2" -> {
-                drive!!.update()
-                if (!drive!!.isBusy) {
-                    board.setIntake(-1.0)
-                    resetRuntime()
-                    step = "**spike2"
-                }
-            }
-
-            "**spike2" -> {
-                if (runtime >= 1.0) {
-                    board.setIntake(0.0)
-                    drive!!.followTrajectorySequenceAsync(return2)
-                    step = "board"
-                }
-            }
-
-            "not2" -> {
-                drive!!.followTrajectorySequenceAsync(pixelTrajectory3)
-                step = "spike3"
-            }
-
-            "spike3" -> {
-                drive!!.update()
-                if (!drive!!.isBusy) {
-                    board.setIntake(-1.0)
-                    resetRuntime()
-                    step = "*spike3"
-                }
-            }
-
-            "*spike3" -> {
-                if (runtime >= 1.0) {
-                    board.setIntake(0.0)
-                    drive!!.followTrajectorySequenceAsync(return3)
-                    step = "board"
-                }
-            }
-
-            "board" -> {
-                drive!!.update()
-                if (!drive!!.isBusy) {
-                    drive!!.followTrajectorySequenceAsync(boardTrajectory)
-                    step = "toBoard"
-                }
-            }
-
-            "toBoard" -> {
+            "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
                     board.setSlideTar(slideHeight)
-                    step = "score"
+                    step = "scoreboard"
                 }
             }
 
-            "score" -> {
+            "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
                 if (board.getSlidePos()!! >= slideHeight) {
                     board.setClaw(false)
@@ -205,7 +152,14 @@ class BlueRightAuto : OpMode() {
             "drop" -> {
                 if (runtime >= 2) {
                     board.setClaw(true)
-                    drive!!.followTrajectorySequenceAsync(parkTrajectory)
+                    when (spike) {
+                        1 -> drive!!.followTrajectorySequenceAsync(park1)
+                        2 -> drive!!.followTrajectorySequenceAsync(park2)
+                        3 -> drive!!.followTrajectorySequenceAsync(park3)
+                        else -> throw Error("We are at a point that shouldn't even exist.")
+                    }
+
+                    board.setSlideTar(0)
                     step = "park"
                 }
             }
@@ -213,7 +167,6 @@ class BlueRightAuto : OpMode() {
             "park" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(0)
                     step = "done"
                 }
             }

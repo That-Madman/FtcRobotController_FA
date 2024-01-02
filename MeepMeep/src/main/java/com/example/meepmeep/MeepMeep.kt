@@ -6,7 +6,6 @@ import com.noahbres.meepmeep.MeepMeep
 import com.noahbres.meepmeep.core.toRadians
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder
 import com.noahbres.meepmeep.roadrunner.DriveShim
-import javax.print.DocFlavor.INPUT_STREAM
 
 object MeepMeep {
     @JvmStatic
@@ -24,13 +23,10 @@ object MeepMeep {
                 )
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(
-                        Pose2d(-33.0, -30.0, Math.toRadians(180.0))
+                        Pose2d(50.0, 40.0, Math.toRadians(0.0))
                     )
-                        .lineToConstantHeading(Vector2d(-35.0, -10.0))
-                        .lineToLinearHeading(Pose2d(-20.0, -10.0, Math.toRadians(180.0)))
-                        .lineToConstantHeading(Vector2d(35.0, -10.0))
-                        .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
-                        .lineToConstantHeading(Vector2d(50.0, -40.0))
+                        .setReversed(true)
+                        .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
