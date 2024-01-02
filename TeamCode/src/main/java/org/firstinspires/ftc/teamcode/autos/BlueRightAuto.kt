@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
 
 @Disabled
+@Deprecated("Todo")
 @Autonomous
 class BlueRightAuto : OpMode() {
     private val board = Board()

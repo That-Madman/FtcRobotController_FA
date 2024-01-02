@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.autos
+package org.firstinspires.ftc.teamcode.autos.doomed
 
 import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import java.lang.Math.toRadians
 
+@Autonomous(name = "WE ARE DOOMED (RED LEFT)", group = "Doomed")
 class DoomedRedLeftAuto: OpMode() {
     private var drive: SampleMecanumDrive? = null
     private var park: TrajectorySequence? = null

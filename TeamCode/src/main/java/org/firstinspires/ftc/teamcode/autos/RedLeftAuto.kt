@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
+import java.lang.Math.toRadians
 
 @Disabled
+@Deprecated("Todo")
 @Autonomous
 class RedLeftAuto : OpMode() {
     private val board = Board()
@@ -34,11 +36,7 @@ class RedLeftAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(
-            -35.0, 61.0, Math.toRadians(270.0)
-        )
-
-
+        drive!!.poseEstimate = Pose2d(-35.0, 61.0, toRadians(270.0))
     }
 
     override fun init_loop() {
