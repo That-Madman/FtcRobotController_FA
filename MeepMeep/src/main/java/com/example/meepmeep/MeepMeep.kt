@@ -23,7 +23,7 @@ object MeepMeep {
                 )
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(
-                        Pose2d(50.0, 40.0, Math.toRadians(0.0))
+                        Pose2d(50.0, 29.0, Math.toRadians(0.0))
                     )
                         .setReversed(true)
                         .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)

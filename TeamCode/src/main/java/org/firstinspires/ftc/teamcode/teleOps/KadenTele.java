@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "TeleOp")
-public class MainTele extends OpMode {
+import org.firstinspires.ftc.teamcode.Board;
+
+@TeleOp(name = "TeleOp for Kaden")
+public class KadenTele extends OpMode {
     Board board = new Board();
 
     boolean trueNorth,
@@ -40,8 +42,8 @@ public class MainTele extends OpMode {
         } else {
             board.drive(
                     -gamepad1.left_stick_y,
-                     gamepad1.left_stick_x,
-                     gamepad1.right_stick_x
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
             );
         }
 

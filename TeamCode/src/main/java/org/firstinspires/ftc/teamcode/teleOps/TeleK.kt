@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.teleOps
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.Board
 
 @TeleOp(name = "New Wave TeleOp")
 class TeleK : OpMode() {
