@@ -38,6 +38,7 @@ class RedLeftAuto : OpMode() {
             12.0, 61.0, Math.toRadians(270.0)
         )
 
+
     }
 
     override fun init_loop() {
