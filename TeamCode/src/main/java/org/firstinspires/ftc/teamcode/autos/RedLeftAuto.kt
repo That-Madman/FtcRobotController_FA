@@ -11,8 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
 import java.lang.Math.toRadians
 
-@Disabled
-@Deprecated("Todo")
 @Autonomous
 class RedLeftAuto : OpMode() {
     private val board = Board()
