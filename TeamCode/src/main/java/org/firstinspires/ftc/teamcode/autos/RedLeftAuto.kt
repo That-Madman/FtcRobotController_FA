@@ -35,7 +35,7 @@ class RedLeftAuto : OpMode() {
         board.getHW(hardwareMap, telemetry, true)
 
         drive!!.poseEstimate = Pose2d(
-            12.0, 61.0, Math.toRadians(270.0)
+            -35.0, 61.0, Math.toRadians(270.0)
         )
 
 
