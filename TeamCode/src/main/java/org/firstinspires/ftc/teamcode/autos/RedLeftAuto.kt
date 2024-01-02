@@ -4,6 +4,7 @@ import autoThings.roadRunner.drive.SampleMecanumDrive
 import autoThings.roadRunner.trajectorysequence.TrajectorySequence
 import autoThings.slideHeight
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
@@ -36,7 +37,61 @@ class RedLeftAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(-35.0, 61.0, toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(-35.0, -61.0, toRadians(90.0))
+
+        spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, 0.0), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-37.0, -30.0), toRadians(135.0))
+            .build()
+
+        board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
+            .lineToConstantHeading(Vector2d(-35.0, -10.0))
+            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToLinearHeading(Pose2d(48.0, -27.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, -29.0))
+            .build()
+
+        park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
+            .setReversed(true)
+            .splineToConstantHeading(Vector2d(59.0, -10.0), 0.0)
+            .build()
+
+        spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(-35.0, -38.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(270.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-35.0, -34.0), toRadians(90.0))
+            .build()
+
+        board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
+            .lineToConstantHeading(Vector2d(-35.0, -55.0))
+            .lineToConstantHeading(Vector2d(-56.5, -55.0))
+            .lineToConstantHeading(Vector2d(-56.5, -10.0))
+            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToLinearHeading(Pose2d(48.0, -34.5, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, -36.5))
+            .build()
+
+        park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
+            .setReversed(true)
+            .splineToConstantHeading(Vector2d(59.0, -10.0), 0.0)
+            .build()
+
+        spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
+            .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(180.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-33.0, -30.0), toRadians(-135.0))
+            .build()
+
+        board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
+            .lineToConstantHeading(Vector2d(-35.0, -10.0))
+            .lineToLinearHeading(Pose2d(-20.0, -10.0, Math.toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, -40.0))
+            .build()
     }
 
     override fun init_loop() {
