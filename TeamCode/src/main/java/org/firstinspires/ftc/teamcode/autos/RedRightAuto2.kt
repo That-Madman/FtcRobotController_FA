@@ -52,7 +52,7 @@ class RedRightAuto2 : OpMode() {
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(12.0, -38.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(270.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
             .build()
