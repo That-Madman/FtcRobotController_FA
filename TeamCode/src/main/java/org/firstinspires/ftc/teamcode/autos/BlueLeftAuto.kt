@@ -12,7 +12,7 @@ import java.lang.Math.toRadians
 
 
 @Autonomous
-class blueLeftAuto : OpMode() {
+class BlueLeftAuto : OpMode() {
     private val board = Board()
     private var drive: SampleMecanumDrive? = null
 
