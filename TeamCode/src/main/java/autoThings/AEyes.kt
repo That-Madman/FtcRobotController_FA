@@ -15,7 +15,7 @@ class AEyes {
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
         tfod = TfodProcessor.Builder()
             .setModelFileName("Eyes_Of_Cassidy.tflite")
-            .setModelLabels(arrayOf("prop"))
+            .setModelLabels(arrayOf("red", "blue"))
             .build()
         april = AprilTagProcessor
             .Builder()
