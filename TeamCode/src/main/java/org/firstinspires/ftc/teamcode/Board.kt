@@ -155,41 +155,9 @@ class Board {
         }
     }
 
-    fun changeToPos() {
-        for (wheel in driveBase) {
-            wheel?.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            wheel?.targetPosition = 0
-            wheel?.power = 0.5
-            wheel?.mode = DcMotor.RunMode.RUN_TO_POSITION
-        }
-        driveBase[0]?.direction = Direction.REVERSE
-        driveBase[1]?.direction = Direction.FORWARD
-        driveBase[2]?.direction = Direction.REVERSE
-        driveBase[3]?.direction = Direction.FORWARD
-    }
-
-    fun posRunSide(target: Int) {
-        driveBase[0]!!.targetPosition += target
-        driveBase[1]!!.targetPosition -= target
-        driveBase[2]!!.targetPosition -= target
-        driveBase[3]!!.targetPosition += target
-    }
-
-    fun getWheelPos(index: Int): Int = driveBase[index]!!.targetPosition
-
     fun getHeading(unit: AngleUnit): Double = imu!!.robotYawPitchRollAngles.getYaw(unit)
-    fun getNormalizedDegrees(): Double =
-        AngleUnit.normalizeDegrees(getHeading(AngleUnit.DEGREES))
 
     fun resetIMU() = imu!!.resetYaw()
-    fun resetWheels() {
-        val bool = driveBase[0]!!.mode == DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        for (i in driveBase.indices) {
-            driveBase[i]!!.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-            if (bool) driveBase[i]!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-            else driveBase[i]!!.mode = DcMotor.RunMode.RUN_TO_POSITION
-        }
-    }
 
     fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
