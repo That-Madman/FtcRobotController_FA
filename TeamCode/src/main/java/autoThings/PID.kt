@@ -11,7 +11,7 @@ package autoThings
  * @property pidCalc calculates the PID value and executes exFun if given
  * @property resetI resets the [I][i] value that gets accrued as the program runs
  *
- * @author Alex Bryan
+ * @author Alex Bryan, founding member of <i>FIRST</i> Tech Challenge team 21734
  */
 class PID @JvmOverloads constructor(
     private val kP: Double,
@@ -41,7 +41,7 @@ class PID @JvmOverloads constructor(
      * [time function][timeGet].
      * @return the calculated PID output, to be plugged into a function if the [execute function]
      * [exFun] wasn't already set.
-     * @author Alex Bryan
+     * @author Alex Bryan, founding member of <i>FIRST</i> Tech Challenge team 21734
      */
     @JvmOverloads
     fun pidCalc(

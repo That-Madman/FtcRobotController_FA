@@ -41,8 +41,8 @@ class Board {
     var eyes = AEyes()
 
     private var intakeLiftServo: CRServo? = null
-    private val intakeLift_pid = PID(1.0, 0.0, 0.0,
-        null,
+    private val intakeLiftPID = PID(1.0, 0.0, 0.0,
+        {hook2?.currentPosition as Number},
         {intakeLiftServo!!.power = it as Double}
     )
 

@@ -44,15 +44,15 @@ class BlueRightAuto : OpMode() {
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
             .lineToConstantHeading(Vector2d(-35.0, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 10.0))
+            .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, 8.0))
             .lineToLinearHeading(Pose2d(48.0, 38.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 40.0))
+            .lineToConstantHeading(Vector2d(50.0, 37.0))
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
+            .splineToConstantHeading(Vector2d(59.0, 8.0), 0.0)
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -90,16 +90,16 @@ class BlueRightAuto : OpMode() {
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(-35.0, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 10.0))
-            .lineToLinearHeading(Pose2d(48.0, 27.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 29.0))
+            .lineToConstantHeading(Vector2d(-35.0, 8.0))
+            .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, 8.0))
+            .lineToLinearHeading(Pose2d(45.0, 27.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, 34.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
+            .splineToConstantHeading(Vector2d(59.0, 9.0), 0.0)
             .build()
     }
 
