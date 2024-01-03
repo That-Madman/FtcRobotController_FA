@@ -70,7 +70,7 @@ class Board {
 
                 for (wheels in driveBase) {
                     wheels?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-                    wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+                    wheels?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
                 }
 
                 driveBase[0]?.direction = Direction.REVERSE
@@ -119,7 +119,7 @@ class Board {
                 hook1 = hwMap.get(DcMotor::class.java, "hook")
                 hook1!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 hook1!!.direction = Direction.FORWARD
-                hook1!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+                hook1!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
             } catch (_: Throwable) {
                 broken.add("Hook 1")
             }
@@ -128,7 +128,7 @@ class Board {
                 hook2 = hwMap.get(DcMotor::class.java, "hook2")
                 hook2!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 hook2!!.direction = Direction.FORWARD
-                hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+                hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
             } catch (_: Throwable) {
                 broken.add("Hook 2")
             }
