@@ -25,10 +25,10 @@ class Board {
 
     private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
-
     private var dropper: Servo? = null
 
     private var intakeServo: CRServo? = null
+    private var intakeLiftServo: Servo? = null
     private var intakeMotor: DcMotorImplEx? = null
 
     private var hook1: DcMotor? = null
@@ -102,6 +102,12 @@ class Board {
             broken.add("Intake Servo")
         }
 
+        try{
+            intakeLiftServo = hwMap.get(Servo::class.java, "intakeServoLift")
+            intakeLiftServo!!.position = 1.0
+        } catch(_: Throwable) {
+            broken.add("Intake Servo Lift")
+        }
 
         try {
             launchServo = hwMap.get(Servo::class.java, "launchServo")
@@ -150,7 +156,8 @@ class Board {
 
         if (broken.isNotEmpty() && telemetry != null) {
             telemetry.addData(
-                "The following could not be accessed", broken.joinToString() + "."
+                "The following could not be accessed",
+                broken.sortedDescending().joinToString() + "."
             )
         }
     }
@@ -227,6 +234,9 @@ class Board {
         intakeServo?.power = speed
     }
 
+    fun setIntakeLift(pos: Double) {
+        intakeLiftServo!!.position = pos.coerceIn(0.0..1.0)
+    }
     fun launch() {
         launchServo?.position = 1.0
     }
