@@ -18,12 +18,6 @@ class TeleK : OpMode() {
     override fun init() {
         board.getHW(hardwareMap, telemetry)
 
-        try {
-            board.setIntakeLift(0.0)
-        } catch (_: Throwable) {
-            telemetry.addLine("The servo intake lifter has an issue.")
-        }
-
         telemetry.update()
     }
 

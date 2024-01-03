@@ -24,12 +24,6 @@ public class KadenTele extends OpMode {
     public void init() {
         board.getHW(hardwareMap, telemetry);
 
-        try {
-            board.setIntakeLift(0.0);
-        } catch (Throwable ignored) {
-            telemetry.addLine("The servo intake lifter has an issue.");
-        }
-
         telemetry.update();
     }
 

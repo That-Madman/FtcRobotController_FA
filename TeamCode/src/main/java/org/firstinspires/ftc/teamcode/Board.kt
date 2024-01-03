@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode
 
 import autoThings.AEyes
+import autoThings.PID
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.CRServoImplEx
@@ -28,7 +29,6 @@ class Board {
     private var dropper: Servo? = null
 
     private var intakeServo: CRServo? = null
-    private var intakeLiftServo: Servo? = null
     private var intakeMotor: DcMotorImplEx? = null
 
     private var hook1: DcMotor? = null
@@ -39,6 +39,12 @@ class Board {
     private var launchServo: Servo? = null
 
     var eyes = AEyes()
+
+    private var intakeLiftServo: CRServo? = null
+    private val intakeLift_pid = PID(1.0, 0.0, 0.0,
+        null,
+        {intakeLiftServo!!.power = it as Double}
+    )
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null, auto: Boolean = false) {
@@ -103,8 +109,7 @@ class Board {
         }
 
         try{
-            intakeLiftServo = hwMap.get(Servo::class.java, "intakeServoLift")
-            intakeLiftServo!!.position = 1.0
+            intakeLiftServo = hwMap.get(CRServo::class.java, "intakeServoLift")
         } catch(_: Throwable) {
             broken.add("Intake Servo Lift")
         }
@@ -234,9 +239,6 @@ class Board {
         intakeServo?.power = speed
     }
 
-    fun setIntakeLift(pos: Double) {
-        intakeLiftServo!!.position = pos.coerceIn(0.0..1.0)
-    }
     fun launch() {
         launchServo?.position = 1.0
     }
