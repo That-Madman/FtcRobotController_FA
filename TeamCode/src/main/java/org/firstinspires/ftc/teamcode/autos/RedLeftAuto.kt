@@ -84,7 +84,7 @@ class RedLeftAuto : OpMode() {
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
             .lineToConstantHeading(Vector2d(-35.0, -10.0))
-            .lineToLinearHeading(Pose2d(-20.0, -10.0, Math.toRadians(180.0)))
+            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, -10.0))
             .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
             .lineToConstantHeading(Vector2d(50.0, -40.0))

@@ -15,7 +15,7 @@ class DoomedRedLeftAuto: OpMode() {
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
 
-        drive!!.poseEstimate = Pose2d(-35.0, -61.0, Math.toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(-35.0, -61.0, toRadians(270.0))
 
         park = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .lineToConstantHeading(Vector2d(-35.0, -55.0))

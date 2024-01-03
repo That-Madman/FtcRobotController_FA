@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
 import java.lang.Math.toRadians
 
-@Autonomous()
+@Autonomous
 class RedRightAuto : OpMode() {
     private val board = Board()
     private var drive: SampleMecanumDrive? = null
