@@ -33,11 +33,9 @@ class TestServoLift : OpMode() {
 
     override fun loop() {
         intakeLiftPID.pidCalc(tarPos)
-//
-//        tarPos += (gamepad1.left_trigger - gamepad1.right_trigger).toInt() *10
 
-        tarPos = if (!gamepad1.atRest()) UpAndDownServoLift.UP.pos
-        else UpAndDownServoLift.Down.pos
+        tarPos += (gamepad1.left_trigger - gamepad1.right_trigger).toInt() *10
+
         telemetry.addData("Target Position = ", tarPos)
         telemetry.addData("Current Position = ", hook2!!.currentPosition)
     }

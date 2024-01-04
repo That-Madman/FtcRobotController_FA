@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleOps
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.Board
+import org.firstinspires.ftc.teamcode.UpAndDownServoLift
 
 @TeleOp(name = "New Wave TeleOp")
 class TeleK : OpMode() {
@@ -75,6 +76,8 @@ class TeleK : OpMode() {
         if (gamepad2.left_bumper) board.theHookBringsYouBack(1.0)
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1.0)
         else board.theHookBringsYouBack(0.0)
+
+        board.setIntakeHeight(UpAndDownServoLift.Down.pos)
     }
 
     override fun stop() {

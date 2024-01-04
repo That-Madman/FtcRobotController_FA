@@ -41,7 +41,7 @@ class Board {
     var eyes = AEyes()
 
     private var intakeLiftServo: CRServo? = null
-    private val intakeLiftPID = PID(1.0,
+    private val intakeLiftPID = PID(0.001,
         0.0,
         0.0,
         { hook2?.currentPosition as Number },
@@ -111,6 +111,7 @@ class Board {
 
         try {
             intakeLiftServo = hwMap.get(CRServo::class.java, "intakeServoLift")
+            intakeLiftServo!!.direction = Direction.REVERSE
         } catch (_: Throwable) {
             broken.add("Intake Servo Lift")
         }

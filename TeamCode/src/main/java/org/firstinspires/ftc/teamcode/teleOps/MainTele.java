@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Board;
+import org.firstinspires.ftc.teamcode.UpAndDownServoLift;
 
 @TeleOp(name = "TeleOp")
 public class MainTele extends OpMode {
@@ -81,6 +82,8 @@ public class MainTele extends OpMode {
         if (gamepad2.left_bumper) board.theHookBringsYouBack(1);
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1);
         else board.theHookBringsYouBack(0);
+
+        board.setIntakeHeight(UpAndDownServoLift.Down.getPos());
     }
 
     @Override
