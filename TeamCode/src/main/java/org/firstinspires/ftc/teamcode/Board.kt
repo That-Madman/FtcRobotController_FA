@@ -138,6 +138,7 @@ class Board {
 
             try {
                 hook2 = hwMap.get(DcMotor::class.java, "hook2")
+                hook2!!.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 hook2!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 hook2!!.direction = Direction.FORWARD
                 hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE

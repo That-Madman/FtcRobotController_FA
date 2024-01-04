@@ -52,7 +52,7 @@ class PID @JvmOverloads constructor(
 
         i += kI * (currErr * (time.toDouble() - prevTime))
 
-        i = i.coerceIn(-maxI..maxI)
+        if (!maxI.isNaN()) i = i.coerceIn(-maxI..maxI)
 
         val d = kD * (currErr - prevErr) / (time.toDouble() - prevTime)
         prevErr = currErr

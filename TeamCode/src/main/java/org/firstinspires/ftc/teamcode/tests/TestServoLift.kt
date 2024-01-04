@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 class TestServoLift : OpMode() {
     private var hook2: DcMotor? = null
     private var intakeLiftServo: CRServo? = null
-    private val intakeLiftPID = PID(1.0,
+    private val intakeLiftPID = PID(20.0,
         0.0,
         0.0,
         { hook2?.currentPosition as Number},
