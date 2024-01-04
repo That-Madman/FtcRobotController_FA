@@ -9,17 +9,11 @@ import org.firstinspires.ftc.teamcode.UpAndDownServoLift;
 @TeleOp(name = "TeleOp")
 public class MainTele extends OpMode {
     Board board = new Board();
-
-    boolean trueNorth,
-            y1Held,
-            a2Held,
-            rightHeld,
-            inDirOn = false;
+    boolean trueNorth, y1Held, a2Held, rightHeld, inDirOn = false;
 
     double inDir = 0;
 
     int dropperPos = 0;
-
 
     @Override
     public void init() {
@@ -39,8 +33,8 @@ public class MainTele extends OpMode {
         if (trueNorth) {
             board.driveFieldRelative(
                     -gamepad1.left_stick_y,
-                    gamepad1.left_stick_x,
-                    gamepad1.right_stick_x
+                     gamepad1.left_stick_x,
+                     gamepad1.right_stick_x
             );
         } else {
             board.drive(
@@ -53,9 +47,7 @@ public class MainTele extends OpMode {
         board.setDrop(dropperPos);
 
         try {
-            board.setSlideTar(
-                    board.getSlidePos() +
-                            ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000));
+            board.setSlideTar(board.getSlidePos() + ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000));
         } catch (Throwable e) {
             telemetry.addData("Issue with lift because ", e);
         }
