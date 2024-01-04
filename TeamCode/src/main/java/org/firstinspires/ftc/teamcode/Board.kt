@@ -45,7 +45,7 @@ class Board {
         0.0,
         0.0,
         { hook2?.currentPosition as Number },
-        { intakeLiftServo!!.power = it as Double })
+        { intakeLiftServo!!.power = it.toDouble() })
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null, auto: Boolean = false) {
