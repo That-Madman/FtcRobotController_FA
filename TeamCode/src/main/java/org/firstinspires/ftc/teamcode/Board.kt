@@ -136,17 +136,19 @@ class Board {
             } catch (_: Throwable) {
                 broken.add("Hook 1")
             }
+        }
 
-            try {
-                hook2 = hwMap.get(DcMotor::class.java, "hook2")
-                hook2!!.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-                hook2!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-                hook2!!.direction = Direction.FORWARD
-                hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-            } catch (_: Throwable) {
-                broken.add("Hook 2")
-            }
+        try {
+            hook2 = hwMap.get(DcMotor::class.java, "hook2")
+            hook2!!.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+            hook2!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+            hook2!!.direction = Direction.FORWARD
+            hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        } catch (_: Throwable) {
+            broken.add("Hook 2")
+        }
 
+        if (!auto) {
             try {
                 imu = hwMap.get(IMU::class.java, "imu")
                 imu?.initialize(

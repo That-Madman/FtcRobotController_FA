@@ -77,7 +77,7 @@ class TeleK : OpMode() {
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1.0)
         else board.theHookBringsYouBack(0.0)
 
-        board.setIntakeHeight(UpAndDownServoLift.Down.pos)
+        board.setIntakeHeight(UpAndDownServoLift.DOWN.pos)
     }
 
     override fun stop() {

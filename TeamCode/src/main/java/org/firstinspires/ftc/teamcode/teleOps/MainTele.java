@@ -83,7 +83,7 @@ public class MainTele extends OpMode {
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1);
         else board.theHookBringsYouBack(0);
 
-        board.setIntakeHeight(UpAndDownServoLift.Down.getPos());
+        board.setIntakeHeight(UpAndDownServoLift.DOWN.getPos());
     }
 
     @Override
