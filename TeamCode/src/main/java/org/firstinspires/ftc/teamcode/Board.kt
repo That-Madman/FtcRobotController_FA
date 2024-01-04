@@ -41,10 +41,11 @@ class Board {
     var eyes = AEyes()
 
     private var intakeLiftServo: CRServo? = null
-    private val intakeLiftPID = PID(1.0, 0.0, 0.0,
-        {hook2?.currentPosition as Number},
-        {intakeLiftServo!!.power = it as Double}
-    )
+    private val intakeLiftPID = PID(1.0,
+        0.0,
+        0.0,
+        { hook2?.currentPosition as Number },
+        { intakeLiftServo!!.power = it as Double })
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null, auto: Boolean = false) {
@@ -108,9 +109,9 @@ class Board {
             broken.add("Intake Servo")
         }
 
-        try{
+        try {
             intakeLiftServo = hwMap.get(CRServo::class.java, "intakeServoLift")
-        } catch(_: Throwable) {
+        } catch (_: Throwable) {
             broken.add("Intake Servo Lift")
         }
 
@@ -227,7 +228,7 @@ class Board {
     }
 
     fun setDrop(state: Int) {
-        when((state % 3)) {
+        when ((state % 3)) {
             0 -> dropper?.position = 1.0
             1 -> dropper?.position = 0.5
             2 -> dropper?.position = 0.0
@@ -237,6 +238,10 @@ class Board {
     fun setIntake(speed: Double) {
         intakeMotor?.power = speed
         intakeServo?.power = speed
+    }
+
+    fun setIntakeHeight(pos: Int) {
+        intakeLiftPID.pidCalc(pos)
     }
 
     fun launch() {
