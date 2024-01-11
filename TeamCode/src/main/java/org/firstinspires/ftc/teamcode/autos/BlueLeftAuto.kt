@@ -87,7 +87,6 @@ class BlueLeftAuto : OpMode() {
             .lineToConstantHeading(Vector2d(board3!!.end().x - 6, board3!!.end().y + 6))
             .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
             .build()
-
     }
 
     override fun init_loop() {
