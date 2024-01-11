@@ -41,11 +41,14 @@ class BlueLeftAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, 39.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(180.0)), toRadians(270.0))
             .splineToConstantHeading(Vector2d(15.0, 30.0), toRadians(315.0))
+            .lineToConstantHeading(Vector2d(18.0, 30.0))
+            .lineToConstantHeading(Vector2d(15.0, 30.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
-            .splineToSplineHeading(Pose2d(15.0, 40.0, toRadians(90.0)), toRadians(90.0))
-            .splineToSplineHeading(Pose2d(50.0, 40.0, 0.0), 0.0)
+            .lineToConstantHeading(Vector2d(10.0, 30.0) )
+            .lineTo(Vector2d(13.5, 42.0))
+            .splineToSplineHeading(Pose2d(49.0, 39.0, 0.0), 0.0)
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
@@ -72,14 +75,16 @@ class BlueLeftAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, 39.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(0.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(10.0, 30.0), toRadians(45.0))
+            .lineToConstantHeading(Vector2d(7.0, 30.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .splineToConstantHeading(Vector2d(50.0, 29.0), 0.0)
+            .splineToConstantHeading(Vector2d(49.0, 29.0), 0.0)
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
+            .lineToConstantHeading(Vector2d(board3!!.end().x - 6, board3!!.end().y + 6))
             .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
             .build()
 

@@ -24,7 +24,7 @@ class DoomedBlueRightAuto : OpMode() {
             .lineToConstantHeading(Vector2d(-56.5, 55.0))
             .lineToConstantHeading(Vector2d(-56.5, 8.0))
             .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(59.0, 8.0))
+            .lineToConstantHeading(Vector2d(48.0, 8.0))
             .build()
 
         drive!!.followTrajectorySequenceAsync(park)

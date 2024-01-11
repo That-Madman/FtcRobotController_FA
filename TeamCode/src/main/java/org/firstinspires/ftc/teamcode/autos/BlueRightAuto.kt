@@ -134,14 +134,17 @@ class BlueRightAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
-                        2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
-                        1
+                    if (board.eyes.tfod!!.recognitions.size != 0
+                        && board.eyes.tfod!!.recognitions[0].right >= 480
+                    ) spike = 2
+                    else if (board.eyes.tfod!!.recognitions.size != 0
+                        && board.eyes.tfod!!.recognitions[0].right <= 480
+                    ) spike = 1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
-                            1
+                        if (board.eyes.tfod!!.recognitions.size != 0
+                            && board.eyes.tfod!!.recognitions[0].right <= 480
+                            ) spike = 1
                     } catch (_: Throwable) {
                     }
                 } finally {

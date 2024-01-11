@@ -23,10 +23,11 @@ object MeepMeep {
                 )
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(
-                        Pose2d(50.0, 29.0, Math.toRadians(0.0))
+                        Pose2d(15.0, 30.0, Math.toRadians(180.0))
                     )
-                        .setReversed(true)
-                        .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
+                        .lineToConstantHeading(Vector2d(10.0, 30.0))
+                        .lineTo(Vector2d(13.5, 42.0))
+                        .splineToSplineHeading(Pose2d(50.0, 40.0, 0.0), 0.0)
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
