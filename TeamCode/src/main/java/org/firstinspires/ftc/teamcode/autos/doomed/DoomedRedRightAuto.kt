@@ -20,7 +20,7 @@ class DoomedRedRightAuto : OpMode() {
         drive!!.poseEstimate = Pose2d(12.0, -61.0, toRadians(90.0))
         park = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .lineToConstantHeading(Vector2d(12.0, -59.0))
-            .lineTo(Vector2d(59.0, -59.0))
+            .lineTo(Vector2d(55.0, -59.0))
             .build()
         drive!!.followTrajectorySequenceAsync(park)
     }

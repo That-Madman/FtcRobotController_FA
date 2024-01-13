@@ -46,7 +46,7 @@ class BlueLeftAuto : OpMode() {
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
-            .lineToConstantHeading(Vector2d(10.0, 30.0) )
+            .lineToConstantHeading(Vector2d(10.0, 30.0))
             .lineTo(Vector2d(13.5, 42.0))
             .splineToSplineHeading(Pose2d(49.0, 39.0, 0.0), 0.0)
             .build()
@@ -74,18 +74,18 @@ class BlueLeftAuto : OpMode() {
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, 39.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(0.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(10.0, 30.0), toRadians(45.0))
-            .lineToConstantHeading(Vector2d(7.0, 30.0))
+            .splineToConstantHeading(Vector2d(10.0, 31.0), toRadians(45.0))
+            .lineToConstantHeading(Vector2d(7.0, 31.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .splineToConstantHeading(Vector2d(49.0, 29.0), 0.0)
+            .splineToConstantHeading(Vector2d(50.0, 29.0), 0.0)
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
-            .lineToConstantHeading(Vector2d(board3!!.end().x - 6, board3!!.end().y + 6))
-            .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
+            .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
+            .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
             .build()
     }
 
@@ -166,15 +166,15 @@ class BlueLeftAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight)
+                    board.setSlideTar(slideHeight - 200)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= slideHeight) {
-                    board.setClaw(false)
+                if (board.getSlidePos()!! >= (slideHeight - 250)) {
+                    board.setDrop(1)
                     resetRuntime()
                     step = "drop"
                 }
