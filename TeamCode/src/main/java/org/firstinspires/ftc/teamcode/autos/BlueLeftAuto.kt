@@ -38,22 +38,26 @@ class BlueLeftAuto : OpMode() {
         drive!!.poseEstimate = Pose2d(12.0, 61.0, toRadians(270.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(12.0, 39.0), toRadians(270.0))
+            .splineToConstantHeading(Vector2d(12.0, 37.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(180.0)), toRadians(270.0))
             .splineToConstantHeading(Vector2d(15.0, 30.0), toRadians(315.0))
             .lineToConstantHeading(Vector2d(18.0, 30.0))
-            .lineToConstantHeading(Vector2d(15.0, 30.0))
+            .lineToConstantHeading(Vector2d(16.0, 30.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
+            .lineToConstantHeading(Vector2d(15.0, 30.0))
             .lineToConstantHeading(Vector2d(10.0, 30.0))
             .lineTo(Vector2d(13.5, 42.0))
-            .splineToSplineHeading(Pose2d(49.0, 39.0, 0.0), 0.0)
+            .splineToSplineHeading(Pose2d(51.0, 41.0, 0.0), 0.0)
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
             .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -190,7 +194,7 @@ class BlueLeftAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    board.setSlideTar(0)
+                    if (spike != 1) board.setSlideTar(0)
                     step = "park"
                 }
             }

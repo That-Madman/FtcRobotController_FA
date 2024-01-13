@@ -40,15 +40,20 @@ class RedRightAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, 0.0), toRadians(90.0))
             .splineToConstantHeading(Vector2d(10.0, -30.0), toRadians(135.0))
+            .lineToConstantHeading(Vector2d(7.0, -30.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
-            .splineToConstantHeading(Vector2d(50.0, -29.0), 0.0)
+            .lineToConstantHeading(Vector2d(10.0, -30.0))
+            .splineToConstantHeading(Vector2d(50.0, -28.0), 0.0)
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
             .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d()){
+
+            }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -162,14 +167,14 @@ class RedRightAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight)
+                    board.setSlideTar(slideHeight - 200)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= slideHeight) {
+                if (board.getSlidePos()!! >= (slideHeight - 250)) {
                     board.setClaw(false)
                     resetRuntime()
                     step = "drop"
@@ -186,7 +191,7 @@ class RedRightAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    board.setSlideTar(0)
+//                    board.setSlideTar(0)
                     step = "park"
                 }
             }
