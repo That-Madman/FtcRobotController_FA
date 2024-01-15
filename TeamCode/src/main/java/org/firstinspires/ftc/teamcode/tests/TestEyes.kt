@@ -18,7 +18,15 @@ class TestEyes : OpMode() {
 
     override fun init_loop() {
         try { //start of TensorFlow
-            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found ${it.label}") }
+            eyes.tfod!!.recognitions.forEach {
+                telemetry.addLine(
+                    "I'm ${it.confidence} confident I found ${it.label}"
+                            + "\nwith a right bound of ${it.right},"
+                            + "\na left of ${it.left},"
+                            + "\na top of ${it.top},"
+                            + "\nand a bottom of ${it.bottom}"
+                )
+            }
         } catch (e: Throwable) {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow
@@ -40,7 +48,15 @@ class TestEyes : OpMode() {
 
     override fun loop() {
         try { //start of TensorFlow
-            eyes.tfod!!.recognitions.forEach { telemetry.addLine("found ${it.label}") }
+            eyes.tfod!!.recognitions.forEach {
+                telemetry.addLine(
+                    "I'm ${it.confidence} confident I found ${it.label}"
+                            + "\nwith a right bound of ${it.right},"
+                            + "\na left of ${it.left},"
+                            + "\na top of ${it.top},"
+                            + "\nand a bottom of ${it.bottom}"
+                )
+            }
         } catch (e: Throwable) {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow

@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
+import com.qualcomm.robotcore.hardware.TouchSensor
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import kotlin.math.abs
@@ -24,7 +25,7 @@ class Board {
     private val open: Double = 1.0
     private val close: Double = 0.0
 
-    private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
+    private val driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
     private var dropper: Servo? = null
 
@@ -38,14 +39,18 @@ class Board {
 
     private var launchServo: Servo? = null
 
+    private val hookLifts: Array<Servo?> = arrayOfNulls(2)
+    private var bumper: TouchSensor? = null
+
     var eyes = AEyes()
 
     private var intakeLiftServo: CRServo? = null
+
     private val intakeLiftPID = PID(0.001,
         0.0,
         0.0,
         { hook2?.currentPosition as Number },
-        { intakeLiftServo!!.power = it.toDouble() })
+        { intakeLiftServo?.power = it.toDouble() })
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null, auto: Boolean = false) {
@@ -146,6 +151,19 @@ class Board {
             hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         } catch (_: Throwable) {
             broken.add("Hook 2")
+        }
+
+        try {
+            hookLifts[0] = hwMap.get(Servo::class.java, "hookServo1")
+            hookLifts[1] = hwMap.get(Servo::class.java, "hookServo2")
+        } catch (_: Throwable) {
+            broken.add("Hook Servos")
+        }
+
+        try {
+            bumper = hwMap.get(TouchSensor::class.java, "hookBumper")
+        } catch (_: Throwable) {
+            broken.add("Hook Bumper")
         }
 
         if (!auto) {

@@ -39,8 +39,8 @@ class RedRightAuto : OpMode() {
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, 0.0), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(10.0, -30.0), toRadians(135.0))
-            .lineToConstantHeading(Vector2d(7.0, -30.0))
+            .splineToConstantHeading(Vector2d(10.0, -34.0), toRadians(135.0))
+            .lineToConstantHeading(Vector2d(7.0, -34.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
@@ -50,9 +50,10 @@ class RedRightAuto : OpMode() {
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
-            .addSpatialMarker(Vector2d()){
-
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)){
+                board.setSlideTar(0)
             }
             .build()
 
@@ -121,13 +122,13 @@ class RedRightAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 350) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
                             1
                     } catch (_: Throwable) {
                     }
@@ -191,7 +192,7 @@ class RedRightAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-//                    board.setSlideTar(0)
+                    if (spike != 1) board.setSlideTar(0)
                     step = "park"
                 }
             }
