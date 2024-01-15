@@ -96,7 +96,13 @@ class BlueLeftAuto : OpMode() {
     override fun init_loop() {
         try { //start of TensorFlow
             board.eyes.tfod!!.recognitions.forEach {
-                telemetry.addLine("found $it")
+                telemetry.addLine(
+                    "I'm ${it.confidence} confident I found ${it.label}"
+                            + "\nwith a right bound of ${it.right},"
+                            + "\na left of ${it.left},"
+                            + "\na top of ${it.top},"
+                            + "\nand a bottom of ${it.bottom}"
+                )
                 if (it.right <= 480) spike = 1
                 else if (it.right >= 480) spike = 2
             }
