@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.UpAndDownServoLift;
 @TeleOp(name = "TeleOp")
 public class MainTele extends OpMode {
     Board board = new Board();
-    boolean trueNorth, y1Held, a2Held, rightHeld, inDirOn = false;
+    boolean trueNorth, hookServoUp, y1Held, y2held, a2Held, rightHeld, inDirOn = false;
 
     double inDir = 0;
 
@@ -30,17 +30,19 @@ public class MainTele extends OpMode {
         }
         if (gamepad2.a && !a2Held) ++dropperPos;
 
+        if (gamepad2.y && !y2held) hookServoUp = !hookServoUp;
+
         if (trueNorth) {
             board.driveFieldRelative(
                     -gamepad1.left_stick_y,
-                     gamepad1.left_stick_x,
-                     gamepad1.right_stick_x
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
             );
         } else {
             board.drive(
                     -gamepad1.left_stick_y,
-                     gamepad1.left_stick_x,
-                     gamepad1.right_stick_x
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
             );
         }
 
@@ -51,6 +53,12 @@ public class MainTele extends OpMode {
                     ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000));
         } catch (Throwable e) {
             telemetry.addData("Issue with lift because ", e);
+        }
+
+        try {
+            if (board.bumpers() || hookServoUp) board.hookServo(1);
+            else board.hookServo(0);
+        } catch (Throwable ignored) {
         }
 
         if (gamepad1.right_bumper) {
@@ -64,6 +72,7 @@ public class MainTele extends OpMode {
         board.setIntake(inDir);
 
         y1Held = gamepad1.y;
+        y2held = gamepad2.y;
         a2Held = gamepad2.a;
         rightHeld = gamepad1.right_bumper;
 

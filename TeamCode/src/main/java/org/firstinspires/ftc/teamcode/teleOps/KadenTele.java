@@ -11,7 +11,9 @@ public class KadenTele extends OpMode {
     Board board = new Board();
 
     boolean trueNorth,
+            hookServoUp,
             y1Held,
+            y2held,
             a2Held,
             rightHeld,
             inDirOn = false;
@@ -35,6 +37,8 @@ public class KadenTele extends OpMode {
             board.resetIMU();
         }
         if (gamepad2.a && !a2Held) ++dropperPos;
+
+        if (gamepad2.y && !y2held) hookServoUp = !hookServoUp;
 
         if (trueNorth) {
             board.driveFieldRelative(
@@ -60,6 +64,12 @@ public class KadenTele extends OpMode {
             telemetry.addData("Issue with lift because ", e);
         }
 
+        try {
+            if(board.bumpers() || hookServoUp) board.hookServo(1);
+            else board.hookServo(0);
+        } catch (Throwable ignored) {
+        }
+
         if (gamepad1.right_bumper) {
             inDirOn = true;
         } else if (gamepad1.left_bumper) {
@@ -71,6 +81,7 @@ public class KadenTele extends OpMode {
         board.setIntake(inDir);
 
         y1Held = gamepad1.y;
+        y2held = gamepad2.y;
         a2Held = gamepad2.a;
         rightHeld = gamepad1.right_bumper;
 
