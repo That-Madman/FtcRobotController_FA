@@ -52,7 +52,7 @@ class RedRightAuto : OpMode() {
             .setReversed(true)
             .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
             .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
-            .addSpatialMarker(Vector2d(45.0, -30.0)){
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setSlideTar(0)
             }
             .build()
@@ -61,15 +61,22 @@ class RedRightAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, -38.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(270.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
+            .lineToConstantHeading(Vector2d(12.0, -25.0))
+            .lineToConstantHeading(Vector2d(12.0, -28.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .splineToLinearHeading(Pose2d(50.0, -36.5, 0.0), 0.0)
+            .lineToConstantHeading(Vector2d(12.0, -30.0))
+            .splineToLinearHeading(Pose2d(50.0, -30.0, 0.0), 0.0)
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+//            .addSpatialMarker(Vector2d(45.0, -30.0)){
+//                board.setSlideTar(0)
+//            }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -94,7 +101,13 @@ class RedRightAuto : OpMode() {
     override fun init_loop() {
         try { //start of TensorFlow
             board.eyes.tfod!!.recognitions.forEach {
-                telemetry.addLine("found $it")
+                telemetry.addLine(
+                    "I'm ${it.confidence} confident I found ${it.label}"
+                            + "\nwith a right bound of ${it.right},"
+                            + "\na left of ${it.left},"
+                            + "\na top of ${it.top},"
+                            + "\nand a bottom of ${it.bottom}"
+                )
                 if (it.right <= 480) spike = 1
                 else if (it.right >= 480) spike = 2
             }
