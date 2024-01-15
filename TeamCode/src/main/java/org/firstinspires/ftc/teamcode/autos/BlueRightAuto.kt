@@ -225,6 +225,6 @@ class BlueRightAuto : OpMode() {
                 }
             }
         }
-        telemetry.addData("The current step is ", "$step.")
+        telemetry.addData("The current step is", " $step.")
     }
 }

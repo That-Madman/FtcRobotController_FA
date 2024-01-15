@@ -40,7 +40,7 @@ class Board {
     private var launchServo: Servo? = null
 
     private val hookLifts: Array<Servo?> = arrayOfNulls(2)
-    private var bumper: TouchSensor? = null
+    private val bumpers: Array<TouchSensor?> = arrayOfNulls(2)
 
     var eyes = AEyes()
 
@@ -156,12 +156,15 @@ class Board {
         try {
             hookLifts[0] = hwMap.get(Servo::class.java, "hookServo1")
             hookLifts[1] = hwMap.get(Servo::class.java, "hookServo2")
+
+            hookLifts[1]!!.direction = Servo.Direction.REVERSE
         } catch (_: Throwable) {
             broken.add("Hook Servos")
         }
 
         try {
-            bumper = hwMap.get(TouchSensor::class.java, "hookBumper")
+            bumpers[0] = hwMap.get(TouchSensor::class.java, "hookBumper1")
+            bumpers[0] = hwMap.get(TouchSensor::class.java, "hookBumper2")
         } catch (_: Throwable) {
             broken.add("Hook Bumper")
         }
@@ -277,5 +280,12 @@ class Board {
     fun theHookBringsYouBack(pow: Double) {
         hook1?.power = pow
         hook2?.power = pow
+    }
+
+    fun bumpers() : Boolean = bumpers[0]!!.isPressed || bumpers[1]!!.isPressed
+
+    fun hookServo (pos : Double){
+        hookLifts[0]?.position = pos
+        hookLifts[1]?.position = pos
     }
 }

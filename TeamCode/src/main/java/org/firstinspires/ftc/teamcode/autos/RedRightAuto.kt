@@ -60,40 +60,46 @@ class RedRightAuto : OpMode() {
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, -38.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(270.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
+             .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
             .lineToConstantHeading(Vector2d(12.0, -25.0))
-            .lineToConstantHeading(Vector2d(12.0, -28.0))
+            .lineToConstantHeading(Vector2d(12.0, -28.5))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
             .lineToConstantHeading(Vector2d(12.0, -30.0))
-            .splineToLinearHeading(Pose2d(50.0, -30.0, 0.0), 0.0)
+            .lineToLinearHeading(Pose2d(50.0, -27.0, 0.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
             .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
-            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
-//            .addSpatialMarker(Vector2d(45.0, -30.0)){
-//                board.setSlideTar(0)
-//            }
+            .splineToConstantHeading(Vector2d(54.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(52.0, -50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(180.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(14.0, -30.0), toRadians(-135.0))
+            .lineToConstantHeading(Vector2d(18.0, -30.0))
+            .lineToConstantHeading(Vector2d(16.0, -30.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .splineToConstantHeading(Vector2d(14.0, -50.0), toRadians(270.0))
+            .lineToConstantHeading(Vector2d(14.0, -30.0))
+            .lineToConstantHeading(Vector2d(14.0, -50.0))
             .setReversed(true)
-            .splineToLinearHeading(Pose2d(50.0, -40.0, 0.0), 0.0)
+            .splineToLinearHeading(Pose2d(50.0, -34.0, 0.0), 0.0)
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
             .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
     }
@@ -205,7 +211,6 @@ class RedRightAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    if (spike != 1) board.setSlideTar(0)
                     step = "park"
                 }
             }
