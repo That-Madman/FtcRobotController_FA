@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.teleOps;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,6 +17,8 @@ public class MainTele extends OpMode {
     double inDir = 0;
 
     int dropperPos = 0;
+
+    int intakeLiftPos = UpAndDownServoLift.DOWN.getPos();
 
     @Override
     public void init() {
@@ -59,7 +64,7 @@ public class MainTele extends OpMode {
             if (board.bumpers() || hookServoUp) board.hookServo(0.0);
             else board.hookServo(1.0);
         } catch (Throwable ignored) {
-            if(hookServoUp) board.hookServo(0.0);
+            if (hookServoUp) board.hookServo(0.0);
             else board.hookServo(1.0);
         }
 
@@ -87,7 +92,13 @@ public class MainTele extends OpMode {
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1);
         else board.theHookBringsYouBack(0);
 
-        board.setIntakeHeight(UpAndDownServoLift.DOWN.getPos());
+        intakeLiftPos += (gamepad1.left_trigger - gamepad1.right_trigger) * 100;
+        intakeLiftPos = min(
+                max(intakeLiftPos, UpAndDownServoLift.UP.getPos()),
+                UpAndDownServoLift.DOWN.getPos()
+        );
+
+        board.setIntakeHeight(intakeLiftPos);
     }
 
     @Override
