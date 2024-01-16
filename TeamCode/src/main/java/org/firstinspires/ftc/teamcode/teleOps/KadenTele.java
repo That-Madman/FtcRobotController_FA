@@ -68,6 +68,8 @@ public class KadenTele extends OpMode {
             if (board.bumpers() || hookServoUp) board.hookServo(0.0);
             else board.hookServo(1.0);
         } catch (Throwable ignored) {
+            if(hookServoUp) board.hookServo(0.0);
+            else board.hookServo(1.0);
         }
 
         if (gamepad1.right_bumper) {

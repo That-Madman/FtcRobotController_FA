@@ -164,7 +164,7 @@ class Board {
 
         try {
             bumpers[0] = hwMap.get(TouchSensor::class.java, "hookBumper1")
-            bumpers[0] = hwMap.get(TouchSensor::class.java, "hookBumper2")
+            bumpers[1] = hwMap.get(TouchSensor::class.java, "hookBumper2")
         } catch (_: Throwable) {
             broken.add("Hook Bumper")
         }
