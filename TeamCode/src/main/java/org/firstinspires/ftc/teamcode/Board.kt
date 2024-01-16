@@ -157,7 +157,7 @@ class Board {
             hookLifts[0] = hwMap.get(Servo::class.java, "hookServo1")
             hookLifts[1] = hwMap.get(Servo::class.java, "hookServo2")
 
-            hookLifts[1]!!.direction = Servo.Direction.REVERSE
+            hookLifts[0]!!.direction = Servo.Direction.REVERSE
         } catch (_: Throwable) {
             broken.add("Hook Servos")
         }
