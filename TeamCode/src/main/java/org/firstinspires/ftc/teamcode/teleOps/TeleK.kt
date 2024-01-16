@@ -53,7 +53,8 @@ class TeleK : OpMode() {
             telemetry.addData("Issue with lift because ", e)
         }
         try {
-            if (board.bumpers() || hookServoUp) board.hookServo(1.0) else board.hookServo(0.0)
+            if (board.bumpers() || hookServoUp) board.hookServo(0.0)
+            else board.hookServo(1.0)
         } catch (ignored: Throwable) {
         }
         if (gamepad1.right_bumper) {
