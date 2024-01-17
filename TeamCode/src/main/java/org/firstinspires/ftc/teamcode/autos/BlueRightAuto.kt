@@ -40,19 +40,25 @@ class BlueRightAuto : OpMode() {
             .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(180.0)), toRadians(270.0))
             .splineToConstantHeading(Vector2d(-32.0, 30.0), toRadians(315.0))
+            .lineToConstantHeading(Vector2d(-26.0, 30.0))
+            .lineToConstantHeading(Vector2d(30.0, 30.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
+            .lineToConstantHeading(Vector2d(-32.0, 30.0))
             .lineToConstantHeading(Vector2d(-35.0, 10.0))
             .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 8.0))
             .lineToLinearHeading(Pose2d(48.0, 38.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 37.0))
+            .lineToConstantHeading(Vector2d(51.0, 37.0))
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, 8.0), 0.0)
+            .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -80,7 +86,11 @@ class BlueRightAuto : OpMode() {
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, 10.0), 0.0)
+            .lineToConstantHeading(Vector2d(board2!!.end().x - 11, board2!!.end().y + 7))
+            .splineToConstantHeading(Vector2d(57.0, 61.0), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -99,7 +109,11 @@ class BlueRightAuto : OpMode() {
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, 9.0), 0.0)
+            .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
+            .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
     }
 
@@ -213,7 +227,6 @@ class BlueRightAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    board.setSlideTar(0)
                     step = "park"
                 }
             }
