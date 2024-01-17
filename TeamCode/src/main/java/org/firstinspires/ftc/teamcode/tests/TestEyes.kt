@@ -50,11 +50,11 @@ class TestEyes : OpMode() {
         try { //start of TensorFlow
             eyes.tfod!!.recognitions.forEach {
                 telemetry.addLine(
-                    "I'm ${it.confidence} confident I found ${it.label}"
+                    "I'm ${it.confidence * 100}% confident I found ${it.label}"
                             + "\nwith a right bound of ${it.right},"
-                            + "\na left of ${it.left},"
-                            + "\na top of ${it.top},"
-                            + "\nand a bottom of ${it.bottom}"
+                            + "\na left bound of ${it.left},"
+                            + "\na top bound of ${it.top},"
+                            + "\nand a bottom bound of ${it.bottom}"
                 )
             }
         } catch (e: Throwable) {

@@ -14,7 +14,7 @@ class AEyes {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
         tfod = TfodProcessor.Builder()
-            .setModelFileName("Eyes_Of_Cassidy.tflite")
+            .setModelFileName("More_Eyes.tflite")
             .setModelLabels(arrayOf("blue", "red"))
             .build()
         april = AprilTagProcessor

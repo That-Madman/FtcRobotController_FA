@@ -64,15 +64,22 @@ class BlueLeftAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, 38.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(90.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(12.0, 34.0), toRadians(270.0))
+            .lineToConstantHeading(Vector2d(12.0, 26.0))
+            .lineToConstantHeading(Vector2d(12.0, 28.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .splineToLinearHeading(Pose2d(50.0, 36.5, 0.0), 0.0)
+            .lineToConstantHeading(Vector2d(12.0, 34.0))
+            .splineToLinearHeading(Pose2d(51.0, 36.5, 0.0), 0.0)
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
+            .lineToConstantHeading(Vector2d(board2!!.end().x - 11, board2!!.end().y + 7))
+            .splineToConstantHeading(Vector2d(57.0, 61.0), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -90,6 +97,9 @@ class BlueLeftAuto : OpMode() {
             .setReversed(true)
             .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
             .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
+            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
     }
 
@@ -103,8 +113,8 @@ class BlueLeftAuto : OpMode() {
                             + "\na top of ${it.top},"
                             + "\nand a bottom of ${it.bottom}"
                 )
-                if (it.right <= 480) spike = 1
-                else if (it.right >= 480) spike = 2
+                if (it.right <= 400) spike = 1
+                else if (it.right >= 400) spike = 2
             }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
@@ -130,13 +140,13 @@ class BlueLeftAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 400) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 400) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 400) spike =
                             1
                     } catch (_: Throwable) {
                     }
