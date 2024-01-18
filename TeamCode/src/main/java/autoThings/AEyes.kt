@@ -17,6 +17,8 @@ class AEyes {
             .setModelFileName("More_Eyes.tflite")
             .setModelLabels(arrayOf("blue", "red"))
             .build()
+
+        tfod!!.setMinResultConfidence(0.5f)
         april = AprilTagProcessor
             .Builder()
             .setDrawAxes(true)
