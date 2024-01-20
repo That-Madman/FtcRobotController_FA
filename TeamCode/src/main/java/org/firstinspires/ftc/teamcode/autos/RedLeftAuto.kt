@@ -44,15 +44,19 @@ class RedLeftAuto : OpMode() {
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
             .lineToConstantHeading(Vector2d(-35.0, -10.0))
-            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(-20.0, -10.0))
             .lineToConstantHeading(Vector2d(35.0, -10.0))
-            .lineToLinearHeading(Pose2d(48.0, -27.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, -29.0))
+            .lineToConstantHeading(Vector2d(48.0, -27.0))
+            .lineToConstantHeading(Vector2d(50.0, -28.0))
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, -10.0), 0.0)
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -73,7 +77,11 @@ class RedLeftAuto : OpMode() {
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(59.0, -10.0), 0.0)
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(52.0, -50.0)) {
+                board.setSlideTar(0)
+            }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
@@ -88,6 +96,14 @@ class RedLeftAuto : OpMode() {
             .lineToConstantHeading(Vector2d(35.0, -10.0))
             .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
             .lineToConstantHeading(Vector2d(50.0, -40.0))
+            .build()
+
+        park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
+            .setReversed(true)
+            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setSlideTar(0)
+            }
             .build()
     }
 
@@ -128,13 +144,13 @@ class RedLeftAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 480) spike =
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 350) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 480) spike =
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
                             1
                     } catch (_: Throwable) {
                     }
@@ -198,7 +214,6 @@ class RedLeftAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    board.setSlideTar(0)
                     step = "park"
                 }
             }
