@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -29,7 +30,14 @@ class Skitter : OpMode() {
         driveBase[3]?.direction = DcMotorSimple.Direction.FORWARD
 
         imu = hardwareMap.get(IMU::class.java, "imu")
-
+        imu?.initialize(
+            IMU.Parameters(
+                RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP
+                )
+            )
+        )
     }
 
     override fun loop() {
