@@ -20,6 +20,9 @@ class Skitter : OpMode() {
     private val driveBase = arrayOfNulls<DcMotorImplEx>(4)
     private var imu: IMU? = null
 
+    private var trueNorth : Boolean = false
+    private var bHeld : Boolean = false
+
     override fun init() {
         driveBase[0] = hardwareMap.get(DcMotorImplEx::class.java, "frontLeft")
         driveBase[1] = hardwareMap.get(DcMotorImplEx::class.java, "frontRight")
@@ -48,7 +51,19 @@ class Skitter : OpMode() {
     }
 
     override fun loop() {
+        if (trueNorth) driveFieldRelative(
+            -gamepad1.left_stick_y.toDouble(),
+             gamepad1.left_stick_x.toDouble(),
+             gamepad1.right_stick_x.toDouble()
+        ) else drive(
+            -gamepad1.left_stick_y.toDouble(),
+             gamepad1.left_stick_x.toDouble(),
+             gamepad1.right_stick_x.toDouble()
+        )
 
+        if (gamepad1.b && !bHeld) trueNorth = !trueNorth
+        bHeld = gamepad1.b
+        telemetry.addData("True North is ", if (trueNorth) "on." else "off.")
     }
 
     private fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
