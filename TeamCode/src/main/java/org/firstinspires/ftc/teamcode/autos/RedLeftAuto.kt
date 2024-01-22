@@ -63,16 +63,17 @@ class RedLeftAuto : OpMode() {
             .splineToConstantHeading(Vector2d(-35.0, -38.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(270.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(-35.0, -34.0), toRadians(90.0))
+            .lineToConstantHeading(Vector2d(-35.0, -28.0))
+            .lineToConstantHeading(Vector2d(-35.0, -30.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-35.0, -55.0))
-            .lineToConstantHeading(Vector2d(-56.5, -55.0))
+            .lineToConstantHeading(Vector2d(-56.5, -34.0))
             .lineToConstantHeading(Vector2d(-56.5, -10.0))
-            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(-20.0, -10.0))
             .lineToConstantHeading(Vector2d(35.0, -10.0))
-            .lineToLinearHeading(Pose2d(48.0, -34.5, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, -36.5))
+            .lineToLinearHeading(Pose2d(48.0, -27.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, -27.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
@@ -87,15 +88,17 @@ class RedLeftAuto : OpMode() {
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(180.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(-33.0, -30.0), toRadians(-135.0))
+            .splineToConstantHeading(Vector2d(-33.0, -32.0), toRadians(-135.0))
+            .lineToConstantHeading(Vector2d(-30.0, -32.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(-35.0, -10.0))
+            .lineToConstantHeading(Vector2d(-33.0, -32.0))
+            .lineToConstantHeading(Vector2d(-35.0, -9.0))
             .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, -10.0))
             .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, -40.0))
+            .lineToConstantHeading(Vector2d(51.0, -34.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
@@ -105,6 +108,8 @@ class RedLeftAuto : OpMode() {
                 board.setSlideTar(0)
             }
             .build()
+
+        telemetry.addLine("Done compiling")
     }
 
     override fun init_loop() {

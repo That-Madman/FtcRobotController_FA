@@ -18,7 +18,7 @@ class AEyes {
             .setModelLabels(arrayOf("blue", "red"))
             .build()
 
-        tfod!!.setMinResultConfidence(0.5f)
+        tfod!!.setMinResultConfidence(0.3f)
         april = AprilTagProcessor
             .Builder()
             .setDrawAxes(true)

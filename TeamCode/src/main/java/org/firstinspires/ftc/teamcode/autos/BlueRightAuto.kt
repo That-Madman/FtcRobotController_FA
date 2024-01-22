@@ -70,9 +70,9 @@ class BlueRightAuto : OpMode() {
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-56.5, 34.0))
-            .lineToConstantHeading(Vector2d(-56.5, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, Math.toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(-55.5, 34.0))
+            .lineToConstantHeading(Vector2d(-55.5, 10.0))
+            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 10.0))
             .lineToLinearHeading(Pose2d(51.0, 30.5, 0.0))
             .lineToConstantHeading(Vector2d(51.0, 36.5))
