@@ -92,7 +92,7 @@ public class MainTele extends OpMode {
         else if (gamepad2.right_bumper) board.theHookBringsYouBack(-1);
         else board.theHookBringsYouBack(0);
 
-        intakeLiftPos += (gamepad1.left_trigger - gamepad1.right_trigger) * 10000;
+        intakeLiftPos += (gamepad1.left_trigger - gamepad1.right_trigger) * 100;
         intakeLiftPos = max(intakeLiftPos, UpAndDownServoLift.UP.getPos());
         intakeLiftPos = min(intakeLiftPos, UpAndDownServoLift.DOWN.getPos());
 

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Board
 import java.lang.Math.toRadians
 
 @Autonomous
-class BlueRightAuto : OpMode() {
+class RedAudienceAuto : OpMode() {
     private val board = Board()
     private var drive: SampleMecanumDrive? = null
 
@@ -34,81 +34,82 @@ class BlueRightAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(-35.0, 61.0, toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(-35.0, -61.0, toRadians(90.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
-            .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(180.0)), toRadians(270.0))
-            .splineToConstantHeading(Vector2d(-32.0, 32.0), toRadians(315.0))
-            .lineToConstantHeading(Vector2d(-26.0, 32.0))
-            .lineToConstantHeading(Vector2d(-30.0, 32.0))
+            .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, 0.0), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-37.0, -30.0), toRadians(135.0))
             .build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
-            .lineToConstantHeading(Vector2d(-32.0, 30.0))
-            .lineToConstantHeading(Vector2d(-35.0, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 8.0))
-            .lineToLinearHeading(Pose2d(48.0, 38.0, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, 37.0))
+            .lineToConstantHeading(Vector2d(-35.0, -10.0))
+            .lineToConstantHeading(Vector2d(-20.0, -10.0))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToConstantHeading(Vector2d(48.0, -27.0))
+            .lineToConstantHeading(Vector2d(50.0, -28.0))
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
-            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setSlideTar(0)
             }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(-35.0, 38.0), toRadians(270.0))
-            .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(90.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(-35.0, 34.0), toRadians(270.0))
-            .lineToConstantHeading(Vector2d(-35.0, 30.0))
-            .lineToConstantHeading(Vector2d(-35.0, 32.0))
+            .splineToConstantHeading(Vector2d(-35.0, -38.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(270.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-35.0, -34.0), toRadians(90.0))
+            .lineToConstantHeading(Vector2d(-35.0, -28.0))
+            .lineToConstantHeading(Vector2d(-35.0, -30.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-55.5, 34.0))
-            .lineToConstantHeading(Vector2d(-55.5, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 10.0))
-            .lineToLinearHeading(Pose2d(51.0, 30.5, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, 36.5))
+            .lineToConstantHeading(Vector2d(-56.5, -34.0))
+            .lineToConstantHeading(Vector2d(-56.5, -10.0))
+            .lineToConstantHeading(Vector2d(-20.0, -10.0))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToLinearHeading(Pose2d(48.0, -27.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, -27.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .lineToConstantHeading(Vector2d(board2!!.end().x - 11, board2!!.end().y + 7))
-            .splineToConstantHeading(Vector2d(57.0, 61.0), 0.0)
-            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
+            .splineToConstantHeading(Vector2d(54.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(52.0, -50.0)) {
                 board.setSlideTar(0)
             }
             .build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
-            .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(0.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(-37.0, 30.0), toRadians(45.0))
+            .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(180.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(-33.0, -32.0), toRadians(-135.0))
+            .lineToConstantHeading(Vector2d(-30.0, -32.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(-35.0, 8.0))
-            .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 8.0))
-            .lineToLinearHeading(Pose2d(45.0, 27.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 34.0))
+            .lineToConstantHeading(Vector2d(-33.0, -32.0))
+            .lineToConstantHeading(Vector2d(-35.0, -9.0))
+            .lineToLinearHeading(Pose2d(-20.0, -10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(35.0, -10.0))
+            .lineToLinearHeading(Pose2d(48.0, -38.0, 0.0))
+            .lineToConstantHeading(Vector2d(51.0, -34.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
-            .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
-            .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
-            .addSpatialMarker(Vector2d(40.0, 50.0)) {
+            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setSlideTar(0)
             }
             .build()
+
+        telemetry.addLine("Done compiling")
     }
 
     override fun init_loop() {
@@ -148,17 +149,14 @@ class BlueRightAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right >= 480
-                    ) spike = 2
-                    else if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right <= 480
-                    ) spike = 1
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 350) spike =
+                        2
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
+                        1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0
-                            && board.eyes.tfod!!.recognitions[0].right <= 480
-                            ) spike = 1
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
+                            1
                     } catch (_: Throwable) {
                     }
                 } finally {
@@ -232,6 +230,6 @@ class BlueRightAuto : OpMode() {
                 }
             }
         }
-        telemetry.addData("The current step is", " $step.")
+        telemetry.addData("The current step is ", "$step.")
     }
 }
