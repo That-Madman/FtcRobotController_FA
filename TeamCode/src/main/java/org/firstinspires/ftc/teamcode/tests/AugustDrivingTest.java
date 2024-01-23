@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Board;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import java.util.List;
-
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 
 @Autonomous(group = "Tests")
@@ -84,8 +82,7 @@ public class AugustDrivingTest extends OpMode {
 
         if (gamepad1.b && bHeld) DESIRED_TAG_ID++;
         try {
-            List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
-            for (AprilTagDetection detection : currentDetections) {
+            for (AprilTagDetection detection : board.getEyes().getApril().getDetections()) {
                 // Look to see if we have size info on this tag.
                 if (detection.metadata != null) {
                     //  Check to see if we want to track towards this tag.
