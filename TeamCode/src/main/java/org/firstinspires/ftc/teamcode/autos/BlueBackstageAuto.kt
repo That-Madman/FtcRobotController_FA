@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.Board
 import java.lang.Math.toRadians
 
-
 @Autonomous
 class BlueBackstageAuto : OpMode() {
     private val board = Board()
