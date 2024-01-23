@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
-import com.qualcomm.robotcore.hardware.TouchSensor
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import kotlin.math.abs
@@ -25,7 +24,7 @@ class Board {
     private val open: Double = 1.0
     private val close: Double = 0.0
 
-    private val driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
+    private var driveBase: Array<DcMotorImplEx?> = arrayOfNulls<DcMotorImplEx?>(4)
     private var slideMotor: DcMotorImplEx? = null
     private var dropper: Servo? = null
 
@@ -39,18 +38,14 @@ class Board {
 
     private var launchServo: Servo? = null
 
-    private val hookLifts: Array<Servo?> = arrayOfNulls(2)
-    private val bumpers: Array<TouchSensor?> = arrayOfNulls(2)
-
     var eyes = AEyes()
 
     private var intakeLiftServo: CRServo? = null
-
     private val intakeLiftPID = PID(0.001,
         0.0,
         0.0,
         { hook2?.currentPosition as Number },
-        { intakeLiftServo?.power = it.toDouble() })
+        { intakeLiftServo!!.power = it.toDouble() })
 
     @JvmOverloads
     fun getHW(hwMap: HardwareMap, telemetry: Telemetry? = null, auto: Boolean = false) {
@@ -151,22 +146,6 @@ class Board {
             hook2!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         } catch (_: Throwable) {
             broken.add("Hook 2")
-        }
-
-        try {
-            hookLifts[0] = hwMap.get(Servo::class.java, "hookServo1")
-            hookLifts[1] = hwMap.get(Servo::class.java, "hookServo2")
-
-            hookLifts[0]!!.direction = Servo.Direction.REVERSE
-        } catch (_: Throwable) {
-            broken.add("Hook Servos")
-        }
-
-        try {
-            bumpers[0] = hwMap.get(TouchSensor::class.java, "hookBumper1")
-            bumpers[1] = hwMap.get(TouchSensor::class.java, "hookBumper2")
-        } catch (_: Throwable) {
-            broken.add("Hook Bumper")
         }
 
         if (!auto) {
@@ -280,12 +259,5 @@ class Board {
     fun theHookBringsYouBack(pow: Double) {
         hook1?.power = pow
         hook2?.power = pow
-    }
-
-    fun bumpers() : Boolean = bumpers[0]!!.isPressed || bumpers[1]!!.isPressed
-
-    fun hookServo (pos : Double){
-        hookLifts[0]?.position = pos
-        hookLifts[1]?.position = pos
     }
 }
