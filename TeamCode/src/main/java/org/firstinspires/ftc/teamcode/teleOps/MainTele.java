@@ -16,6 +16,8 @@ public class MainTele extends OpMode {
 
     double inDir = 0;
 
+    int liftPos = 0;
+
     int dropperPos = 0;
 
     int intakeLiftPos = UpAndDownServoLift.DOWN.getPos();
@@ -54,8 +56,12 @@ public class MainTele extends OpMode {
         board.setDrop(dropperPos);
 
         try {
-            board.setSlideTar(board.getSlidePos() +
-                    ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000));
+            liftPos = board.getSlidePos() +
+                    ((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 1000);
+
+            liftPos = max(0, liftPos);
+
+            board.setSlideTar(liftPos);
         } catch (Throwable e) {
             telemetry.addData("Issue with lift because ", e);
         }
