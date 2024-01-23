@@ -209,7 +209,6 @@ class BlueBackstageAuto : OpMode() {
                         else -> throw Error("We are at a point that shouldn't even exist.")
                     }
 
-                    if (spike != 1) board.setSlideTar(0)
                     step = "park"
                 }
             }

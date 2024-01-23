@@ -70,9 +70,9 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-55.5, 34.0))
-            .lineToConstantHeading(Vector2d(-55.5, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
+            .lineToConstantHeading(Vector2d(-56.5, 34.0))
+            .lineToConstantHeading(Vector2d(-56.5, 10.0))
+            .lineToLinearHeading(Pose2d(-20.0, 10.0, Math.toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 10.0))
             .lineToLinearHeading(Pose2d(51.0, 30.5, 0.0))
             .lineToConstantHeading(Vector2d(51.0, 36.5))
@@ -121,8 +121,6 @@ class BlueAudienceAuto : OpMode() {
                             + "\na top of ${it.top},"
                             + "\nand a bottom of ${it.bottom}"
                 )
-                if (it.right <= 480) spike = 1
-                else if (it.right >= 480) spike = 2
             }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
@@ -158,7 +156,7 @@ class BlueAudienceAuto : OpMode() {
                     try {
                         if (board.eyes.tfod!!.recognitions.size != 0
                             && board.eyes.tfod!!.recognitions[0].right <= 480
-                            ) spike = 1
+                        ) spike = 1
                     } catch (_: Throwable) {
                     }
                 } finally {
