@@ -12,7 +12,6 @@ import autoThings.roadRunner.drive.SampleMecanumDrive;
 
 @Autonomous(group = "Tests")
 public class AugustDrivingTest extends OpMode {
-    int DESIRED_TAG_ID = -1;
     static double
             DESIRED_DISTANCE = 8, // inches
             speedGain = 0.02,
@@ -21,6 +20,7 @@ public class AugustDrivingTest extends OpMode {
             maxAutoSpeed = 0.5,
             maxAutoStrafe = 0.5,
             maxAutoTurn = 0.3;
+    int DESIRED_TAG_ID = -1;
     Board board = new Board();
     SampleMecanumDrive drive;
     private boolean targetFound = false;
@@ -77,8 +77,8 @@ public class AugustDrivingTest extends OpMode {
 
     @Override
     public void loop() {
-
         if (gamepad1.b && bHeld) DESIRED_TAG_ID++;
+
         try {
             for (AprilTagDetection detection : board.getEyes().getApril().getDetections()) {
                 // Look to see if we have size info on this tag.
