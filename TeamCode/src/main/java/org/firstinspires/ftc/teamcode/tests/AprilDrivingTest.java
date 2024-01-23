@@ -28,12 +28,19 @@ public class AprilDrivingTest extends OpMode {
     Board board = new Board();
     SampleMecanumDrive drive;
     private boolean targetFound = false;
+
+    private boolean bHeld = false;
+
     private AprilTagDetection desiredTag = null;
 
     @Override
     public void init() {
-        drive = new SampleMecanumDrive(hardwareMap);
-        board.getEyes();
+        try {
+            drive = new SampleMecanumDrive(hardwareMap);
+            board.getEyes();
+        } catch (Throwable e) {
+            throw new RuntimeException("Can't access eyes because of " + e + ". Get that fixed.");
+        }
     }
 
     @Override
@@ -41,7 +48,14 @@ public class AprilDrivingTest extends OpMode {
         try { //start of TensorFlow
             //noinspection DataFlowIssue
             board.getEyes().getTfod().getRecognitions().forEach(
-                    thing -> telemetry.addLine("found " + thing)
+                    thing -> telemetry.addLine(
+                            "I'm " + thing.getConfidence()
+                                    + "confident I found" + thing.getLabel()
+                                    + "\nwith a right bound of " + thing.getRight()
+                                    + ", \na left of " + thing.getLeft()
+                                    + ", \na top of " + thing.getTop()
+                                    + ", \nand a bottom of " + thing.getBottom()
+                    )
             );
         } catch (Throwable e) {
             telemetry.addData("Error in using camera because:", e);
@@ -67,6 +81,8 @@ public class AprilDrivingTest extends OpMode {
 
     @Override
     public void loop() {
+
+        if (gamepad1.b && bHeld) DESIRED_TAG_ID++;
         try {
             List<AprilTagDetection> currentDetections = board.getEyes().getApril().getDetections();
             for (AprilTagDetection detection : currentDetections) {
@@ -106,6 +122,8 @@ public class AprilDrivingTest extends OpMode {
 //            board.drive(driveAprilTag, strafeAprilTag, turnAprilTag);
             drive.setDrivePower(new Pose2d(driveAprilTag, strafeAprilTag, turnAprilTag));
             //april tag done
+
+            bHeld = gamepad1.b;
         }
     }
 }
