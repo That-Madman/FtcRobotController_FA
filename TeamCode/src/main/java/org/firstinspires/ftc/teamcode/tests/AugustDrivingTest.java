@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.tests;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -12,9 +11,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import autoThings.roadRunner.drive.SampleMecanumDrive;
 
 @Autonomous(group = "Tests")
-@Config
 public class AugustDrivingTest extends OpMode {
-    static int DESIRED_TAG_ID = -1;
+    int DESIRED_TAG_ID = -1;
     static double
             DESIRED_DISTANCE = 8, // inches
             speedGain = 0.02,
