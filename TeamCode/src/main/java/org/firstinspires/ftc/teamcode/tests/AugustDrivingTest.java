@@ -15,7 +15,7 @@ import autoThings.roadRunner.drive.SampleMecanumDrive;
 
 @Autonomous(group = "Tests")
 @Config
-public class AprilDrivingTest extends OpMode {
+public class AugustDrivingTest extends OpMode {
     static int DESIRED_TAG_ID = -1; //TODO change this to different tags for testing
     static double
             DESIRED_DISTANCE = 8, // inches
