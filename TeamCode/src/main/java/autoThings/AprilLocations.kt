@@ -4,12 +4,12 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 
 enum class AprilLocations(val pose: Pose2d) {
-    ONE(Pose2d()),
-    TWO(Pose2d()),
-    THREE(Pose2d()),
-    FOUR(Pose2d()),
-    FIVE(Pose2d()),
-    SIX(Pose2d())
+    ONE(Pose2d(TODO("get the value"))),
+    TWO(Pose2d(TODO("get the value"))),
+    THREE(Pose2d(TODO("get the value"))),
+    FOUR(Pose2d(TODO("get the value"))),
+    FIVE(Pose2d(TODO("get the value"))),
+    SIX(Pose2d(TODO("get the value")))
 }
 
 fun getAprilLoc(tag: Int): Pose2d {
