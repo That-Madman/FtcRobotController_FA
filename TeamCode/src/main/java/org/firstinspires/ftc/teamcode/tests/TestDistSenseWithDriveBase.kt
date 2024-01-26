@@ -35,7 +35,22 @@ class TestDistSenseWithDriveBase : OpMode() {
     }
 
     override fun loop() {
-        telemetry.addData("Distance is", "  ${distSense!!.getDistance(DistanceUnit.INCH)}")
+        telemetry.addData(
+            "Distance is in inches",
+            "  ${distSense!!.getDistance(DistanceUnit.INCH)}"
+        )
+        telemetry.addData(
+            "Distance is in millimeters",
+            "  ${distSense!!.getDistance(DistanceUnit.MM)}"
+        )
+        telemetry.addData(
+            "Distance is in centimeters",
+            "  ${distSense!!.getDistance(DistanceUnit.CM)}"
+        )
+        telemetry.addData(
+            "Distance is in meters",
+            "  ${distSense!!.getDistance(DistanceUnit.METER)}"
+        )
 
         drive(
             -gamepad1.left_stick_y,

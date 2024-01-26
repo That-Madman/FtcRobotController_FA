@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorImplEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
+import com.qualcomm.robotcore.hardware.DistanceSensor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
@@ -36,6 +37,8 @@ class Board {
     private var hook2: DcMotor? = null
 
     private var imu: IMU? = null
+
+    private var distSense: DistanceSensor? = null
 
     private var launchServo: Servo? = null
 
@@ -185,6 +188,12 @@ class Board {
             }
         }
 
+        try {
+            distSense = hwMap.get(DistanceSensor::class.java, "distSense")
+        } catch (_: Throwable) {
+            broken.add("Distance Sensor")
+        }
+
         if (broken.isNotEmpty() && telemetry != null) {
             telemetry.addData(
                 "The following could not be accessed",
@@ -282,9 +291,9 @@ class Board {
         hook2?.power = pow
     }
 
-    fun bumpers() : Boolean = bumpers[0]!!.isPressed || bumpers[1]!!.isPressed
+    fun bumpers(): Boolean = bumpers[0]!!.isPressed || bumpers[1]!!.isPressed
 
-    fun hookServo (pos : Double){
+    fun hookServo(pos: Double) {
         hookLifts[0]?.position = pos
         hookLifts[1]?.position = pos
     }
