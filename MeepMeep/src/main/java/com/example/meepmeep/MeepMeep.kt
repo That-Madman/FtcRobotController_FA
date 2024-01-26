@@ -27,7 +27,9 @@ object MeepMeep {
                     )
 
                         .setReversed(true)
-                        .splineToConstantHeading(Vector2d(51.0, 10.0), 0.0)
+                        .splineToConstantHeading(Vector2d(51.0, 12.0), 0.0)
+                        .addSpatialMarker(Vector2d(49.0, 25.0)) {
+                        }
                         .build()
                 }
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

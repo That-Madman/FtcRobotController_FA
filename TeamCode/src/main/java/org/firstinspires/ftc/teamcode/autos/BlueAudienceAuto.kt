@@ -70,18 +70,18 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-45.5, 34.0))
-            .lineToConstantHeading(Vector2d(-45.5, 10.0))
+            .lineToConstantHeading(Vector2d(-46.5, 34.0))
+            .lineToConstantHeading(Vector2d(-46.5, 10.0))
             .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 10.0))
-            .lineToLinearHeading(Pose2d(45.0, 30.5, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, 38.5))
+            .lineToLinearHeading(Pose2d(44.0, 30.5, 0.0))
+            .lineToConstantHeading(Vector2d(51.0, 42.5))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(51.0, 10.0), 0.0)
-            .addSpatialMarker(Vector2d(49.0, 20.0)) {
+            .splineToConstantHeading(Vector2d(51.0, 12.0), 0.0)
+            .addSpatialMarker(Vector2d(49.0, 25.0)) {
                 board.setSlideTar(0)
             }
             .build()
