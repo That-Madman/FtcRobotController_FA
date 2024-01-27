@@ -6,6 +6,7 @@ import static java.lang.Math.min;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Board;
 import org.firstinspires.ftc.teamcode.UpAndDownServoLift;
 
@@ -103,6 +104,15 @@ public class MainTele extends OpMode {
         intakeLiftPos = min(intakeLiftPos, UpAndDownServoLift.DOWN.getPos());
 
         board.setIntakeHeight(intakeLiftPos);
+
+        try {
+            if(board.getDist(DistanceUnit.INCH) < 3) {
+                gamepad1.rumble(5);
+                gamepad2.rumble(5);
+            }
+        } catch (Throwable ignored){
+
+        }
     }
 
     @Override

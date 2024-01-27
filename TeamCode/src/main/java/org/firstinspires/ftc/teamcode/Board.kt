@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.hardware.TouchSensor
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -297,4 +298,6 @@ class Board {
         hookLifts[0]?.position = pos
         hookLifts[1]?.position = pos
     }
+
+    fun getDist(unit: DistanceUnit): Double = distSense!!.getDistance(unit)
 }
