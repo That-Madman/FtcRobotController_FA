@@ -75,12 +75,12 @@ class BlueAudienceAuto : OpMode() {
             .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 10.0))
             .lineToLinearHeading(Pose2d(44.0, 30.5, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, 42.5))
+            .lineToConstantHeading(Vector2d(51.0, 44.5))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(51.0, 12.0), 0.0)
+            .splineToConstantHeading(Vector2d(51.0, 15.0), 0.0)
             .addSpatialMarker(Vector2d(49.0, 25.0)) {
                 board.setSlideTar(0)
             }
@@ -90,20 +90,21 @@ class BlueAudienceAuto : OpMode() {
             .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(0.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(-37.0, 30.0), toRadians(45.0))
+            .lineToConstantHeading(Vector2d(-40.0, 30.0))
+            .lineToConstantHeading(Vector2d(-37.0, 30.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
             .lineToConstantHeading(Vector2d(-35.0, 8.0))
-            .lineToLinearHeading(Pose2d(-20.0, 8.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, 8.0))
-            .lineToLinearHeading(Pose2d(45.0, 27.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 34.0))
+            .lineToLinearHeading(Pose2d(45.0, 29.0, 0.0))
+            .lineToConstantHeading(Vector2d(50.0, 29.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .setReversed(true)
-            .splineToConstantHeading(Vector2d(51.0, 10.0), 0.0)
-            .addSpatialMarker(Vector2d(49.0, 20.0)) {
+            .splineToConstantHeading(Vector2d(50.0, 14.0), 0.0)
+            .addSpatialMarker(Vector2d(49.0, 25.0)) {
                 board.setSlideTar(0)
             }
             .build()
