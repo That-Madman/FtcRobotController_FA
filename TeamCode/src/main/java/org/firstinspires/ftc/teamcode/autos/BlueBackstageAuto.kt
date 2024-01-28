@@ -112,8 +112,6 @@ class BlueBackstageAuto : OpMode() {
                             + "\na top of ${it.top},"
                             + "\nand a bottom of ${it.bottom}"
                 )
-                if (it.right <= 400) spike = 1
-                else if (it.right >= 400) spike = 2
             }
         } catch (e: Throwable) {
             telemetry.addData("Error in using camera because:", e)
