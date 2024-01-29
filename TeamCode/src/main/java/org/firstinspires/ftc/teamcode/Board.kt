@@ -250,7 +250,15 @@ class Board {
     }
 
     fun setSlideTar(pos: Int) {
+        if (slideMotor?.mode != DcMotor.RunMode.RUN_TO_POSITION)
+            slideMotor?.mode = DcMotor.RunMode.RUN_TO_POSITION
         slideMotor?.targetPosition = pos
+    }
+
+    fun setSlidePow(pow: Double) {
+        if (slideMotor?.mode != DcMotor.RunMode.RUN_WITHOUT_ENCODER)
+            slideMotor?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        slideMotor?.power = pow
     }
 
     fun getSlidePos() = slideMotor?.currentPosition
