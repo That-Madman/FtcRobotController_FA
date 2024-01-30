@@ -34,7 +34,7 @@ class BlueAudienceAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(-35.0, 61.0, toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(-36.0, 61.0, toRadians(270.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
@@ -146,15 +146,15 @@ class BlueAudienceAuto : OpMode() {
             "start" -> {
                 try {
                     if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right >= 480
+                        && board.eyes.tfod!!.recognitions[0].right >= 390
                     ) spike = 2
                     else if (board.eyes.tfod!!.recognitions.size != 0
-                        && board.eyes.tfod!!.recognitions[0].right <= 480
+                        && board.eyes.tfod!!.recognitions[0].right <= 390
                     ) spike = 1
                 } catch (_: Throwable) {
                     try {
                         if (board.eyes.tfod!!.recognitions.size != 0
-                            && board.eyes.tfod!!.recognitions[0].right <= 480
+                            && board.eyes.tfod!!.recognitions[0].right <= 390
                         ) spike = 1
                     } catch (_: Throwable) {
                     }

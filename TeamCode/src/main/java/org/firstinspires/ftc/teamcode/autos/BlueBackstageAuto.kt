@@ -30,11 +30,13 @@ class BlueBackstageAuto : OpMode() {
     private var step = "start"
     private var spike = 3
 
+    private var liftOffset = 500
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(12.0, 61.0, toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(13.0, 61.0, toRadians(270.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, 37.0), toRadians(270.0))
@@ -55,16 +57,17 @@ class BlueBackstageAuto : OpMode() {
             .setReversed(true)
             .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(12.0, 38.0), toRadians(270.0))
-            .splineToLinearHeading(Pose2d(12.0, 36.0, toRadians(90.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(12.0, 34.0), toRadians(270.0))
-            .lineToConstantHeading(Vector2d(12.0, 26.0))
-            .lineToConstantHeading(Vector2d(12.0, 28.0))
+            .splineToConstantHeading(Vector2d(13.0, 38.0), toRadians(270.0))
+            .splineToLinearHeading(Pose2d(13.0, 36.0, toRadians(90.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(13.0, 34.0), toRadians(270.0))
+            .lineToConstantHeading(Vector2d(13.0, 26.0))
+            .lineToConstantHeading(Vector2d(13.0, 28.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
@@ -77,6 +80,7 @@ class BlueBackstageAuto : OpMode() {
             .lineToConstantHeading(Vector2d(board2!!.end().x - 11, board2!!.end().y + 7))
             .splineToConstantHeading(Vector2d(57.0, 61.0), 0.0)
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -97,6 +101,7 @@ class BlueBackstageAuto : OpMode() {
             .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
             .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -183,14 +188,14 @@ class BlueBackstageAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight - 200)
+                    board.setSlideTar(slideHeight - liftOffset)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= (slideHeight - 250)) {
+                if (board.getSlidePos()!! >= (slideHeight - (liftOffset + 50))) {
                     board.setDrop(1)
                     resetRuntime()
                     step = "drop"
@@ -199,7 +204,7 @@ class BlueBackstageAuto : OpMode() {
 
             "drop" -> {
                 if (runtime >= 2) {
-                    board.setClaw(true)
+
                     when (spike) {
                         1 -> drive!!.followTrajectorySequenceAsync(park1)
                         2 -> drive!!.followTrajectorySequenceAsync(park2)

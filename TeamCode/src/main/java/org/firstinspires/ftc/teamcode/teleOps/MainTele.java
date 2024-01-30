@@ -48,34 +48,18 @@ public class MainTele extends OpMode {
 
         if (gamepad2.y && !y2held) hookServoUp = !hookServoUp;
 
-        if (!slowDrive) {
-            if (trueNorth) {
-                board.driveFieldRelative(
-                        -gamepad1.left_stick_y,
-                        gamepad1.left_stick_x,
-                        gamepad1.right_stick_x
-                );
-            } else {
-                board.drive(
-                        -gamepad1.left_stick_y,
-                        gamepad1.left_stick_x,
-                        gamepad1.right_stick_x
-                );
-            }
+        if (trueNorth) {
+            board.driveFieldRelative(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
+            );
         } else {
-            if (trueNorth) {
-                board.driveFieldRelative(
-                        -gamepad1.left_stick_y * 0.25,
-                        gamepad1.left_stick_x * 0.25,
-                        gamepad1.right_stick_x * 0.25
-                );
-            } else {
-                board.drive(
-                        -gamepad1.left_stick_y * 0.25,
-                        gamepad1.left_stick_x * 0.25,
-                        gamepad1.right_stick_x * 0.25
-                );
-            }
+            board.drive(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
+            );
         }
 
         board.setDrop(dropperPos);
