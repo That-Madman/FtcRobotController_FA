@@ -13,11 +13,16 @@ import org.firstinspires.ftc.teamcode.UpAndDownServoLift;
 @TeleOp(name = "TeleOp")
 public class MainTele extends OpMode {
     Board board = new Board();
-    boolean trueNorth, hookServoUp, y1Held, y2held, a2Held, rightHeld, inDirOn = false;
+    boolean trueNorth,
+            hookServoUp,
+            y1Held,
+            y2held,
+            a2Held,
+            b1Held,
+            rightHeld,
+            inDirOn = false;
 
     double inDir = 0;
-
-    int liftPos = 0;
 
     int dropperPos = 0;
 
@@ -87,6 +92,7 @@ public class MainTele extends OpMode {
         y1Held = gamepad1.y;
         y2held = gamepad2.y;
         a2Held = gamepad2.a;
+        b1Held = gamepad1.b;
         rightHeld = gamepad1.right_bumper;
 
         telemetry.addData("True North Enabled?", trueNorth);
@@ -105,11 +111,11 @@ public class MainTele extends OpMode {
         board.setIntakeHeight(intakeLiftPos);
 
         try {
-            if(board.getDist(DistanceUnit.INCH) < 3) {
+            if (board.getDist(DistanceUnit.INCH) < 3) {
                 gamepad1.rumble(5);
                 gamepad2.rumble(5);
             }
-        } catch (Throwable ignored){
+        } catch (Throwable ignored) {
 
         }
     }

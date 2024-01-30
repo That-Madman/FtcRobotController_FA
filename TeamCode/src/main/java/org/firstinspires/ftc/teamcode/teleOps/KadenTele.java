@@ -18,12 +18,11 @@ public class KadenTele extends OpMode {
             y1Held,
             y2held,
             a2Held,
+            b1Held,
             rightHeld,
             inDirOn = false;
 
     double inDir = 0;
-
-    int liftPos = 0;
 
     int dropperPos = 0;
 
@@ -94,6 +93,7 @@ public class KadenTele extends OpMode {
         y1Held = gamepad1.y;
         y2held = gamepad2.y;
         a2Held = gamepad2.a;
+        b1Held = gamepad1.b;
         rightHeld = gamepad1.right_bumper;
 
         telemetry.addData("True North Enabled?", trueNorth);
