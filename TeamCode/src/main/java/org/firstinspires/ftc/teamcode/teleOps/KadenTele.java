@@ -15,6 +15,7 @@ public class KadenTele extends OpMode {
 
     boolean trueNorth,
             hookServoUp,
+            slowDrive,
             y1Held,
             y2held,
             a2Held,
@@ -44,20 +45,38 @@ public class KadenTele extends OpMode {
         }
         if (gamepad2.a && !a2Held) ++dropperPos;
 
+        if (gamepad1.b && b1Held) slowDrive = !slowDrive;
+
         if (gamepad2.y && !y2held) hookServoUp = !hookServoUp;
 
-        if (trueNorth) {
-            board.driveFieldRelative(
-                    -gamepad1.right_stick_y,
-                    gamepad1.left_stick_x,
-                    gamepad1.right_stick_x
-            );
+        if (!slowDrive) {
+            if (trueNorth) {
+                board.driveFieldRelative(
+                        -gamepad1.left_stick_y,
+                        gamepad1.left_stick_x,
+                        gamepad1.right_stick_x
+                );
+            } else {
+                board.drive(
+                        -gamepad1.left_stick_y,
+                        gamepad1.left_stick_x,
+                        gamepad1.right_stick_x
+                );
+            }
         } else {
-            board.drive(
-                    -gamepad1.right_stick_y,
-                    gamepad1.left_stick_x,
-                    gamepad1.right_stick_x
-            );
+            if (trueNorth) {
+                board.driveFieldRelative(
+                        -gamepad1.left_stick_y * 0.25,
+                        gamepad1.left_stick_x * 0.25,
+                        gamepad1.right_stick_x * 0.25
+                );
+            } else {
+                board.drive(
+                        -gamepad1.left_stick_y * 0.25,
+                        gamepad1.left_stick_x * 0.25,
+                        gamepad1.right_stick_x * 0.25
+                );
+            }
         }
 
         board.setDrop(dropperPos);
