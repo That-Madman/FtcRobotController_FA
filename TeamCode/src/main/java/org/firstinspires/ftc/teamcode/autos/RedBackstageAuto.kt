@@ -34,7 +34,7 @@ class RedBackstageAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(12.0, -61.0, toRadians(90.0))
+        drive!!.poseEstimate = Pose2d(13.0, -61.0, toRadians(90.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
@@ -50,8 +50,8 @@ class RedBackstageAuto : OpMode() {
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .lineToConstantHeading(Vector2d(40.5, -28.0))
-            .lineToConstantHeading(Vector2d(40.5, -60.0))
-            .lineToConstantHeading(Vector2d(50.0, -60.0))
+            .lineToConstantHeading(Vector2d(40.5, -59.0))
+            .lineToConstantHeading(Vector2d(50.0, -59.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -59,22 +59,22 @@ class RedBackstageAuto : OpMode() {
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(12.0, -38.0), toRadians(90.0))
-            .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(270.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(12.0, -34.0), toRadians(90.0))
-            .lineToConstantHeading(Vector2d(12.0, -25.0))
-            .lineToConstantHeading(Vector2d(12.0, -28.5))
+            .splineToConstantHeading(Vector2d(13.0, -38.0), toRadians(90.0))
+            .splineToLinearHeading(Pose2d(13.0, -36.0, toRadians(270.0)), toRadians(90.0))
+            .splineToConstantHeading(Vector2d(13.0, -34.0), toRadians(90.0))
+            .lineToConstantHeading(Vector2d(13.0, -25.0))
+            .lineToConstantHeading(Vector2d(13.0, -31.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(12.0, -30.0))
-            .lineToLinearHeading(Pose2d(50.0, -27.0, 0.0))
+            .lineToConstantHeading(Vector2d(13.0, -32.0))
+            .lineToLinearHeading(Pose2d(50.0, -31.0, 0.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .lineToConstantHeading(Vector2d(40.5, -27.0))
             .lineToConstantHeading(Vector2d(40.5, -60.0))
-            .lineToConstantHeading(Vector2d(50.0, -60.0))
+            .lineToConstantHeading(Vector2d(50.0, -58.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -98,14 +98,13 @@ class RedBackstageAuto : OpMode() {
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .lineToConstantHeading(Vector2d(40.5, -34.0))
-            .lineToConstantHeading(Vector2d(40.5, -60.0))
-            .lineToConstantHeading(Vector2d(50.0, -60.0))
+            .lineToConstantHeading(Vector2d(40.5, -59.0))
+            .lineToConstantHeading(Vector2d(50.0, -59.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
-
     }
 
     override fun init_loop() {
@@ -143,13 +142,13 @@ class RedBackstageAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 350) spike =
+                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 200) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
+                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 200) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 350) spike =
+                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 200) spike =
                             1
                     } catch (_: Throwable) {
                     }
@@ -197,7 +196,7 @@ class RedBackstageAuto : OpMode() {
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
                 if (board.getSlidePos()!! >= (slideHeight - 250)) {
-                    board.setClaw(false)
+                    board.setDrop(1)
                     resetRuntime()
                     step = "drop"
                 }

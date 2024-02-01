@@ -201,7 +201,7 @@ class RedAudienceAuto : OpMode() {
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
                 if (board.getSlidePos()!! >= slideHeight) {
-                    board.setClaw(false)
+                    board.setDrop(1)
                     resetRuntime()
                     step = "drop"
                 }
