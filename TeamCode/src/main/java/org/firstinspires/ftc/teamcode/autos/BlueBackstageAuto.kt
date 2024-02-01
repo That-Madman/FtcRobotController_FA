@@ -54,8 +54,9 @@ class BlueBackstageAuto : OpMode() {
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, 59.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 41.0))
+            .lineToConstantHeading(Vector2d(40.5, 60.0))
+            .lineToConstantHeading(Vector2d(50.0, 60.0))
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -76,9 +77,9 @@ class BlueBackstageAuto : OpMode() {
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .setReversed(true)
-            .lineToConstantHeading(Vector2d(board2!!.end().x - 11, board2!!.end().y + 7))
-            .splineToConstantHeading(Vector2d(57.0, 61.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 36.5))
+            .lineToConstantHeading(Vector2d(40.5, 60.0))
+            .lineToConstantHeading(Vector2d(50.0, 60.0))
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -97,9 +98,9 @@ class BlueBackstageAuto : OpMode() {
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
-            .setReversed(true)
-            .lineToConstantHeading(Vector2d(board3!!.end().x - 10, board3!!.end().y + 6))
-            .splineToConstantHeading(Vector2d(56.5, 60.5), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 29.0))
+            .lineToConstantHeading(Vector2d(40.5, 60.0))
+            .lineToConstantHeading(Vector2d(50.0, 60.0))
             .addSpatialMarker(Vector2d(40.0, 50.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
