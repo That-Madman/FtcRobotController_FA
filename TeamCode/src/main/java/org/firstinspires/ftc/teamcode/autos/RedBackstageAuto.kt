@@ -30,6 +30,8 @@ class RedBackstageAuto : OpMode() {
     private var step = "start"
     private var spike = 3
 
+    private var liftOffset = 500
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
@@ -73,8 +75,8 @@ class RedBackstageAuto : OpMode() {
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .lineToConstantHeading(Vector2d(40.5, -27.0))
-            .lineToConstantHeading(Vector2d(40.5, -60.0))
-            .lineToConstantHeading(Vector2d(50.0, -58.0))
+            .lineToConstantHeading(Vector2d(40.5, -55.0))
+            .lineToConstantHeading(Vector2d(50.0, -55.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -86,11 +88,10 @@ class RedBackstageAuto : OpMode() {
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(180.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(14.0, -30.0), toRadians(-135.0))
             .lineToConstantHeading(Vector2d(18.0, -30.0))
-            .lineToConstantHeading(Vector2d(16.0, -30.0))
+            .lineToConstantHeading(Vector2d(12.0, -30.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(14.0, -30.0))
             .lineToConstantHeading(Vector2d(14.0, -50.0))
             .setReversed(true)
             .splineToLinearHeading(Pose2d(50.0, -34.0, 0.0), 0.0)
@@ -98,8 +99,8 @@ class RedBackstageAuto : OpMode() {
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .lineToConstantHeading(Vector2d(40.5, -34.0))
-            .lineToConstantHeading(Vector2d(40.5, -59.0))
-            .lineToConstantHeading(Vector2d(50.0, -59.0))
+            .lineToConstantHeading(Vector2d(40.5, -54.0))
+            .lineToConstantHeading(Vector2d(50.0, -54.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -188,14 +189,14 @@ class RedBackstageAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight - 200)
+                    board.setSlideTar(slideHeight - liftOffset)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= (slideHeight - 250)) {
+                if (board.getSlidePos()!! >= (slideHeight - (liftOffset + 50))) {
                     board.setDrop(1)
                     resetRuntime()
                     step = "drop"
