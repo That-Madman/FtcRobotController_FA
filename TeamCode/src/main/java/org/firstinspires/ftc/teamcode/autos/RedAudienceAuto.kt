@@ -51,10 +51,11 @@ class RedAudienceAuto : OpMode() {
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
-            .setReversed(true)
-            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
-            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, -28.0))
+            .lineToConstantHeading(Vector2d(40.5, -13.0))
+            .lineToConstantHeading(Vector2d(50.0, -13.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -72,14 +73,16 @@ class RedAudienceAuto : OpMode() {
             .lineToConstantHeading(Vector2d(-56.5, -55.0))
             .lineToConstantHeading(Vector2d(-56.5, -7.0))
             .lineToConstantHeading(Vector2d(35.0, -7.0))
-            .lineToLinearHeading(Pose2d(48.0, -28.0, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, -28.0))
+            .lineToLinearHeading(Pose2d(48.0, -32.0, 0.0))
+            .lineToConstantHeading(Vector2d(51.0, -30.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(49.0, -8.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, -30.0))
+            .lineToConstantHeading(Vector2d(40.5, -13.0))
+            .lineToConstantHeading(Vector2d(50.0, -13.0))
             .addSpatialMarker(Vector2d(49.0, -20.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -95,13 +98,15 @@ class RedAudienceAuto : OpMode() {
             .lineToLinearHeading(Pose2d(-20.0, -7.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, -7.0))
             .lineToLinearHeading(Pose2d(48.0, -28.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, -28.0))
+            .lineToConstantHeading(Vector2d(50.0, -32.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(49.0, -7.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, -32.0))
+            .lineToConstantHeading(Vector2d(40.5, -13.0))
+            .lineToConstantHeading(Vector2d(50.0, -13.0))
             .addSpatialMarker(Vector2d(49.0, -20.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -204,7 +209,6 @@ class RedAudienceAuto : OpMode() {
 
             "drop" -> {
                 if (runtime >= 2) {
-                    board.setClaw(true)
                     when (spike) {
                         1 -> drive!!.followTrajectorySequenceAsync(park1)
                         2 -> drive!!.followTrajectorySequenceAsync(park2)

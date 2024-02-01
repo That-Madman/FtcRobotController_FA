@@ -49,10 +49,11 @@ class RedBackstageAuto : OpMode() {
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
-            .setReversed(true)
-            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
-            .splineToConstantHeading(Vector2d(54.0, -60.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, -28.0))
+            .lineToConstantHeading(Vector2d(40.5, -60.0))
+            .lineToConstantHeading(Vector2d(50.0, -60.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -71,10 +72,11 @@ class RedBackstageAuto : OpMode() {
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .setReversed(true)
-            .lineToConstantHeading(Vector2d(board1!!.end().x - 7.0, board1!!.end().y - 5.0))
-            .splineToConstantHeading(Vector2d(54.0, -59.0), 0.0)
-            .addSpatialMarker(Vector2d(52.0, -50.0)) {
+            .lineToConstantHeading(Vector2d(40.5, -27.0))
+            .lineToConstantHeading(Vector2d(40.5, -60.0))
+            .lineToConstantHeading(Vector2d(50.0, -60.0))
+            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -95,9 +97,11 @@ class RedBackstageAuto : OpMode() {
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(57.0, -59.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, -34.0))
+            .lineToConstantHeading(Vector2d(40.5, -60.0))
+            .lineToConstantHeading(Vector2d(50.0, -60.0))
             .addSpatialMarker(Vector2d(45.0, -30.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -201,7 +205,6 @@ class RedBackstageAuto : OpMode() {
 
             "drop" -> {
                 if (runtime >= 2) {
-                    board.setClaw(true)
                     when (spike) {
                         1 -> drive!!.followTrajectorySequenceAsync(park1)
                         2 -> drive!!.followTrajectorySequenceAsync(park2)
