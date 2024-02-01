@@ -54,9 +54,11 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(51.0, 10.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 37.0))
+            .lineToConstantHeading(Vector2d(40.5, 13.0))
+            .lineToConstantHeading(Vector2d(50.0, 13.0))
             .addSpatialMarker(Vector2d(49.0, 20.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -79,9 +81,11 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(51.0, 15.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 44.5))
+            .lineToConstantHeading(Vector2d(40.5, 13.0))
+            .lineToConstantHeading(Vector2d(50.0, 13.0))
             .addSpatialMarker(Vector2d(49.0, 25.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -102,9 +106,11 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
-            .setReversed(true)
-            .splineToConstantHeading(Vector2d(50.0, 14.0), 0.0)
+            .lineToConstantHeading(Vector2d(40.5, 29.0))
+            .lineToConstantHeading(Vector2d(40.5, 13.0))
+            .lineToConstantHeading(Vector2d(50.0, 13.0))
             .addSpatialMarker(Vector2d(49.0, 25.0)) {
+                board.setClaw(true)
                 board.setSlideTar(0)
             }
             .build()
@@ -210,7 +216,6 @@ class BlueAudienceAuto : OpMode() {
 
             "drop" -> {
                 if (runtime >= 2) {
-                    board.setClaw(true)
                     when (spike) {
                         1 -> drive!!.followTrajectorySequenceAsync(park1)
                         2 -> drive!!.followTrajectorySequenceAsync(park2)
