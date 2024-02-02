@@ -34,7 +34,7 @@ class BlueAudienceAuto : OpMode() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(-36.0, 61.0, toRadians(270.0))
+        drive!!.poseEstimate = Pose2d(-37.0, 61.0, toRadians(270.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-35.0, 39.0), toRadians(270.0))
@@ -64,20 +64,19 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(-35.0, 38.0), toRadians(270.0))
-            .splineToLinearHeading(Pose2d(-35.0, 36.0, toRadians(90.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(-35.0, 34.0), toRadians(270.0))
-            .lineToConstantHeading(Vector2d(-35.0, 30.0))
-            .lineToConstantHeading(Vector2d(-35.0, 32.0))
+            .splineToConstantHeading(Vector2d(-36.0, 38.0), toRadians(270.0))
+            .splineToLinearHeading(Pose2d(-36.0, 36.0, toRadians(90.0)), toRadians(90.0))
+            .lineToConstantHeading(Vector2d(-34.0, 30.0))
+            .lineToConstantHeading(Vector2d(-34.0, 32.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToConstantHeading(Vector2d(-46.5, 34.0))
-            .lineToConstantHeading(Vector2d(-46.5, 10.0))
-            .lineToLinearHeading(Pose2d(-20.0, 10.0, toRadians(180.0)))
-            .lineToConstantHeading(Vector2d(35.0, 10.0))
+            .lineToConstantHeading(Vector2d(-49.0, 34.0))
+            .lineToConstantHeading(Vector2d(-49.0, 7.0))
+            .lineToLinearHeading(Pose2d(-20.0, 7.0, toRadians(0.0)))
+            .lineToConstantHeading(Vector2d(35.0, 7.0))
             .lineToLinearHeading(Pose2d(44.0, 30.5, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, 44.5))
+            .lineToConstantHeading(Vector2d(51.0, 42.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
