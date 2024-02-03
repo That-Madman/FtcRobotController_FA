@@ -30,6 +30,8 @@ class BlueAudienceAuto : OpMode() {
     private var step = "start"
     private var spike = 3
 
+    private var liftOffset = 400
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
@@ -66,7 +68,7 @@ class BlueAudienceAuto : OpMode() {
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-36.0, 38.0), toRadians(270.0))
             .splineToLinearHeading(Pose2d(-36.0, 36.0, toRadians(90.0)), toRadians(90.0))
-            .lineToConstantHeading(Vector2d(-34.0, 28.0))
+            .lineToConstantHeading(Vector2d(-34.0, 29.0))
             .lineToConstantHeading(Vector2d(-34.0, 31.0))
             .build()
 
@@ -80,7 +82,7 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .lineToConstantHeading(Vector2d(40.5, 32.0))
+            .lineToConstantHeading(Vector2d(40.5, 34.0))
             .lineToConstantHeading(Vector2d(40.5, 13.0))
             .lineToConstantHeading(Vector2d(50.0, 13.0))
             .addSpatialMarker(Vector2d(49.0, 25.0)) {
@@ -98,14 +100,14 @@ class BlueAudienceAuto : OpMode() {
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(-35.0, 8.0))
-            .lineToConstantHeading(Vector2d(35.0, 8.0))
+            .lineToConstantHeading(Vector2d(-35.0, 10.0))
+            .lineToConstantHeading(Vector2d(35.0, 10.0))
             .lineToLinearHeading(Pose2d(45.0, 29.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, 29.0))
+            .lineToConstantHeading(Vector2d(52.0, 30.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
-            .lineToConstantHeading(Vector2d(40.5, 29.0))
+            .lineToConstantHeading(Vector2d(40.5, 30.0))
             .lineToConstantHeading(Vector2d(40.5, 13.0))
             .lineToConstantHeading(Vector2d(50.0, 13.0))
             .addSpatialMarker(Vector2d(49.0, 25.0)) {
@@ -199,14 +201,14 @@ class BlueAudienceAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight)
+                    board.setSlideTar(slideHeight - liftOffset)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= slideHeight) {
+                if (board.getSlidePos()!! >= slideHeight - (liftOffset + 50)) {
                     board.setDrop(1)
                     resetRuntime()
                     step = "drop"
