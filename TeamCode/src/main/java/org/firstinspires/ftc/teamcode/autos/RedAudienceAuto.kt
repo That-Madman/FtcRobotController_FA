@@ -66,7 +66,7 @@ class RedAudienceAuto : OpMode() {
             .splineToConstantHeading(Vector2d(-37.0, -38.0), toRadians(90.0))
             .lineToLinearHeading(Pose2d(-37.0, -37.0, toRadians(270.0)))
             .lineToConstantHeading( Vector2d(-37.0, -34.0))
-            .lineToLinearHeading(Pose2d(-37.0, -26.0, toRadians(270.0)))
+            .lineToLinearHeading(Pose2d(-39.0, -27.0, toRadians(270.0)))
             .lineToConstantHeading(Vector2d(-38.0, -29.0))
             .build()
 
