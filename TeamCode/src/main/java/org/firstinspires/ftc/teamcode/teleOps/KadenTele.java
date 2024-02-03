@@ -68,7 +68,7 @@ public class KadenTele extends OpMode {
             if (gamepad2.right_trigger - gamepad2.left_trigger == 0.0) {
                 board.setSlideTar(board.getSlidePos());
             } else {
-                board.setSlidePow(gamepad2.right_trigger - (0.25 * gamepad2.left_trigger));
+                board.setSlidePow(gamepad2.right_trigger - (0.35 * gamepad2.left_trigger));
             }
         } catch (Throwable e) {
             telemetry.addData("Issue with lift because ", e);
