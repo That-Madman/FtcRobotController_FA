@@ -30,11 +30,13 @@ class RedAudienceAuto : OpMode() {
     private var step = "start"
     private var spike = 3
 
+    private var liftOffset = 400
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
         board.getHW(hardwareMap, telemetry, true)
 
-        drive!!.poseEstimate = Pose2d(-35.0, -61.0, toRadians(90.0))
+        drive!!.poseEstimate = Pose2d(-37.0, -61.0, toRadians(90.0))
 
         spike1 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
@@ -61,26 +63,26 @@ class RedAudienceAuto : OpMode() {
             .build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
-            .splineToConstantHeading(Vector2d(-35.0, -38.0), toRadians(90.0))
-            .lineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(270.0)))
-            .lineToConstantHeading( Vector2d(-35.0, -34.0))
-            .lineToLinearHeading(Pose2d(-35.0, -26.0, toRadians(270.0)))
-            .lineToConstantHeading(Vector2d(-35.0, -29.0))
+            .splineToConstantHeading(Vector2d(-37.0, -38.0), toRadians(90.0))
+            .lineToLinearHeading(Pose2d(-37.0, -37.0, toRadians(270.0)))
+            .lineToConstantHeading( Vector2d(-37.0, -34.0))
+            .lineToLinearHeading(Pose2d(-37.0, -26.0, toRadians(270.0)))
+            .lineToConstantHeading(Vector2d(-38.0, -29.0))
             .build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
-            .lineToLinearHeading(Pose2d(-35.0, -55.0, toRadians(270.0)))
-            .lineToConstantHeading(Vector2d(-56.5, -55.0))
-            .lineToConstantHeading(Vector2d(-56.5, -7.0))
-            .lineToConstantHeading(Vector2d(35.0, -7.0))
-            .lineToLinearHeading(Pose2d(48.0, -32.0, 0.0))
-            .lineToConstantHeading(Vector2d(51.0, -30.0))
+            .lineToConstantHeading(Vector2d(-51.0, -34.0))
+            .lineToConstantHeading(Vector2d(-51.0, -5.0))
+            .lineToLinearHeading(Pose2d(-20.0, -5.0, toRadians(0.0)))
+            .lineToConstantHeading(Vector2d(35.0, -5.0))
+            .lineToLinearHeading(Pose2d(44.0, -23.0, 0.0))
+            .lineToConstantHeading(Vector2d(52.0, -23.0))
             .build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
-            .lineToConstantHeading(Vector2d(40.5, -30.0))
-            .lineToConstantHeading(Vector2d(40.5, -13.0))
-            .lineToConstantHeading(Vector2d(50.0, -13.0))
+            .lineToConstantHeading(Vector2d(40.5, -23.0))
+            .lineToConstantHeading(Vector2d(40.5, -9.0))
+            .lineToConstantHeading(Vector2d(49.0, -9.0))
             .addSpatialMarker(Vector2d(49.0, -20.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
@@ -90,7 +92,7 @@ class RedAudienceAuto : OpMode() {
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(-35.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(-35.0, -36.0, toRadians(180.0)), toRadians(90.0))
-            .splineToConstantHeading(Vector2d(-33.0, -30.0), toRadians(-135.0))
+            .lineToConstantHeading(Vector2d(-34.5, -33.0))
             .build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
@@ -98,7 +100,7 @@ class RedAudienceAuto : OpMode() {
             .lineToLinearHeading(Pose2d(-20.0, -7.0, toRadians(180.0)))
             .lineToConstantHeading(Vector2d(35.0, -7.0))
             .lineToLinearHeading(Pose2d(48.0, -28.0, 0.0))
-            .lineToConstantHeading(Vector2d(50.0, -32.0))
+            .lineToConstantHeading(Vector2d(51.0, -32.0))
             .build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
@@ -193,14 +195,14 @@ class RedAudienceAuto : OpMode() {
             "boardDrive" -> {
                 drive!!.update()
                 if (!drive!!.isBusy) {
-                    board.setSlideTar(slideHeight)
+                    board.setSlideTar(slideHeight - liftOffset)
                     step = "scoreboard"
                 }
             }
 
             "scoreboard" -> {
                 telemetry.addData("current lift position: ", board.getSlidePos())
-                if (board.getSlidePos()!! >= slideHeight) {
+                if (board.getSlidePos()!! >= slideHeight - (liftOffset + 50)) {
                     board.setDrop(1)
                     resetRuntime()
                     step = "drop"
