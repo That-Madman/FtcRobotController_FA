@@ -30,4 +30,8 @@ class AEyes {
         builder.addProcessors(tfod, april)
         visionPortal = builder.build()
     }
+
+    fun changeMinConf(conf : Float) {
+        tfod?.setMinResultConfidence(conf)
+    }
 }
