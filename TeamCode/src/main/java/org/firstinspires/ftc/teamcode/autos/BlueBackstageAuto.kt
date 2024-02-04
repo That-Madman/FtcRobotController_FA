@@ -30,7 +30,7 @@ class BlueBackstageAuto : OpMode() {
     private var step = "start"
     private var spike = 3
 
-    private var liftOffset = 400
+    private var liftOffset = 200
 
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
