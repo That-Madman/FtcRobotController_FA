@@ -19,15 +19,15 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.Angle;
 
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TrajectorySegment;
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TurnSegment;
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.WaitSegment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import autonomy.trajectorysequence.sequencesegment.SequenceSegment;
+import autonomy.trajectorysequence.sequencesegment.TrajectorySegment;
+import autonomy.trajectorysequence.sequencesegment.TurnSegment;
+import autonomy.trajectorysequence.sequencesegment.WaitSegment;
 
 public class TrajectorySequenceBuilder {
     private final double resolution = 0.25;

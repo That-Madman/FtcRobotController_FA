@@ -15,12 +15,13 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import autonomy.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.util.LoggingUtil;
-import org.firstinspires.ftc.teamcode.util.RegressionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import autonomy.drive.SampleMecanumDrive;
+import autonomy.util.LoggingUtil;
+import autonomy.util.RegressionUtil;
 
 /*
  * Op mode for computing kV, kStatic, and kA from various drive routines. For the curious, here's an
