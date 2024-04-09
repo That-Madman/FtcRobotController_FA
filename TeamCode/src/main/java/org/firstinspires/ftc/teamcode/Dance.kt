@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import props
 
+@TeleOp
 class Dance : OpMode() {
 
     private var props: props? = null;
