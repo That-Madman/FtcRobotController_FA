@@ -2,6 +2,7 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot
 
 class props (hwMap: HardwareMap) {
 
@@ -15,6 +16,9 @@ class props (hwMap: HardwareMap) {
         }
 
         imu = hwMap.get(IMU::class.java, "imu")
+        imu?.initialize(
+            IMU.Parameters(
+            TODO("IMU parameters not fulfilled")
+        ))
     }
-
 }
