@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot
 
 class props (hwMap: HardwareMap) {
 
-    val driveBase: Array<DcMotorEx?> = arrayOfNulls(4)
-    var imu : IMU? = null
+    private val driveBase: Array<DcMotorEx?> = arrayOfNulls(4)
+    private var imu : IMU? = null
 
     init {
         for (i in driveBase.indices) {
