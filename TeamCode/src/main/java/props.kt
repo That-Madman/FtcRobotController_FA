@@ -1,6 +1,7 @@
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.IMU
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
@@ -21,6 +22,11 @@ class props(hwMap: HardwareMap) {
             driveBase[i] = hwMap.get(DcMotorEx::class.java, arrayOf("rf", "rb", "lf", "lb")[i])
             driveBase[i]?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         }
+
+        driveBase[0]?.direction = Direction.REVERSE
+        driveBase[1]?.direction = Direction.FORWARD
+        driveBase[2]?.direction = Direction.REVERSE
+        driveBase[3]?.direction = Direction.FORWARD
 
         imu = hwMap.get(IMU::class.java, "imu")
         imu?.initialize(
