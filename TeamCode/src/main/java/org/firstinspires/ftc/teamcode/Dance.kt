@@ -7,17 +7,31 @@ import props
 @TeleOp
 class Dance : OpMode() {
 
-    private var props: props? = null;
+    private var props: props? = null
+
+    private var trueNorth: Boolean = false
+    private var xHeld: Boolean = false
 
     override fun init() {
         props = props(hardwareMap)
     }
 
     override fun loop() {
-        props!!.driveFieldRelative(
-            -gamepad1.left_stick_y.toDouble(),
-            gamepad1.left_stick_x.toDouble(),
-            gamepad1.right_stick_x.toDouble()
-        )
+        if (gamepad1.x && xHeld) trueNorth = !trueNorth
+
+        if (trueNorth)
+            props!!.driveFieldRelative(
+                -gamepad1.left_stick_y.toDouble(),
+                gamepad1.left_stick_x.toDouble(),
+                gamepad1.right_stick_x.toDouble()
+            )
+        else
+            props!!.drive(
+                -gamepad1.left_stick_y.toDouble(),
+                gamepad1.left_stick_x.toDouble(),
+                gamepad1.right_stick_x.toDouble()
+            )
+
+        xHeld = gamepad1.x
     }
 }
