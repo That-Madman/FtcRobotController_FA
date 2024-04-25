@@ -21,17 +21,18 @@ class Dance : OpMode() {
 
         if (trueNorth)
             props!!.driveFieldRelative(
-                -gamepad1.left_stick_y.toDouble(),
                 gamepad1.left_stick_x.toDouble(),
+                gamepad1.left_stick_y.toDouble(),
                 gamepad1.right_stick_x.toDouble()
             )
         else
             props!!.drive(
-                -gamepad1.left_stick_y.toDouble(),
                 gamepad1.left_stick_x.toDouble(),
+                gamepad1.left_stick_y.toDouble(),
                 gamepad1.right_stick_x.toDouble()
             )
 
+        telemetry.addData("True north is ", if (trueNorth) "on." else "off.")
         xHeld = gamepad1.x
     }
 }
