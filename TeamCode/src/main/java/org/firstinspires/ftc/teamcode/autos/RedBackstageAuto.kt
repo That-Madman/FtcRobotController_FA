@@ -42,81 +42,64 @@ class RedBackstageAuto : OpMode() {
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, 0.0), toRadians(90.0))
             .splineToConstantHeading(Vector2d(10.0, -34.0), toRadians(135.0))
-            .lineToConstantHeading(Vector2d(7.0, -34.0))
-            .build()
+            .lineToConstantHeading(Vector2d(7.0, -34.0)).build()
 
         board1 = drive!!.trajectorySequenceBuilder(spike1!!.end())
             .lineToConstantHeading(Vector2d(10.0, -30.0))
-            .splineToConstantHeading(Vector2d(50.0, -28.0), 0.0)
-            .build()
+            .splineToConstantHeading(Vector2d(50.0, -28.0), 0.0).build()
 
         park1 = drive!!.trajectorySequenceBuilder(board1!!.end())
             .lineToConstantHeading(Vector2d(40.5, -28.0))
             .lineToConstantHeading(Vector2d(40.5, -59.0))
-            .lineToConstantHeading(Vector2d(50.0, -59.0))
-            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+            .lineToConstantHeading(Vector2d(50.0, -59.0)).addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
-            }
-            .build()
+            }.build()
 
         spike2 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(13.0, -38.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(13.0, -36.0, toRadians(270.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(13.0, -34.0), toRadians(90.0))
             .lineToConstantHeading(Vector2d(13.0, -25.0))
-            .lineToConstantHeading(Vector2d(13.0, -31.0))
-            .build()
+            .lineToConstantHeading(Vector2d(13.0, -31.0)).build()
 
         board2 = drive!!.trajectorySequenceBuilder(spike2!!.end())
             .lineToConstantHeading(Vector2d(13.0, -32.0))
-            .lineToLinearHeading(Pose2d(50.0, -31.0, 0.0))
-            .build()
+            .lineToLinearHeading(Pose2d(50.0, -31.0, 0.0)).build()
 
         park2 = drive!!.trajectorySequenceBuilder(board2!!.end())
             .lineToConstantHeading(Vector2d(40.5, -27.0))
             .lineToConstantHeading(Vector2d(40.5, -55.0))
-            .lineToConstantHeading(Vector2d(50.0, -55.0))
-            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+            .lineToConstantHeading(Vector2d(50.0, -55.0)).addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
-            }
-            .build()
+            }.build()
 
         spike3 = drive!!.trajectorySequenceBuilder(drive!!.poseEstimate)
             .splineToConstantHeading(Vector2d(12.0, -39.0), toRadians(90.0))
             .splineToLinearHeading(Pose2d(12.0, -36.0, toRadians(180.0)), toRadians(90.0))
             .splineToConstantHeading(Vector2d(14.0, -30.0), toRadians(-135.0))
             .lineToConstantHeading(Vector2d(18.0, -30.0))
-            .lineToConstantHeading(Vector2d(12.0, -30.0))
-            .build()
+            .lineToConstantHeading(Vector2d(12.0, -30.0)).build()
 
         board3 = drive!!.trajectorySequenceBuilder(spike3!!.end())
-            .lineToConstantHeading(Vector2d(14.0, -50.0))
-            .setReversed(true)
-            .splineToLinearHeading(Pose2d(50.0, -34.0, 0.0), 0.0)
-            .build()
+            .lineToConstantHeading(Vector2d(14.0, -50.0)).setReversed(true)
+            .splineToLinearHeading(Pose2d(50.0, -34.0, 0.0), 0.0).build()
 
         park3 = drive!!.trajectorySequenceBuilder(board3!!.end())
             .lineToConstantHeading(Vector2d(40.5, -34.0))
             .lineToConstantHeading(Vector2d(40.5, -54.0))
-            .lineToConstantHeading(Vector2d(50.0, -54.0))
-            .addSpatialMarker(Vector2d(45.0, -30.0)) {
+            .lineToConstantHeading(Vector2d(50.0, -54.0)).addSpatialMarker(Vector2d(45.0, -30.0)) {
                 board.setClaw(true)
                 board.setSlideTar(0)
-            }
-            .build()
+            }.build()
     }
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions.forEach {
+            board.eyes?.tfod!!.recognitions.forEach {
                 telemetry.addLine(
-                    "I'm ${it.confidence} confident I found ${it.label}"
-                            + "\nwith a right bound of ${it.right},"
-                            + "\na left of ${it.left},"
-                            + "\na top of ${it.top},"
-                            + "\nand a bottom of ${it.bottom}"
+                    "I'm ${it.confidence} confident I found ${it.label}" + "\nwith a right bound of ${it.right}," + "\na left of ${it.left}," + "\na top of ${it.top}," + "\nand a bottom of ${it.bottom}"
                 )
             }
         } catch (e: Throwable) {
@@ -124,7 +107,7 @@ class RedBackstageAuto : OpMode() {
         } //end of tensorFlow
 
         try { //start of April tags
-            board.eyes.april!!.detections.forEach {
+            board.eyes?.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
@@ -143,13 +126,13 @@ class RedBackstageAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right > 200) spike =
+                    if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right > 200) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 200) spike =
+                    else if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right <= 200) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 200) spike =
+                        if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right <= 200) spike =
                             1
                     } catch (_: Throwable) {
                     }

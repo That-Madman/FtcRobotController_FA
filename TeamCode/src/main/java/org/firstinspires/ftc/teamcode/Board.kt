@@ -46,7 +46,7 @@ class Board {
     private val hookLifts: Array<Servo?> = arrayOfNulls(2)
     private val bumpers: Array<TouchSensor?> = arrayOfNulls(2)
 
-    var eyes = AEyes()
+    var eyes: AEyes? = null
 
     private var intakeLiftServo: CRServo? = null
 
@@ -61,7 +61,7 @@ class Board {
         val broken = ArrayList<String>(0)
 
         try {
-            eyes.initVision(hwMap)
+            eyes = AEyes(hwMap)
         } catch (_: Throwable) {
             broken.add("Camera")
         }

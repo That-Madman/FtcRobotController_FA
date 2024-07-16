@@ -110,7 +110,7 @@ class BlueBackstageAuto : OpMode() {
 
     override fun init_loop() {
         try { //start of TensorFlow
-            board.eyes.tfod!!.recognitions.forEach {
+            board.eyes?.tfod!!.recognitions.forEach {
                 telemetry.addLine(
                     "I'm ${it.confidence} confident I found ${it.label}"
                             + "\nwith a right bound of ${it.right},"
@@ -124,7 +124,7 @@ class BlueBackstageAuto : OpMode() {
         } //end of tensorFlow
 
         try { //start of April tags
-            board.eyes.april!!.detections.forEach {
+            board.eyes?.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
@@ -143,13 +143,13 @@ class BlueBackstageAuto : OpMode() {
         when (step) {
             "start" -> {
                 try {
-                    if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right >= 400) spike =
+                    if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right >= 400) spike =
                         2
-                    else if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 400) spike =
+                    else if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right <= 400) spike =
                         1
                 } catch (_: Throwable) {
                     try {
-                        if (board.eyes.tfod!!.recognitions.size != 0 && board.eyes.tfod!!.recognitions[0].right <= 400) spike =
+                        if (board.eyes?.tfod!!.recognitions.size != 0 && board.eyes?.tfod!!.recognitions[0].right <= 400) spike =
                             1
                     } catch (_: Throwable) {
                     }

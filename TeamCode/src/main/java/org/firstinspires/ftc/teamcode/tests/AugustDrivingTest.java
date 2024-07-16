@@ -59,7 +59,7 @@ public class AugustDrivingTest extends OpMode {
 
         try { //start of April tags
             //noinspection DataFlowIssue
-            if (board.getEyes().getApril().getDetections().size() > 0) {
+            if (!board.getEyes().getApril().getDetections().isEmpty()) {
                 AprilTagDetection tag = board.getEyes().getApril().getDetections().get(0);
 
                 telemetry.addData("x", tag.ftcPose.x);

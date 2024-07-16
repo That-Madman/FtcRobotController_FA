@@ -31,7 +31,7 @@ public class apriltag extends LinearOpMode {
         waitForStart();
 
         while (!isStopRequested() && opModeIsActive()) {
-            if (tagProcessor.getDetections().size() > 0) {
+            if (!tagProcessor.getDetections().isEmpty()) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(0);
 
                 telemetry.addData("x", tag.ftcPose.x);

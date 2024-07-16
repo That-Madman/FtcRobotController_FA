@@ -74,7 +74,7 @@ class DriveTest : OpMode() {
         telemetry.addData("True North is ", if (trueNorth) "on." else "off.")
     }
 
-    fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
+    private fun driveFieldRelative(forward: Double, right: Double, rotate: Double) {
         val robotAngle = imu!!.robotYawPitchRollAngles.getYaw(AngleUnit.RADIANS)
         var theta = atan2(forward, right)
         val r = hypot(forward, right)
