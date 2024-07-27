@@ -14,6 +14,8 @@ class DoomedBlueRightAuto : OpMode() {
     private var drive: SampleMecanumDrive? = null
     private var park: TrajectorySequence? = null
 
+
+
     override fun init() {
         drive = SampleMecanumDrive(hardwareMap)
 
@@ -28,7 +30,10 @@ class DoomedBlueRightAuto : OpMode() {
             .build()
 
         drive!!.followTrajectorySequenceAsync(park)
+
+        telemetry.addLine("Hello World")
     }
+
 
     override fun loop() {
         drive!!.update()

@@ -262,6 +262,7 @@ class Board {
     }
 
     fun getSlidePos() = slideMotor?.currentPosition
+
     fun setClaw(open: Boolean) {
         if (open) {
             dropper?.position = this.open
