@@ -6,12 +6,12 @@ import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
 import org.firstinspires.ftc.vision.tfod.TfodProcessor
 
-class AEyes (hwMap: HardwareMap) {
+class AEyes () {
     private var visionPortal: VisionPortal? = null
     var tfod: TfodProcessor? = null
     var april: AprilTagProcessor? = null
 
-    init {
+    fun _init (hwMap: HardwareMap) {
         val builder = VisionPortal.Builder()
         builder.setCamera(hwMap.get(WebcamName::class.java, "Webcam 1"))
         tfod = TfodProcessor.Builder()

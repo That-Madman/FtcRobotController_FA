@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 @Autonomous(group = "Tests")
 class TestEyes : OpMode() {
 
-    private var eyes: AEyes? = null
+    private val eyes: AEyes = AEyes()
     override fun init() {
         try {
-            eyes = AEyes(hardwareMap)
+            eyes._init(hardwareMap)
         } catch (e: Throwable) {
             throw Exception("Some issue with camera because of $e.\nGet that fixed.")
         }
@@ -18,7 +18,7 @@ class TestEyes : OpMode() {
 
     override fun init_loop() {
         try { //start of TensorFlow
-            eyes?.tfod!!.recognitions.forEach {
+            eyes.tfod!!.recognitions.forEach {
                 telemetry.addLine(
                     "I'm ${it.confidence} confident I found ${it.label}"
                             + "\nwith a right bound of ${it.right},"
@@ -31,7 +31,7 @@ class TestEyes : OpMode() {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow
         try { //start of April tags
-            eyes?.april!!.detections.forEach {
+            eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
@@ -48,7 +48,7 @@ class TestEyes : OpMode() {
 
     override fun loop() {
         try { //start of TensorFlow
-            eyes?.tfod!!.recognitions.forEach {
+            eyes.tfod!!.recognitions.forEach {
                 telemetry.addLine(
                     "I'm ${it.confidence * 100}% confident I found ${it.label}"
                             + "\nwith a right bound of ${it.right},"
@@ -61,7 +61,7 @@ class TestEyes : OpMode() {
             telemetry.addData("Error in Tensorflow because: ", e)
         } //end of tensorFlow
         try { //start of April tags
-            eyes?.april!!.detections.forEach {
+            eyes.april!!.detections.forEach {
                 //use aprilTagDetection class to find april tags/get data
                 telemetry.addLine("x of tag ${it.id} is ${it.ftcPose.x}")
                 telemetry.addLine("y of tag ${it.id} is ${it.ftcPose.y}")
